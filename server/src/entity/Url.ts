@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { Recipe } from './Recipe';
 
-@Entity()
+@Entity('urls')
 export class Url extends BaseEntity {
 
     @PrimaryGeneratedColumn()
@@ -11,7 +11,7 @@ export class Url extends BaseEntity {
     title: string;
 
     @Column()
-    text: string;
+    link: string;
 
     @ManyToOne(_ => Recipe, recipe => recipe.urls, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     recipe: Recipe; 

@@ -33,6 +33,7 @@ import cookieParser from 'cookie-parser';
     }) ;
     app.use(`/user/`, controllers.user.router);
     app.use(`/recipe/`, controllers.recipe.router);
+    app.use(`/grocery/`, controllers.grocery.router);
 
     app.listen(4000, () => {
         console.log('server listen ar http://127.0.0.1:4000')

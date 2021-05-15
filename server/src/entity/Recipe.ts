@@ -1,11 +1,12 @@
 import { BaseEntity, Entity, Column,  PrimaryGeneratedColumn, ManyToOne, OneToMany} from 'typeorm';
 import { Direction } from './Direction';
+import { Ingredient } from './Ingredient';
 import { Url } from './Url';
 import { User } from './User';
 
 
 
-@Entity()
+@Entity('recipes')
 export class Recipe extends BaseEntity {
 
     @PrimaryGeneratedColumn()
@@ -31,5 +32,10 @@ export class Recipe extends BaseEntity {
 
     @OneToMany(_ => Direction, direction => direction.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     directions: Direction[]
+
+    @OneToMany(_ => Ingredient, direction => direction.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    ingredients: Ingredient[]
+
+    
 
 }

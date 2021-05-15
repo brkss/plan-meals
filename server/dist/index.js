@@ -59,6 +59,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
     });
     app.use(`/user/`, controllers_1.controllers.user.router);
     app.use(`/recipe/`, controllers_1.controllers.recipe.router);
+    app.use(`/grocery/`, controllers_1.controllers.grocery.router);
     app.listen(4000, () => {
         console.log('server listen ar http://127.0.0.1:4000');
     });

@@ -9,29 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Direction = void 0;
+exports.Grocery = void 0;
 const typeorm_1 = require("typeorm");
-const Recipe_1 = require("./Recipe");
-let Direction = class Direction extends typeorm_1.BaseEntity {
+const Ingredient_1 = require("./Ingredient");
+const User_1 = require("./User");
+let Grocery = class Grocery extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], Direction.prototype, "id", void 0);
+], Grocery.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column('text'),
     __metadata("design:type", String)
-], Direction.prototype, "title", void 0);
+], Grocery.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column('text'),
-    __metadata("design:type", String)
-], Direction.prototype, "text", void 0);
+    typeorm_1.Column('boolean'),
+    __metadata("design:type", Boolean)
+], Grocery.prototype, "available", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_ => Recipe_1.Recipe, recipe => recipe.directions, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
-    __metadata("design:type", Recipe_1.Recipe)
-], Direction.prototype, "recipe", void 0);
-Direction = __decorate([
-    typeorm_1.Entity('directions')
-], Direction);
-exports.Direction = Direction;
-//# sourceMappingURL=Direction.js.map
+    typeorm_1.ManyToOne(_ => User_1.User, user => user.groceries, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", User_1.User)
+], Grocery.prototype, "user", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Ingredient_1.Ingredient, direction => direction.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], Grocery.prototype, "ingredients", void 0);
+Grocery = __decorate([
+    typeorm_1.Entity('groceries')
+], Grocery);
+exports.Grocery = Grocery;
+//# sourceMappingURL=Grocery.js.map

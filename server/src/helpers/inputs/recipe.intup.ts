@@ -4,12 +4,11 @@ import { IRecipe } from "../types/IRecipe";
 import { IUrl } from "../types/IUrl";
 
 
-export interface CreateRecipeInput {
+export type CreateRecipeInput = IRecipe & {
 
-    recipe: IRecipe;
     urls: IUrl[];
     directions: IDirection[];
     ingredients: IIngredients[];
-    
+
 }
 

@@ -9,34 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RecipeController = void 0;
+exports.GroceryController = void 0;
 const express_1 = require("express");
-const recipe_service_1 = require("../services/recipe.service");
-class RecipeController {
+const grocery_service_1 = require("../services/grocery.service");
+class GroceryController {
     constructor() {
         this.router = express_1.Router();
-        this.service = new recipe_service_1.RecipeService();
+        this.service = new grocery_service_1.GroceryService();
         this.routing();
-    }
-    index(res) {
-        res.send({ message: 'recipe working' });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let recipe = req.body;
-            recipe.urls = JSON.parse(recipe.urls);
-            recipe.directions = JSON.parse(recipe.directions);
-            recipe.ingredients = JSON.parse(recipe.ingredients);
-            const resp = yield this.service.createRecipe(recipe);
-            console.log('request body => ', req.body);
-            console.log('ing calories => ', recipe.ingredients[0].calories);
+            const grocery = req.body;
+            const resp = yield this.service.create(grocery);
             return res.send(resp).json();
         });
     }
     routing() {
-        this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create', (req, res) => this.create(req, res));
     }
 }
-exports.RecipeController = RecipeController;
-//# sourceMappingURL=recipe.controller.js.map
+exports.GroceryController = GroceryController;
+//# sourceMappingURL=grocery.controller.js.map

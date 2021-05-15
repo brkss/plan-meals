@@ -9,29 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Direction = void 0;
+exports.Day = void 0;
 const typeorm_1 = require("typeorm");
-const Recipe_1 = require("./Recipe");
-let Direction = class Direction extends typeorm_1.BaseEntity {
+const Meal_1 = require("./Meal");
+const User_1 = require("./User");
+let Day = class Day extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], Direction.prototype, "id", void 0);
+], Day.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column('text'),
     __metadata("design:type", String)
-], Direction.prototype, "title", void 0);
+], Day.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column('text'),
+    typeorm_1.Column('boolean'),
     __metadata("design:type", String)
-], Direction.prototype, "text", void 0);
+], Day.prototype, "finish", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_ => Recipe_1.Recipe, recipe => recipe.directions, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
-    __metadata("design:type", Recipe_1.Recipe)
-], Direction.prototype, "recipe", void 0);
-Direction = __decorate([
-    typeorm_1.Entity('directions')
-], Direction);
-exports.Direction = Direction;
-//# sourceMappingURL=Direction.js.map
+    typeorm_1.ManyToOne(_ => User_1.User, user => user.days, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", User_1.User)
+], Day.prototype, "user", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Meal_1.Meal, meal => meal.day, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], Day.prototype, "meals", void 0);
+Day = __decorate([
+    typeorm_1.Entity('days')
+], Day);
+exports.Day = Day;
+//# sourceMappingURL=Day.js.map

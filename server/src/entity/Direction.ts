@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Recipe } from './Recipe';
 
-@Entity()
+@Entity('directions')
 export class Direction extends BaseEntity {
 
     @PrimaryGeneratedColumn()

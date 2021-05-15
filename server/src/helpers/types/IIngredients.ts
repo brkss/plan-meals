@@ -1,5 +1,6 @@
 
 export interface IIngredients {
     measurement: string;
-    colories: number;
+    calories: number;
+    grocery_id : number;
 }

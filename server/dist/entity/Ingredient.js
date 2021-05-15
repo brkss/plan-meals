@@ -9,29 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Direction = void 0;
+exports.Ingredient = void 0;
 const typeorm_1 = require("typeorm");
+const Grocery_1 = require("./Grocery");
 const Recipe_1 = require("./Recipe");
-let Direction = class Direction extends typeorm_1.BaseEntity {
+let Ingredient = class Ingredient extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], Direction.prototype, "id", void 0);
+], Ingredient.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column('text'),
+    typeorm_1.Column(),
     __metadata("design:type", String)
-], Direction.prototype, "title", void 0);
+], Ingredient.prototype, "measurement", void 0);
 __decorate([
-    typeorm_1.Column('text'),
-    __metadata("design:type", String)
-], Direction.prototype, "text", void 0);
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Ingredient.prototype, "calories", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_ => Recipe_1.Recipe, recipe => recipe.directions, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.ManyToOne(_ => Recipe_1.Recipe, recipe => recipe.ingredients, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Recipe_1.Recipe)
-], Direction.prototype, "recipe", void 0);
-Direction = __decorate([
-    typeorm_1.Entity('directions')
-], Direction);
-exports.Direction = Direction;
-//# sourceMappingURL=Direction.js.map
+], Ingredient.prototype, "recipe", void 0);
+__decorate([
+    typeorm_1.ManyToOne(_ => Grocery_1.Grocery, grocery => grocery.ingredients, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Grocery_1.Grocery)
+], Ingredient.prototype, "grocery", void 0);
+Ingredient = __decorate([
+    typeorm_1.Entity('ingredients')
+], Ingredient);
+exports.Ingredient = Ingredient;
+//# sourceMappingURL=Ingredient.js.map

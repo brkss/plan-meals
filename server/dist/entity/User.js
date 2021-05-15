@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const Day_1 = require("./Day");
+const Grocery_1 = require("./Grocery");
 const Recipe_1 = require("./Recipe");
 let User = class User extends typeorm_1.BaseEntity {
 };
@@ -38,8 +40,16 @@ __decorate([
     typeorm_1.OneToMany(_ => Recipe_1.Recipe, recipe => recipe.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], User.prototype, "recipes", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Grocery_1.Grocery, grocery => grocery.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "groceries", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Day_1.Day, day => day.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "days", void 0);
 User = __decorate([
-    typeorm_1.Entity()
+    typeorm_1.Entity('users')
 ], User);
 exports.User = User;
 //# sourceMappingURL=User.js.map

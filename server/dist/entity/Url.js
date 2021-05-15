@@ -25,13 +25,13 @@ __decorate([
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Url.prototype, "text", void 0);
+], Url.prototype, "link", void 0);
 __decorate([
     typeorm_1.ManyToOne(_ => Recipe_1.Recipe, recipe => recipe.urls, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Recipe_1.Recipe)
 ], Url.prototype, "recipe", void 0);
 Url = __decorate([
-    typeorm_1.Entity()
+    typeorm_1.Entity('urls')
 ], Url);
 exports.Url = Url;
 //# sourceMappingURL=Url.js.map

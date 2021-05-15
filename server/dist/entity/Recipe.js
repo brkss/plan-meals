@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Recipe = void 0;
 const typeorm_1 = require("typeorm");
 const Direction_1 = require("./Direction");
+const Ingredient_1 = require("./Ingredient");
 const Url_1 = require("./Url");
 const User_1 = require("./User");
 let Recipe = class Recipe extends typeorm_1.BaseEntity {
@@ -48,8 +49,12 @@ __decorate([
     typeorm_1.OneToMany(_ => Direction_1.Direction, direction => direction.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], Recipe.prototype, "directions", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Ingredient_1.Ingredient, direction => direction.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], Recipe.prototype, "ingredients", void 0);
 Recipe = __decorate([
-    typeorm_1.Entity()
+    typeorm_1.Entity('recipes')
 ], Recipe);
 exports.Recipe = Recipe;
 //# sourceMappingURL=Recipe.js.map
