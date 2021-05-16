@@ -23,13 +23,14 @@ exports.isAuth = void 0;
 const jsonwebtoken_1 = require("jsonwebtoken");
 const httpContext = __importStar(require("express-http-context"));
 const isAuth = (req, res, next) => {
-    const authentication = req.headers['authentication'];
-    if (!authentication) {
-        return res.send({ message: 'not athenticated!' }).json();
+    const authorization = req.headers['authorization'];
+    console.log('headers => ', req.headers);
+    if (!authorization) {
+        return res.send({ status: false, message: 'not athenticated!' }).json();
     }
-    const token = authentication.split(' ')[1];
+    const token = authorization.split(' ')[1];
     if (!token) {
-        return res.send({ message: 'not athenticated!' }).json();
+        return res.send({ status: false, message: 'not athenticated!' }).json();
     }
     try {
         const payload = jsonwebtoken_1.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -37,7 +38,7 @@ const isAuth = (req, res, next) => {
         console.log('payload -> ', payload);
     }
     catch (e) {
-        res.send({ message: 'not athenticated!' }).json();
+        res.send({ status: false, message: 'not athenticated!' }).json();
     }
     return next();
 };

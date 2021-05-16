@@ -6,15 +6,15 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 
 
     // parse token 
-    const authentication : string = req.headers['authentication'] as string;
-    //console.log('headers => ', req.headers);
-    if(!authentication){
-        return res.send({message: 'not athenticated!'}).json()
+    const authorization : string = req.headers['authorization'] as string;
+    console.log('headers => ', req.headers);
+    if(!authorization){
+        return res.send({status: false, message: 'not athenticated!'}).json()
     }
 
-    const token = authentication.split(' ')[1];
+    const token = authorization.split(' ')[1];
     if(!token){
-        return res.send({message: 'not athenticated!'}).json()
+        return res.send({status: false, message: 'not athenticated!'}).json()
     }
 
     try{
@@ -24,7 +24,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
         console.log('payload -> ', payload)
 
     }catch(e){
-        res.send({message: 'not athenticated!'}).json()
+        res.send({status: false, message: 'not athenticated!'}).json()
     }
 
     //req.body

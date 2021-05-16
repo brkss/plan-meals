@@ -1,13 +1,14 @@
 import React from 'react';
 import { FormControl, FormLabel, Input, Button, useColorMode, Flex, Box, Heading} from '@chakra-ui/react';
-import { Link  } from 'react-router-dom'
+import { Link, RouteComponentProps  } from 'react-router-dom'
 import { ErrorMessage } from '../../components/ErrorMessage'
-import axios from 'axios';
+import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { setAccessToken } from '../../helpers/auth/token';
 
 
 
-export const LoginPage : React.FC = () => {
+export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
 
     const {colorMode} = useColorMode()
     const [form, SetForm] = React.useState<any>();
@@ -39,6 +40,10 @@ export const LoginPage : React.FC = () => {
         const data = res.data;
         if(data.status === false){
             SetError(data.message);
+        }else if(data.status === true && data.accessToken){
+            setAccessToken(data.accessToken);
+            history.push('/');
+
         }
 
     }

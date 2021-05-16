@@ -2,8 +2,9 @@ import React from 'react';
 import { FormControl, FormLabel, Input, Button, useColorMode, Flex, Box, Heading } from '@chakra-ui/react';
 import { Link } from 'react-router-dom'
 import { ErrorMessage } from '../../components/ErrorMessage';
-import axios from 'axios';
+import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { setAccessToken } from '../../helpers/auth/token';
 
 
 export const RegisterPage : React.FC = () => {
@@ -43,7 +44,9 @@ export const RegisterPage : React.FC = () => {
         const data = resp.data;
         if(data.status === false){
             SetError(data.message as string);
-        } 
+        }else if(data.status === true && data.accessToken){
+            setAccessToken(data.accessToken);
+        }
     }
 
     return(
