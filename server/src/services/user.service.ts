@@ -17,9 +17,10 @@ export class UserService {
 
     // login 
     public async login(userInput: LoginInput, res: Response) : Promise<AuthResponse> {
+        console.log('login user data => ', userInput)
         if(!userInput.username || !userInput.password){
             return{
-                ok: false,
+                status: false,
                 message: 'invalid username or password'
             }
         }
@@ -28,14 +29,14 @@ export class UserService {
             const user = await User.findOne({where: {username: userInput.username}});
             if(!user){
                 return {
-                    ok: false,
+                    status: false,
                     message: 'username not found'
                 }
             }
             const validate = await bcrypt.compare(userInput.password, user.password);
             if(!validate){
                 return {
-                    ok: false,
+                    status: false,
                     message: 'incorect password'
                 }
             }
@@ -45,14 +46,14 @@ export class UserService {
             sendRefreshToken(res, createRefreshToken(user));
 
             return{
-                ok: true,
+                status: true,
                 accessToken: createAccessToken(user)
             }
 
         }catch(e){
             console.log('user login error => ', e);
             return{
-                ok: false,
+                status: false,
                 message: 'sorry something went wrong!'
             }
         }
@@ -63,13 +64,13 @@ export class UserService {
         console.log('user => ', userInput);
         if(!userInput || !userInput.name || !userInput.username || !userInput.password ){
             return {
-                ok: false,
+                status: false,
                 message: 'please check your information'
             }
         }
         if(userInput.password.length < 3 || userInput.username.length < 3){
             return {
-                ok: false,
+                status: false,
                 message: 'Password and username must be gratier than 3 characters'
             }
         }
@@ -85,19 +86,19 @@ export class UserService {
             const user = await User.findOne({where:{username: userInput.username}});
             sendRefreshToken(res, createRefreshToken(user!));
             return {
-                ok: true,
+                status: true,
                 accessToken: createAccessToken(user!)
             }
         }catch(e){
             console.log('inserting user error => ', e)
             if(e.code === 'ER_DUP_ENTRY'){
                 return {
-                    ok: false,
+                    status: false,
                     message: 'duplicated username'
                 }
             } 
             return {
-                ok: false,
+                status: false,
                 message: 'something went wrong'
             }
         }
@@ -108,7 +109,7 @@ export class UserService {
     public async refreshToken(token: string, res: Response){
         if(!token){
             return{
-                ok: false,
+                status: false,
                 accessToken: ''
             }
         }
@@ -119,14 +120,14 @@ export class UserService {
         }catch(e){
             console.log('refresh token => ', e);
             return {
-                ok: false,
+                status: false,
                 accessToken: ''
             }
         }
         const user = await User.findOne({where: {id: payload.userId}});
         if(!user){
             return {
-                ok: false,
+                status: false,
                 accessToken: ''
             }
         }
@@ -134,14 +135,14 @@ export class UserService {
         // check token version 
         if(payload.version !== user.tokenVersion){
             return {
-                ok: false,
+                status: false,
                 accessToken: ''
             }
         }
 
         sendRefreshToken(res, createRefreshToken(user));
         return {
-            ok: true,
+            status: true,
             accessToken: createAccessToken(user)
         }
         
@@ -163,7 +164,7 @@ export class UserService {
         const user = await User.findOne({where: {id: userId}});
         if(!user){
             return {
-                ok: false,
+                status: false,
                 message: 'user not found'
             }
         }
@@ -173,7 +174,7 @@ export class UserService {
             .set({tokenVersion: user.tokenVersion + 1 })
             .where("id = :id", {id: user.id}).execute();
         return {
-            ok: true,
+            status: true,
             message: 'token revoked'
         }
     }

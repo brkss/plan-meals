@@ -1,6 +1,6 @@
 export interface AuthResponse {
     
-    ok: boolean;
+    status: boolean;
     message?: string;
     accessToken?: string; 
 

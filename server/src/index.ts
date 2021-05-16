@@ -5,11 +5,16 @@ import express from 'express';
 import { controllers } from './controllers/controllers';
 import * as httpContext from 'express-http-context';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 (async () => {
  
    
     const app = express();
+    app.use(cors({
+        origin: 'http://localhost:3000',
+        credentials: true
+    }));
     app.use(cookieParser());
 
     // db connection 

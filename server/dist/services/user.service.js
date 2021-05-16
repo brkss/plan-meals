@@ -39,9 +39,10 @@ const typeorm_1 = require("typeorm");
 class UserService {
     login(userInput, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('login user data => ', userInput);
             if (!userInput.username || !userInput.password) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'invalid username or password'
                 };
             }
@@ -49,27 +50,27 @@ class UserService {
                 const user = yield User_1.User.findOne({ where: { username: userInput.username } });
                 if (!user) {
                     return {
-                        ok: false,
+                        status: false,
                         message: 'username not found'
                     };
                 }
                 const validate = yield bcrypt.compare(userInput.password, user.password);
                 if (!validate) {
                     return {
-                        ok: false,
+                        status: false,
                         message: 'incorect password'
                     };
                 }
                 sendRefreshToken_1.sendRefreshToken(res, token_1.createRefreshToken(user));
                 return {
-                    ok: true,
+                    status: true,
                     accessToken: token_1.createAccessToken(user)
                 };
             }
             catch (e) {
                 console.log('user login error => ', e);
                 return {
-                    ok: false,
+                    status: false,
                     message: 'sorry something went wrong!'
                 };
             }
@@ -80,13 +81,13 @@ class UserService {
             console.log('user => ', userInput);
             if (!userInput || !userInput.name || !userInput.username || !userInput.password) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'please check your information'
                 };
             }
             if (userInput.password.length < 3 || userInput.username.length < 3) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'Password and username must be gratier than 3 characters'
                 };
             }
@@ -100,7 +101,7 @@ class UserService {
                 const user = yield User_1.User.findOne({ where: { username: userInput.username } });
                 sendRefreshToken_1.sendRefreshToken(res, token_1.createRefreshToken(user));
                 return {
-                    ok: true,
+                    status: true,
                     accessToken: token_1.createAccessToken(user)
                 };
             }
@@ -108,12 +109,12 @@ class UserService {
                 console.log('inserting user error => ', e);
                 if (e.code === 'ER_DUP_ENTRY') {
                     return {
-                        ok: false,
+                        status: false,
                         message: 'duplicated username'
                     };
                 }
                 return {
-                    ok: false,
+                    status: false,
                     message: 'something went wrong'
                 };
             }
@@ -123,7 +124,7 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             if (!token) {
                 return {
-                    ok: false,
+                    status: false,
                     accessToken: ''
                 };
             }
@@ -134,26 +135,26 @@ class UserService {
             catch (e) {
                 console.log('refresh token => ', e);
                 return {
-                    ok: false,
+                    status: false,
                     accessToken: ''
                 };
             }
             const user = yield User_1.User.findOne({ where: { id: payload.userId } });
             if (!user) {
                 return {
-                    ok: false,
+                    status: false,
                     accessToken: ''
                 };
             }
             if (payload.version !== user.tokenVersion) {
                 return {
-                    ok: false,
+                    status: false,
                     accessToken: ''
                 };
             }
             sendRefreshToken_1.sendRefreshToken(res, token_1.createRefreshToken(user));
             return {
-                ok: true,
+                status: true,
                 accessToken: token_1.createAccessToken(user)
             };
         });
@@ -171,7 +172,7 @@ class UserService {
             const user = yield User_1.User.findOne({ where: { id: userId } });
             if (!user) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'user not found'
                 };
             }
@@ -181,7 +182,7 @@ class UserService {
                 .set({ tokenVersion: user.tokenVersion + 1 })
                 .where("id = :id", { id: user.id }).execute();
             return {
-                ok: true,
+                status: true,
                 message: 'token revoked'
             };
         });

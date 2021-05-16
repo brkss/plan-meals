@@ -38,8 +38,13 @@ const express_1 = __importDefault(require("express"));
 const controllers_1 = require("./controllers/controllers");
 const httpContext = __importStar(require("express-http-context"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const cors_1 = __importDefault(require("cors"));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const app = express_1.default();
+    app.use(cors_1.default({
+        origin: 'http://localhost:3000',
+        credentials: true
+    }));
     app.use(cookie_parser_1.default());
     yield typeorm_1.createConnection({
         type: "mysql",
