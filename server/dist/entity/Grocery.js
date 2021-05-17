@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Grocery = void 0;
 const typeorm_1 = require("typeorm");
+const GroceryCategory_1 = require("./GroceryCategory");
 const Ingredient_1 = require("./Ingredient");
 const User_1 = require("./User");
 let Grocery = class Grocery extends typeorm_1.BaseEntity {
@@ -28,11 +29,19 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Grocery.prototype, "available", void 0);
 __decorate([
+    typeorm_1.Column('double'),
+    __metadata("design:type", Number)
+], Grocery.prototype, "price", void 0);
+__decorate([
     typeorm_1.ManyToOne(_ => User_1.User, user => user.groceries, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", User_1.User)
 ], Grocery.prototype, "user", void 0);
 __decorate([
-    typeorm_1.OneToMany(_ => Ingredient_1.Ingredient, direction => direction.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.ManyToOne(_ => GroceryCategory_1.GroceryCategory, category => category.groceries, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", GroceryCategory_1.GroceryCategory)
+], Grocery.prototype, "category", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Ingredient_1.Ingredient, ingredient => ingredient.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], Grocery.prototype, "ingredients", void 0);
 Grocery = __decorate([

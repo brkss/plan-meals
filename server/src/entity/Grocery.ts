@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import { GroceryCategory } from './GroceryCategory';
 import { Ingredient } from './Ingredient';
 import { User } from './User';
 
@@ -13,11 +14,17 @@ export class Grocery extends BaseEntity {
 
     @Column('boolean')
     available: boolean
+
+    @Column('double')
+    price: number
     
 
     @ManyToOne(_ => User, user => user.groceries, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     user: User;
 
-    @OneToMany(_ => Ingredient, direction => direction.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    @ManyToOne(_ => GroceryCategory, category => category.groceries, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    category: GroceryCategory;
+
+    @OneToMany(_ => Ingredient, ingredient => ingredient.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     ingredients: Ingredient[]
 }

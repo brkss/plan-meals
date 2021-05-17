@@ -1,5 +1,7 @@
 
 export interface IGrocery {
     title: string
-    available: boolean
+    available: boolean;
+    price: number;
+    category_id: number;
 }

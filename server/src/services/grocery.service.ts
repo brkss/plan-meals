@@ -1,3 +1,4 @@
+import { GroceryCategory } from "../entity/GroceryCategory";
 import { Grocery } from "../entity/Grocery";
 import { User } from "../entity/User";
 import { CreateGroceryInput } from "../helpers/inputs/grocery.input";
@@ -8,7 +9,7 @@ export class GroceryService {
 
 
     public async create(input: CreateGroceryInput){
-        if(!input || !input.available || !input.title){
+        if(!input || !input.available || !input.title || !input.price || !input.category_id){
             return {
                 status: false,
                 message: 'invalid data'
@@ -22,11 +23,19 @@ export class GroceryService {
             }
         }
         try {
-        
+            const category = await GroceryCategory.findOne({where: {id: input.category_id}});
+            if(!category){
+                return {
+                    status: false,
+                    message: 'Category not found'
+                }
+            }
             await Grocery.insert({
                 available: Boolean(input.available),
                 title: input.title,
-                user: user
+                price: input.price,
+                user: user,
+                category: category
             });
             console.log('grocery insert => ', );
             return {

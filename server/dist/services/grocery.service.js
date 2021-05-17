@@ -10,12 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GroceryService = void 0;
+const GroceryCategory_1 = require("../entity/GroceryCategory");
 const Grocery_1 = require("../entity/Grocery");
 const User_1 = require("../entity/User");
 class GroceryService {
     create(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!input || !input.available || !input.title) {
+            if (!input || !input.available || !input.title || !input.price || !input.category_id) {
                 return {
                     status: false,
                     message: 'invalid data'
@@ -29,10 +30,19 @@ class GroceryService {
                 };
             }
             try {
+                const category = yield GroceryCategory_1.GroceryCategory.findOne({ where: { id: input.category_id } });
+                if (!category) {
+                    return {
+                        status: false,
+                        message: 'Category not found'
+                    };
+                }
                 yield Grocery_1.Grocery.insert({
                     available: Boolean(input.available),
                     title: input.title,
-                    user: user
+                    price: input.price,
+                    user: user,
+                    category: category
                 });
                 console.log('grocery insert => ');
                 return {
