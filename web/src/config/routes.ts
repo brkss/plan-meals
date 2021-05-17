@@ -2,9 +2,12 @@ import { IRoute } from "../helpers/types/IRoute";
 import { LoginPage } from "../pages/auth/Login";
 import { RegisterPage } from "../pages/auth/Register";
 import { DashPage } from "../pages/Dash";
-import { CreateGrocery } from "../pages/grocery/CreateGrocery";
-import { ListGrocery } from "../pages/grocery/ListGrocery";
+import { Day } from "../pages/day/Day";
+import { Grocery } from "../pages/grocery/Grocery";
 import { HomePage } from '../pages/Home'
+import { Recipe } from "../pages/recipe/Recipe";
+import { Settings } from "../pages/settings/Settings";
+
 
 export const routes : IRoute[] = [
     {
@@ -36,15 +39,27 @@ export const routes : IRoute[] = [
 
 export const admin_routes : IRoute[] = [
     {
-        name: 'Create Grocery',
-        path: '/grocery/create',
-        component: CreateGrocery,
+        name: 'Grocery',
+        path: '/grocery',
+        component: Grocery,
         exact: true,
     },
     {
-        name: 'Grocery',
-        path: '/grocery/list',
-        component: ListGrocery,
+        name: 'Recipe',
+        path: '/recipe',
+        component: Recipe,
         exact: true,
-    }
+    },
+    {
+        name: 'Day',
+        path: '/days',
+        component: Day,
+        exact: true,
+    },
+    {
+        name: 'Settings',
+        path: '/settings',
+        component: Settings,
+        exact: true,
+    },
 ]
