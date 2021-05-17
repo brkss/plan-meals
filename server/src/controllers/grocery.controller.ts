@@ -19,9 +19,15 @@ export class GroceryController {
         return res.send(resp).json();
     }
 
+    public async categories(res: Response){
+        const categories = await this.service.groceryCategories();
+        return res.send(categories).json();
+    }
+
     public routing(){
 
         this.router.post('/create', (req, res) => this.create(req, res));
+        this.router.post('/categories', (_, res) => this.categories(res));
 
     }
 }

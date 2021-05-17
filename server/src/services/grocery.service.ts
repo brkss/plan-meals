@@ -52,4 +52,11 @@ export class GroceryService {
         }
     }
 
+
+    // get groceries categories 
+    async groceryCategories(){
+        const categories = await GroceryCategory.find();
+        return categories;
+    }
+
 }
