@@ -5,5 +5,8 @@ export const URLS = {
         login: `${API_URL}/user/login`,
         register: `${API_URL}/user/register`,
         me: `${API_URL}/user/me`
+    },
+    grocery: {
+        categories: `${API_URL}/grocery/categories`
     }
 }

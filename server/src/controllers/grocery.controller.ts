@@ -27,7 +27,7 @@ export class GroceryController {
     public routing(){
 
         this.router.post('/create', (req, res) => this.create(req, res));
-        this.router.post('/categories', (_, res) => this.categories(res));
+        this.router.post('/categories', (_, res) => this.categories(res)); 
 
     }
 }

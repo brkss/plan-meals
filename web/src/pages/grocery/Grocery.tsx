@@ -1,10 +1,10 @@
 import React from 'react';
-import { Tabs, TabList, Tab, TabPanels, TabPanel, useColorMode } from '@chakra-ui/react';
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import {CreateGrocery } from './CreateGrocery';
+import { ListGrocery } from './ListGrocery';
 
 export const Grocery : React.FC = () => {
 
-    const {colorMode} = useColorMode();
  
     return(
         <>
@@ -18,7 +18,7 @@ export const Grocery : React.FC = () => {
 
                 <TabPanels>
                     <TabPanel>
-                        <p>one</p>
+                        <ListGrocery />
                     </TabPanel>
                     <TabPanel>
                         <CreateGrocery />

@@ -59,6 +59,12 @@ class GroceryService {
             }
         });
     }
+    groceryCategories() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const categories = yield GroceryCategory_1.GroceryCategory.find();
+            return categories;
+        });
+    }
 }
 exports.GroceryService = GroceryService;
 //# sourceMappingURL=grocery.service.js.map

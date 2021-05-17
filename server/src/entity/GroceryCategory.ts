@@ -12,6 +12,9 @@ export class GroceryCategory extends BaseEntity {
     @Column()
     name: string;
 
+    @Column('text', {nullable: true})
+    description?: string;
+
     @OneToMany(_ => Grocery, grocery => grocery.category, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     groceries: Grocery[]
 

@@ -25,8 +25,15 @@ class GroceryController {
             return res.send(resp).json();
         });
     }
+    categories(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const categories = yield this.service.groceryCategories();
+            return res.send(categories).json();
+        });
+    }
     routing() {
         this.router.post('/create', (req, res) => this.create(req, res));
+        this.router.post('/categories', (_, res) => this.categories(res));
     }
 }
 exports.GroceryController = GroceryController;

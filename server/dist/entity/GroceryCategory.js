@@ -23,6 +23,10 @@ __decorate([
     __metadata("design:type", String)
 ], GroceryCategory.prototype, "name", void 0);
 __decorate([
+    typeorm_1.Column('text', { nullable: true }),
+    __metadata("design:type", String)
+], GroceryCategory.prototype, "description", void 0);
+__decorate([
     typeorm_1.OneToMany(_ => Grocery_1.Grocery, grocery => grocery.category, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], GroceryCategory.prototype, "groceries", void 0);
