@@ -7,7 +7,6 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 
     // parse token 
     const authorization : string = req.headers['authorization'] as string;
-    console.log('headers => ', req.headers);
     if(!authorization){
         return res.send({status: false, message: 'not athenticated!'}).json()
     }

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GroceryController = void 0;
 const express_1 = require("express");
 const grocery_service_1 = require("../services/grocery.service");
+const auth_middleware_1 = require("../helpers/middlewares/auth.middleware");
 class GroceryController {
     constructor() {
         this.router = express_1.Router();
@@ -31,9 +32,16 @@ class GroceryController {
             return res.send(categories).json();
         });
     }
+    groceries(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const list = yield this.service.listGroceries();
+            res.send(list).json();
+        });
+    }
     routing() {
-        this.router.post('/create', (req, res) => this.create(req, res));
-        this.router.post('/categories', (_, res) => this.categories(res));
+        this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.categories(res));
+        this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.groceries(res));
     }
 }
 exports.GroceryController = GroceryController;

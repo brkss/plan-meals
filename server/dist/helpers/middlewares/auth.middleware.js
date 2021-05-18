@@ -24,7 +24,6 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const httpContext = __importStar(require("express-http-context"));
 const isAuth = (req, res, next) => {
     const authorization = req.headers['authorization'];
-    console.log('headers => ', req.headers);
     if (!authorization) {
         return res.send({ status: false, message: 'not athenticated!' }).json();
     }

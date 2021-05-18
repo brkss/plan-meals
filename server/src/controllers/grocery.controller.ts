@@ -1,6 +1,8 @@
 import { Request, Response , Router } from 'express';
 import { IGrocery } from '../helpers/types/IGrocery';
 import { GroceryService } from '../services/grocery.service';
+import { isAuth } from '../helpers/middlewares/auth.middleware';
+
 
 export class GroceryController {
 
@@ -24,10 +26,16 @@ export class GroceryController {
         return res.send(categories).json();
     }
 
+    public async groceries(res: Response){
+        const list = await this.service.listGroceries();
+        res.send(list).json();
+    }
+
     public routing(){
 
-        this.router.post('/create', (req, res) => this.create(req, res));
-        this.router.post('/categories', (_, res) => this.categories(res)); 
+        this.router.post('/create', (req, res, next) => isAuth(req, res, next),(req, res) => this.create(req, res));
+        this.router.post('/categories',  (req, res, next) => isAuth(req, res, next),(_, res) => this.categories(res)); 
+        this.router.post('/list',  (req, res, next) => isAuth(req, res, next),(_, res) => this.groceries(res)); 
 
     }
 }

@@ -2,6 +2,7 @@ import { GroceryCategory } from "../entity/GroceryCategory";
 import { Grocery } from "../entity/Grocery";
 import { User } from "../entity/User";
 import { CreateGroceryInput } from "../helpers/inputs/grocery.input";
+import * as httpContext from 'express-http-context';
 
 
 export class GroceryService {
@@ -9,13 +10,14 @@ export class GroceryService {
 
 
     public async create(input: CreateGroceryInput){
-        if(!input || !input.available || !input.title || !input.price || !input.category_id){
+        console.log('_input => ', input);
+        if(!input || input.available === undefined || !input.title || input.price === undefined || !input.category_id){
             return {
                 status: false,
                 message: 'invalid data'
             }
         }
-        const user = await User.findOne({where: {id: 1}});
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
         if(!user){
             return {
                 status: false,
@@ -57,6 +59,22 @@ export class GroceryService {
     async groceryCategories(){
         const categories = await GroceryCategory.find();
         return categories;
+    }
+
+    //get list groceries
+    async listGroceries(){
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                data: []
+            }
+        }
+        const groceries = await Grocery.find({where: {user: user}, relations: ['category']})
+        return {
+            status: true,
+            data: groceries
+        }
     }
 
 }
