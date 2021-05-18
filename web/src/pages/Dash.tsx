@@ -10,11 +10,7 @@ export const DashPage : React.FC<RouteComponentProps> = ({match}) => {
 
     return(
         <>
-            <Grid
-                h="100vh"
-                templateColumns="repeat(16, 1fr)"
-                gap={0}
-            >
+            <Grid h="100vh" templateColumns="repeat(16, 1fr)" gap={0}>
                 <GridItem colSpan={{md: 1, base: 0}}  >
                     <DashNav />
                 </GridItem>

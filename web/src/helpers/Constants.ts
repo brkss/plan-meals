@@ -7,6 +7,8 @@ export const URLS = {
         me: `${API_URL}/user/me`
     },
     grocery: {
-        categories: `${API_URL}/grocery/categories`
+        categories: `${API_URL}/grocery/categories`,
+        create: `${API_URL}/grocery/create`,
+        list: `${API_URL}/grocery/list`
     }
 }

@@ -4,7 +4,7 @@ import { Link, RouteComponentProps  } from 'react-router-dom'
 import { ErrorMessage } from '../../components/ErrorMessage'
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
-import { setAccessToken } from '../../helpers/auth/token';
+import { getAccessToken, setAccessToken } from '../../helpers/auth/token';
 
 
 
@@ -42,10 +42,13 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
             SetError(data.message);
         }else if(data.status === true && data.accessToken){
             setAccessToken(data.accessToken);
-            history.push('/');
+            history.push('/dash');
 
         }
+    }
 
+    if(getAccessToken() !== ''){
+        history.push('/dash/grocery')
     }
 
     return(

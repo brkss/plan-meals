@@ -14,25 +14,29 @@ export const routes : IRoute[] = [
         name: 'Home page',
         path: '/',
         exact: true,
-        component: HomePage
+        component: HomePage,
+        protected: false
     },
     {
         name: 'Login Page',
         path: '/auth/login',
         exact: true,
-        component: LoginPage
+        component: LoginPage,
+        protected: false
     },
     {
         name: 'Register Page',
         path: '/auth/register',
         exact: true,
-        component: RegisterPage
+        component: RegisterPage,
+        protected: false
     },
     {
         name: 'Dashboard Page',
         path: '/dash',
         exact: false,
-        component: DashPage
+        component: DashPage,
+        protected: true
     }
 ]
 
@@ -40,26 +44,37 @@ export const routes : IRoute[] = [
 export const admin_routes : IRoute[] = [
     {
         name: 'Grocery',
+        path: '/',
+        component: Grocery,
+        exact: true,
+        protected: true
+    },
+    {
+        name: 'Grocery',
         path: '/grocery',
         component: Grocery,
         exact: true,
+        protected: true
     },
     {
         name: 'Recipe',
         path: '/recipe',
         component: Recipe,
         exact: true,
+        protected: true
     },
     {
         name: 'Day',
         path: '/days',
         component: Day,
         exact: true,
+        protected: true
     },
     {
         name: 'Settings',
         path: '/settings',
         component: Settings,
         exact: true,
+        protected: true
     },
 ]
