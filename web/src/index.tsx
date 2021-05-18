@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: #f9f9f9;;
   }
+  label:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 `
 
 ReactDOM.render(
@@ -19,8 +23,8 @@ ReactDOM.render(
     <ChakraProvider>
       <ThemeProvider theme={theme} >
           <ColorModeProvider options={{}} />
-          <GlobalStyle />
           <CSSReset />
+          <GlobalStyle />
           <Application />
       
       </ThemeProvider>
