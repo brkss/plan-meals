@@ -13,15 +13,21 @@ export const Grocery : React.FC<Props> = ({children}) => {
 
  
     const [currentTab, SetCurrentTab] = React.useState('list');
-    const handleSwitchingTabs = (tab: string) => {
-        SetCurrentTab(tab);
-    
-    }
-
+    const links = [
+        {
+            name: 'My Groceries',
+            link: '/dash/grocery/list',
+        },
+        {
+            name: 'Create Grocery',
+            link: '/dash/grocery/create'
+        }
+        
+    ];
     console.log('childrens => ', children);
     return(
         <> 
-            <ModuleNavigation />
+            <ModuleNavigation links={links} />
                 {
                     children.map((route, key) => (
                         route.protected ? 
