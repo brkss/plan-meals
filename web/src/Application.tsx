@@ -4,6 +4,8 @@ import { GruardRoute } from './components/GuardRoute';
 import { ThemeToggler } from './components/themeToggler';
 import { routes } from './config/routes';
 import { setAccessToken } from './helpers/auth/token';
+import './dist/main.css';
+
 
 export const Application : React.FC = () => {
 

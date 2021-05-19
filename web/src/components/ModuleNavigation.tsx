@@ -13,14 +13,14 @@ interface Props {
 
 export const ModuleNavigation : React.FC<Props> = ({links}) => {
     const history = useHistory();
-    const [path, SetPath] = React.useState(links[0].link);
+    const [path, SetPath] = React.useState('');
     React.useEffect(() => {
+        SetPath(history.location.pathname);
         history.listen((res) => {
             SetPath(res.pathname);
-            console.log('location => ', links);
         })
-        
     }, []);
+    
 
     return (
         <Box w='full' >

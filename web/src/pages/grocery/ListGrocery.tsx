@@ -39,7 +39,7 @@ export const ListGrocery : React.FC = () => {
                 <Tbody>
                     {
                         list?.map((element, key) => (
-                            <Tr key={key}>
+                            <Tr bg={element.available === false ? 'gray.100' : ''} key={key}>
                                 <Td>{element.title}</Td>
                                 <Td>{element.category.name}</Td>
                                 <Td isNumeric>{element.price !== 0 ? element.price : 'unset' }</Td>

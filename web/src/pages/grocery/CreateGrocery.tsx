@@ -7,7 +7,7 @@ import { InfoMessage } from '../../components/InfoMessage';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { RouteComponentProps } from 'react-router';
 
-export const CreateGrocery : React.FC = () => {
+export const CreateGrocery : React.FC<RouteComponentProps> = ({history}) => {
 
     const [loading, SetLoading] = React.useState(false);
     const [error, SetError] = React.useState('');
@@ -58,6 +58,8 @@ export const CreateGrocery : React.FC = () => {
         console.log('data => ', data);
         if(data.status === false){
             SetError(data.message);
+        }else if(data.status === true){
+            history.push('/dash/grocery/list')
         }
     }
 

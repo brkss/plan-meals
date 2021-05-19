@@ -1,35 +1,27 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import React from 'react';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import { GruardRoute } from '../../components/GuardRoute';
+import { IRoute } from '../../helpers/types/IRoute';
 
+interface Props {
+    childrens?: IRoute[]
+}
 
-export const Recipe : React.FC = () => {
+export const Recipe : React.FC<Props> = ({childrens}) => {
 
 
     return(
         <>
-            <Tabs variant="soft-rounded" colorScheme="blackAlpha">
-                <TabList>
-                    <Tab bg="gray.100" mr={2} >My Recipes </Tab>
-                    <Tab bg="gray.100" mr={2}>Add Recipe </Tab>
-                    <Tab bg="gray.100" mr={2}>Library </Tab>
-                    <Tab bg="gray.100" mr={2}>Statistiques ⌛️</Tab>
-                </TabList>
-
-                <TabPanels>
-                    <TabPanel>
-                        <p>one!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>two!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>three!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>Four!</p>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
+            Hello this recipe main page
+            {
+                childrens?.map((route, key) => (
+                    route.protected ? 
+                    <GruardRoute key={key} route={route} /> : 
+                    <Route  key={key} exact={route.exact} path={`${route.path}`} render={(props: RouteComponentProps) => (
+                        <route.component {...props} {...route.props} name={route.name}  />
+                    )} />
+                ))
+            }
         </>
     );
 }

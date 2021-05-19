@@ -8,6 +8,7 @@ import { CreateGrocery } from "../pages/grocery/CreateGrocery";
 import { Grocery } from "../pages/grocery/Grocery";
 import { ListGrocery } from "../pages/grocery/ListGrocery";
 import { HomePage } from '../pages/Home'
+import { CreateRecipe } from "../pages/recipe/CreateRecipe";
 import { Recipe } from "../pages/recipe/Recipe";
 import { Settings } from "../pages/settings/Settings";
 
@@ -63,11 +64,11 @@ export const admin_routes : IRoute[] = [
         protected: true,
         children: [
             {
-                name: 'Create Grocery',
-                path: '/dash/grocery/create',
+                name: 'List Groceries',
+                path: '/dash/grocery/',
                 exact: true,
                 protected: true,
-                component: CreateGrocery
+                component: ListGrocery
             },
             {
                 name: 'List Groceries',
@@ -76,15 +77,30 @@ export const admin_routes : IRoute[] = [
                 protected: true,
                 component: ListGrocery
             },
-            
+            {
+                name: 'Create Grocery',
+                path: '/dash/grocery/create',
+                exact: true,
+                protected: true,
+                component: CreateGrocery
+            },            
         ]
     },
     {
         name: 'Recipe',
-        path: '/recipe',
+        path: '/dash/recipe',
         component: Recipe,
-        exact: true,
-        protected: true
+        exact: false,
+        protected: true,
+        children: [
+            {
+                name: 'Create Recipe',
+                path: '/dash/recipe/create',
+                component: CreateRecipe,
+                exact: true,
+                protected: true,
+            }
+        ]
     },
     {
         name: 'Day',

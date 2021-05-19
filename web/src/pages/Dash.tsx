@@ -19,7 +19,7 @@ export const DashPage : React.FC<RouteComponentProps> = ({match}) => {
                     admin_routes.map((route, key) => (
                         <Route  exact={route.exact} key={key} path={`${route.path}`} render={(props: RouteComponentProps) => (
                             <>
-                                <route.component {...props} {...route.props} name={route.name} children={route.children} />
+                                <route.component {...props} {...route.props} name={route.name} childrens={route.children} />
                             </>
                         )} />
                     ))
