@@ -1,5 +1,6 @@
 import React from 'react'
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
+import { IGrocery } from '../../helpers/types/IGrocery';
 
 
 
@@ -19,25 +20,26 @@ const countries = [
 
 
 interface Props {
-  onChange: (selected?: Item[]) => void 
+  onChange: (selected?: Item[]) => void,
+  groceries: IGrocery[]
 }
 
-export const AutoCompleteInput : React.FC<Props> = ({onChange}) => {
+export const AutoCompleteInput : React.FC<Props> = ({onChange, groceries}) => {
 
     const [pickerItems, setPickerItems] = React.useState(countries);
     const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
   
-    const handleCreateItem = (item: Item) => {
-      setPickerItems((curr) => [...curr, item]);
-      setSelectedItems((curr) => [...curr, item]);
-    };
-  
-    const handleSelectedItemsChange = (selectedItems?: any) => {
-        console.log('selected items => ', selectedItems)
-      if (selectedItems) {
-        setSelectedItems(selectedItems);
-      }
-    };
+    console.log('list grocery => ', groceries);
+    React.useEffect(() => {
+      let pi = groceries.map((g) => {
+        return {
+          label: g.title,
+          value: g.id.toString()   
+        }
+      });
+      setPickerItems(pi);
+    });
+    
   
     return (
           <CUIAutoComplete

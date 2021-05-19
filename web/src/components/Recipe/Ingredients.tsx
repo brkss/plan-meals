@@ -3,7 +3,9 @@ import { Box, Input, Heading, Button, CloseButton, Text } from '@chakra-ui/react
 import styled from 'styled-components';
 import { ArrowForwardIcon, PlusSquareIcon, AddIcon } from '@chakra-ui/icons';
 import { AutoCompleteInput } from '../Form/AutoCompleteGrocery';
-
+import axios from '../../config/axios';
+import { URLS } from '../../helpers/Constants';
+import { IGrocery } from '../../helpers/types/IGrocery';
 
 export const Ingredients : React.FC = () => {
 
@@ -58,6 +60,28 @@ export const Ingredients : React.FC = () => {
         ]);
     }
 
+
+    // List Grocery 
+    const [listGrocery, SetListGrocery] = React.useState<any []>();
+    const [loading, SetLoading] = React.useState<boolean>(false);
+
+    React.useEffect(() => {
+        SetLoading(true)
+        axios.post(URLS.grocery.list, {}).then(resp => {
+            const data = resp.data;
+            console.log('list => ', data);
+            if(data.status === true){
+                SetListGrocery(data.data);
+            }
+            SetLoading(false)
+        });
+        
+    }, []);
+
+    if(loading){
+        return <>Loading</>
+    }
+
     return (
         <Box>
             <Heading mb={5} fontWeight='bold'>Add Ingredients</Heading>
@@ -71,7 +95,7 @@ export const Ingredients : React.FC = () => {
                         <Box w='full' d='block' mt='5px'>
                             <Input type="text" variant='filled' w={{md: '27%', base: '100%'}} mr={4} placeholder='Unit' />  
                             <Input type="text" variant='filled' readOnly={true} disabled={true} value={ing.grocery.label} w={{md: '60%', base: '100%'}} placeholder='Grocery' /> 
-                            <AutoCompleteInput onChange={(i) => handleAddingGroceryToIngredient(ing.id, i)} />
+                            <AutoCompleteInput groceries={listGrocery as IGrocery[]} onChange={(i) => handleAddingGroceryToIngredient(ing.id, i)} />
                         </Box>
                     </Box>
                 ))
