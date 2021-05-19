@@ -87,7 +87,7 @@ export const Ingredients : React.FC = () => {
             <Heading mb={5} fontWeight='bold'>Add Ingredients</Heading>
             {
                 ingredients.map((ing, key) => (
-                    <Box key={key} w='full' bg='gray.50' p={5} rounded={6} mt={7}>
+                    <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
                         <Box d='block'>
                             <Text fontWeight='bold' color='#676666' d='inline-block'>Add Ingredient</Text>
                             <CloseButton float='right' onClick={() => deleteIngredient(ing.id)} />

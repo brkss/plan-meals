@@ -1,23 +1,14 @@
 import React from 'react'
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { IGrocery } from '../../helpers/types/IGrocery';
-
+import axios from '../../config/axios';
+import { URLS } from '../../helpers/Constants';
 
 
 export interface Item {
   label: string;
   value: string;
 }
-const countries = [
-  { value: "ghana", label: "Ghana" },
-  { value: "nigeria", label: "Nigeria" },
-  { value: "kenya", label: "Kenya" },
-  { value: "southAfrica", label: "South Africa" },
-  { value: "unitedStates", label: "United States" },
-  { value: "canada", label: "Canada" },
-  { value: "germany", label: "Germany" }
-];
-
 
 interface Props {
   onChange: (selected?: Item[]) => void,
@@ -26,27 +17,42 @@ interface Props {
 
 export const AutoCompleteInput : React.FC<Props> = ({onChange, groceries}) => {
 
-    const [pickerItems, setPickerItems] = React.useState(countries);
-    const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+    const [pickerItems, setPickerItems] = React.useState<Item[]>([]);
   
-    console.log('list grocery => ', groceries);
+
     React.useEffect(() => {
-      let pi = groceries.map((g) => {
+      let pi = groceries?.map((g) => {
         return {
           label: g.title,
           value: g.id.toString()   
         }
       });
       setPickerItems(pi);
-    });
+    }, []);
+
+    const handleItemCreation = async (item: Item) => {
+      console.log('create this item => ', item);
+      const _data = {
+          title: item.label,
+          price: 0,
+          available: false,
+          category_id: 9
+      }
+      console.log('_data => ', _data);
+
+      const resp = await axios.post(URLS.grocery.create, _data); 
+      const data = resp.data;
+      if(!data || !data.item) return;
+      onChange([{label: data.item.title, value: data.item.id.toString()}]);
+    }
     
   
     return (
           <CUIAutoComplete
             label=""
             placeholder="Search in grocery"
-            onCreateItem={(item) => {
-              onChange([item])
+            onCreateItem={async (item) => {
+              await handleItemCreation(item);
             }}
             items={pickerItems}
             selectedItems={[]}
