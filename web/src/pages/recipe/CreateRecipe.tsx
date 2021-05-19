@@ -4,11 +4,12 @@ import { InputFonted } from '../../components/Form/InputFonted';
 import { FormControl, FormLabel, Switch, Button } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { Ingredients } from '../../components/Recipe/Ingredients';
 
 
 export const CreateRecipe : React.FC = () => {
 
-    const [step, SetStep] = React.useState(1);
+    const [step, SetStep] = React.useState(2);
     const [error, SetError] = React.useState('');
     const [recipeInfo, SetRecipeInfo] = React.useState<any>();
     
@@ -67,14 +68,14 @@ export const CreateRecipe : React.FC = () => {
 
                 {/* STEP 2 - INGREDIENTS */}
                 <Box d={step !== 2 ? 'none' : 'block'}>
-                    Ingredients
+                    <Ingredients />
                 </Box>
                 
             </Box>
 
             <Button  rightIcon={<ArrowForwardIcon />} onClick={() => SetStep(1)} colorScheme="teal" variant="outline">
-                            Next
-                        </Button>
+                    Next
+            </Button>
                 
 
         </Box>
