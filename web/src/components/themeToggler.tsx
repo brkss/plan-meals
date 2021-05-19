@@ -8,7 +8,7 @@ export const ThemeToggler : React.FC = () => {
     return(
         <>
             {/* position='fixed' width='100%' zIndex='9999' */}
-            <Box textAlign='right' bg='gray.200' py={0} pl={4} >
+            <Box textAlign='right' bg='gray.200' py={0} pl={4} mb={15} >
                 <IconButton
                 size="lg"
                 icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}

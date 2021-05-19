@@ -1,16 +1,21 @@
 import React from 'react';
-import { Box, Input, Center, Flex } from '@chakra-ui/react';
+import { Box, Input, Grid, GridItem, FormControl } from '@chakra-ui/react';
+import { InputFonted } from '../../components/Form/InputFonted';
 
 export const CreateRecipe : React.FC = () => {
 
     return(
         
-        <Box minHeight='100vh'>
+        <Box mt={10}>
+            
+                <Box w={{md: '40%', base: '100%'}} m='auto' >
+                    
+                    <form >
 
-            <Flex justifyContent='center' >
-                    tt
+                        <InputFonted type='text' placeholder='Give Your Recipe A Title' />
 
-            </Flex>
+                    </form>
+                </Box>
 
         </Box>
     
