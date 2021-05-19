@@ -73,9 +73,7 @@ export const CreateRecipe : React.FC = () => {
                 
             </Box>
 
-            <Button  rightIcon={<ArrowForwardIcon />} onClick={() => SetStep(1)} colorScheme="teal" variant="outline">
-                    Next
-            </Button>
+           
                 
 
         </Box>
