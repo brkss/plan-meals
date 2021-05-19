@@ -10,8 +10,8 @@ export const DashNav : React.FC = () => {
         history.push(path);
     }
 
-    return(
-        <Box bg='gray.50' ml={3} mr={2} rounded={6} p={3} position={{md: 'fixed', base: 'initial'}} >
+    return(  
+        <Box bg='gray.50' ml={3} mr={2} rounded={6} p={3} mt={40} position={{md: 'fixed', base: 'initial'}} >
 
             <Tooltip label="Grocery" placement="right">
                 <Center onClick={_ => redir('/dash/grocery')} w="40px" h="40px" bg='gray.100' p={2} rounded={6} m='auto' mb={3} mt={3} cursor='pointer' _hover={{bg: 'gray.200'}} transition='.3s'>

@@ -6,16 +6,21 @@ export const ThemeToggler : React.FC = () => {
 
     const {colorMode, toggleColorMode} = useColorMode()
     return(
-        <Box textAlign='right' py={4} mr={4}>
-            <IconButton
-            size="lg"
-            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            onClick={() => toggleColorMode()}
-            variant="ghost"
-            aria-label=""
-            
-        />
-        </Box>
+        <>
+            {/* position='fixed' width='100%' zIndex='9999' */}
+            <Box textAlign='right' bg='gray.200' py={0} pl={4} >
+                <IconButton
+                size="lg"
+                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                onClick={() => toggleColorMode()}
+                variant="ghost"
+                aria-label=""
+                
+            />
+            </Box>
+           
+        </>
+        
     );
 
 }

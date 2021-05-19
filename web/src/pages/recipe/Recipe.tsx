@@ -12,7 +12,6 @@ export const Recipe : React.FC<Props> = ({childrens}) => {
 
     return(
         <>
-            Hello this recipe main page
             {
                 childrens?.map((route, key) => (
                     route.protected ? 

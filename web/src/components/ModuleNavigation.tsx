@@ -53,5 +53,9 @@ const ListItem = styled.li`
     padding: 6px 10px;
     border-radius: 6px;
     font-weight: bold;
-    &.linkd
+    transition: .3s;
+    &:hover{
+        opacity: .85;
+        transition: .3s;
+    }
 `
