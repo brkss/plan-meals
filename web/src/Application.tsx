@@ -33,9 +33,9 @@ export const Application : React.FC = () => {
                 {
                     routes.map((route, key) => (
                         route.protected ? 
-                        <GruardRoute route={route} /> : 
+                        <GruardRoute key={key} route={route} /> : 
                         <Route  key={key} exact={route.exact} path={route.path} render={(props: RouteComponentProps) => (
-                            <route.component {...props} {...route.props} name={route.name}  />
+                            <route.component {...props} {...route.props} name={route.name} children={route.children} />
                         )} />
                     ))
                 }

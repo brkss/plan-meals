@@ -1,19 +1,37 @@
 import React from 'react';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
-import {CreateGrocery } from './CreateGrocery';
-import { ListGrocery } from './ListGrocery';
+import { IRoute } from '../../helpers/types/IRoute';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import { GruardRoute } from '../../components/GuardRoute';
+import { ModuleNavigation } from '../../components/ModuleNavigation';
 
-export const Grocery : React.FC = () => {
+interface Props {
+    children: IRoute[],
+}
+
+export const Grocery : React.FC<Props> = ({children}) => {
 
  
     const [currentTab, SetCurrentTab] = React.useState('list');
     const handleSwitchingTabs = (tab: string) => {
         SetCurrentTab(tab);
+    
     }
 
+    console.log('childrens => ', children);
     return(
-        <>
-            <Tabs variant="soft-rounded" colorScheme='blackAlpha'>
+        <> 
+            <ModuleNavigation />
+                {
+                    children.map((route, key) => (
+                        route.protected ? 
+                        <GruardRoute key={key} route={route} /> : 
+                        <Route  key={key} exact={route.exact} path={`${route.path}`} render={(props: RouteComponentProps) => (
+                            <route.component {...props} {...route.props} name={route.name}  />
+                        )} />
+                    ))
+                }
+            {/* <Tabs variant="soft-rounded" colorScheme='blackAlpha'>
                 <TabList>
                     <Tab bg="gray.100" mr={2} onClick={() => handleSwitchingTabs('list')}>My Groceries </Tab>
                     <Tab bg="gray.100" mr={2} onClick={() => handleSwitchingTabs('create')}>Create Grocery </Tab>
@@ -22,8 +40,7 @@ export const Grocery : React.FC = () => {
                 </TabList>
 
                 <TabPanels>
-                    <ListGrocery />
-                    {/* <TabPanel>
+                    <TabPanel>
                         { currentTab ==='list' ? <ListGrocery /> : null }
                     </TabPanel>
                     <TabPanel>
@@ -34,9 +51,11 @@ export const Grocery : React.FC = () => {
                     </TabPanel>
                     <TabPanel>
                         <p>Four!</p>
-                    </TabPanel> */}
+                    </TabPanel>
                 </TabPanels>
-            </Tabs>
+            </Tabs> */}
+
+            
         </>
     );
 }

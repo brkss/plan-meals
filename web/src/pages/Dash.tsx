@@ -17,9 +17,9 @@ export const DashPage : React.FC<RouteComponentProps> = ({match}) => {
                 <GridItem colSpan={{md: 15, base: 16}} ml={7} >
                 {
                     admin_routes.map((route, key) => (
-                        <Route exact={route.exact} key={key} path={`${match.url}${route.path}`} render={(props: RouteComponentProps) => (
+                        <Route  exact={route.exact} key={key} path={`${route.path}`} render={(props: RouteComponentProps) => (
                             <>
-                                <route.component {...props} {...route.props} name={route.name} />
+                                <route.component {...props} {...route.props} name={route.name} children={route.children} />
                             </>
                         )} />
                     ))

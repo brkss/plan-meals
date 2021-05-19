@@ -6,5 +6,6 @@ export interface IRoute {
     props?: any;
     exact: boolean; 
     protected: boolean;
+    children?: IRoute[] 
 
 }
