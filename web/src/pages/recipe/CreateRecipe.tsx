@@ -9,7 +9,7 @@ import { Ingredients } from '../../components/Recipe/Ingredients';
 
 export const CreateRecipe : React.FC = () => {
 
-    const [step, SetStep] = React.useState(2);
+    const [step, SetStep] = React.useState(1);
     const [error, SetError] = React.useState('');
     const [recipeInfo, SetRecipeInfo] = React.useState<any>();
     
@@ -21,7 +21,9 @@ export const CreateRecipe : React.FC = () => {
         })
     } 
 
-    const handleMoveStepUp = () => {
+    
+
+    const handleNext = () => {
        //check recipe info data validity 
        if(!recipeInfo || !recipeInfo.title || !recipeInfo.tags){
             SetError('Recipe Base Information Are Missing !');
@@ -32,6 +34,13 @@ export const CreateRecipe : React.FC = () => {
            SetStep(step+1);
        }
 
+    }
+
+    const handleBack = () => {
+        console.log('back')
+        if(step > 1){
+            SetStep(step-1);
+        }
     }
 
     return(
@@ -60,7 +69,7 @@ export const CreateRecipe : React.FC = () => {
                         <Switch id="public-recipe" colorScheme='green' />
                     </FormControl>
                     <FormControl mt={6}>
-                        <Button  rightIcon={<ArrowForwardIcon />} onClick={() => handleMoveStepUp()} colorScheme="teal" variant="outline">
+                        <Button  rightIcon={<ArrowForwardIcon />} onClick={() => handleNext()} colorScheme="teal" variant="outline">
                             Next
                         </Button>
                     </FormControl>
@@ -68,7 +77,7 @@ export const CreateRecipe : React.FC = () => {
 
                 {/* STEP 2 - INGREDIENTS */}
                 <Box d={step !== 2 ? 'none' : 'block'}>
-                    <Ingredients />
+                    <Ingredients next={() => handleNext()} back={() => handleBack()} />
                 </Box>
                 
             </Box>

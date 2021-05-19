@@ -30,6 +30,10 @@ export const AutoCompleteInput : React.FC<Props> = ({onChange, groceries}) => {
       setPickerItems(pi);
     }, []);
 
+    if(pickerItems.length === 0){
+      return <>loading</>
+    }
+
     const handleItemCreation = async (item: Item) => {
       console.log('create this item => ', item);
       const _data = {

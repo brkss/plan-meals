@@ -1,13 +1,19 @@
 import React from 'react';
 import { Box, Input, Heading, Button, CloseButton, Text } from '@chakra-ui/react';
 import styled from 'styled-components';
-import { ArrowForwardIcon, PlusSquareIcon, AddIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, ArrowBackIcon, AddIcon } from '@chakra-ui/icons';
 import { AutoCompleteInput } from '../Form/AutoCompleteGrocery';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
 import { IGrocery } from '../../helpers/types/IGrocery';
 
-export const Ingredients : React.FC = () => {
+interface Props {
+    next: () => void;
+    back: () => void;
+}
+
+
+export const Ingredients : React.FC<Props> = ({next, back}) => {
 
     const [ingredients, SetIngredients] = React.useState<any[]>([
         {
@@ -89,7 +95,7 @@ export const Ingredients : React.FC = () => {
                 ingredients.map((ing, key) => (
                     <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
                         <Box d='block'>
-                            <Text fontWeight='bold' color='#676666' d='inline-block'>Add Ingredient</Text>
+                            <Text fontWeight='bold' color='#676666' d='inline-block'>Ingredient</Text>
                             <CloseButton float='right' onClick={() => deleteIngredient(ing.id)} />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
@@ -106,28 +112,13 @@ export const Ingredients : React.FC = () => {
                     ADD
             </Button>
 
-            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline">
+            <Button  leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
+                    Back
+            </Button>
+            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline" onClick={() => next()} >
                     Next
             </Button>
         </Box>
     );
 }
 
-
-const AddButton = styled.button`
-
-    text-align: 100%;
-    width: 100%;
-    padding: 7px;
-    border: 1px dotted #00000061;
-    margin-top: 13px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: .3s;
-
-    &:hover {
-        background: #9de2b93b;
-        transition: .3s;
-    }
-
-`;
