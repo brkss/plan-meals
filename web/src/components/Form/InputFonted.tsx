@@ -5,6 +5,8 @@ import { Box } from '@chakra-ui/react';
 interface Props {
     type: string;
     placeholder: string; 
+    id: string;
+    onChange: (e: React.FormEvent) => void
 }
 
 export const InputFonted : React.FC<Props> = (props) => {
@@ -14,8 +16,8 @@ export const InputFonted : React.FC<Props> = (props) => {
         <Box mt={5}>
         {
             props.type === 'textarea' ? 
-            <TextArea placeholder={props.placeholder} rows={3} /> : 
-            <Input type={props.type} placeholder={props.placeholder} />
+            <TextArea placeholder={props.placeholder} rows={3} id={props.id} onChange={(e ) => props.onChange(e)} /> : 
+            <Input type={props.type} placeholder={props.placeholder} id={props.id} onChange={(e) => props.onChange(e)} />
         }
             
         </Box>
@@ -39,4 +41,5 @@ const TextArea = styled.textarea`
     font-size: 20px;
     resize: none;
     width: 100%;
+    color: #5f5e5e;
 `;
