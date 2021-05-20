@@ -11,7 +11,7 @@ import { Directions } from '../../components/Recipe/Directions';
 
 export const CreateRecipe : React.FC = () => {
 
-    const [step, SetStep] = React.useState(3);
+    const [step, SetStep] = React.useState(2);
     const [data, SetData] = React.useState<any>({});
 
 

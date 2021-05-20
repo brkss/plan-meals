@@ -133,7 +133,7 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
                             <CloseButton float='right' onClick={() => deleteIngredient(ing.id)} />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
-                            <Input type="text" variant='filled' w={{md: '27%', base: '100%'}} mr={4} placeholder='Unit' onChange={(e) => handleUnitForIngredient(ing.id, e)} />  
+                            <Input type="text" variant='filled' w={{md: '27%', base: '100%'}} mr={4} placeholder='Unit'  onChange={(e) => handleUnitForIngredient(ing.id, e)} />  
                             <Input type="text" variant='filled' readOnly={true} disabled={true} value={ing.grocery.label} w={{md: '60%', base: '100%'}} placeholder='Grocery' /> 
                             <AutoCompleteInput groceries={listGrocery as IGrocery[]} onChange={(i) => handleAddingGroceryToIngredient(ing.id, i)} />
                         </Box>
