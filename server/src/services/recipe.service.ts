@@ -6,6 +6,8 @@ import { Url } from "../entity/Url";
 import { Direction } from "../entity/Direction";
 import { Ingredient } from "../entity/Ingredient";
 import { Grocery } from "../entity/Grocery";
+import * as httpContext from 'express-http-context';
+
 
 
 export class RecipeService {
@@ -19,7 +21,7 @@ export class RecipeService {
                 message: 'invalid data'
             }
         }
-        const user = await User.findOne({where: {id: 1}});
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
         if(!user){
             return {
                 ok: false,
@@ -30,13 +32,10 @@ export class RecipeService {
             
             // insert recipe
             const recipe_id = await Recipe.insert({
-                title: input.title,
-                description: input.description,
-                tags: input.title,
-                public: Boolean(input.public),
-                directions: input.directions,
-                ingredients: input.ingredients,
-                urls: input.urls,
+                title: input.recipe.title,
+                description: input.recipe.description,
+                tags: input.recipe.tags,
+                public: Boolean(input.recipe.public),
                 user: user
             }).then(res => {
                 return res.identifiers[0].id
@@ -63,6 +62,7 @@ export class RecipeService {
                 await Ingredient.insert({
                     measurement: ingredient.measurement,
                     calories: ingredient.calories, 
+                    recipe: recipe,
                     grocery: await Grocery.findOne({where: {id: ingredient.grocery_id}})
                 })
             });

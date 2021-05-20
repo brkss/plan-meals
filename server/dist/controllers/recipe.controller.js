@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecipeController = void 0;
 const express_1 = require("express");
 const recipe_service_1 = require("../services/recipe.service");
+const auth_middleware_1 = require("../helpers/middlewares/auth.middleware");
 class RecipeController {
     constructor() {
         this.router = express_1.Router();
@@ -24,18 +25,14 @@ class RecipeController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let recipe = req.body;
-            recipe.urls = JSON.parse(recipe.urls);
-            recipe.directions = JSON.parse(recipe.directions);
-            recipe.ingredients = JSON.parse(recipe.ingredients);
+            console.log('recipe => ', recipe);
             const resp = yield this.service.createRecipe(recipe);
-            console.log('request body => ', req.body);
-            console.log('ing calories => ', recipe.ingredients[0].calories);
             return res.send(resp).json();
         });
     }
     routing() {
         this.router.get('/', (_, res) => this.index(res));
-        this.router.post('/create', (req, res) => this.create(req, res));
+        this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
     }
 }
 exports.RecipeController = RecipeController;

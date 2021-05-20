@@ -58,7 +58,14 @@ class GroceryService {
                         message: 'Category not found'
                     };
                 }
-                yield Grocery_1.Grocery.insert({
+                const existing_grocery = yield Grocery_1.Grocery.find({ where: { title: input.title } });
+                if (existing_grocery.length > 0) {
+                    return {
+                        status: false,
+                        message: 'I thing this item aleready exist'
+                    };
+                }
+                const resp_create_grocery = yield Grocery_1.Grocery.insert({
                     available: Boolean(input.available),
                     title: input.title,
                     price: input.price,
@@ -68,7 +75,8 @@ class GroceryService {
                 console.log('grocery insert => ');
                 return {
                     status: true,
-                    message: 'grocery element created successfuly'
+                    message: 'grocery element created successfuly',
+                    item: yield Grocery_1.Grocery.findOne({ where: { id: resp_create_grocery.identifiers[0].id } })
                 };
             }
             catch (e) {
