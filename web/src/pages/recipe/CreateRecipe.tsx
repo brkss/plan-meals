@@ -7,15 +7,13 @@ import { Urls } from '../../components/Recipe/Urls';
 
 export const CreateRecipe : React.FC = () => {
 
-    const [step, SetStep] = React.useState(4);
+    const [step, SetStep] = React.useState(1);
     const [data, SetData] = React.useState<any>({});
     const steps = 4;
 
 
+    //handle next action 
     const handleNext = async (key: string, _data: any) => {
-       //check recipe info data validity 
-       console.log('key => ', key);
-       console.log('_data => ', _data);
        SetData({
            ...data,
            [key]: _data
@@ -23,15 +21,34 @@ export const CreateRecipe : React.FC = () => {
        
        if(step < steps){
            SetStep(step+1);
+       }else {
+           handleCreateRecipe()
        }
+       console.log('current data => ', data);
 
     }
 
+    // handle back action
     const handleBack = () => {
         console.log('back')
         if(step > 1){
             SetStep(step-1);
         }
+    }
+
+    // handle seting up data to create recipe  
+    const handleCreateRecipe = () => {
+        console.log('create recipe and this is the data before mapping => ', data);
+        // map ingredients 
+        data.ingredients = data.ingredients.map((ing: any) => (
+            {
+                measurement: ing.unit,
+                grocery_id: ing.grocery.value,
+                calories: 0
+            }
+        ));
+        console.log('create recipe and this is the data after mapping => ', data);
+
     }
 
     return(

@@ -99,8 +99,8 @@ export const Urls : React.FC<Props> = ({next, back}) => {
             <Button  leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
                     Back
             </Button>
-            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline"  onClick={() => handleUrlDataValidation()}>
-                    Next
+            <Button  rightIcon={<AddIcon />} mt={7} colorScheme="teal" variant="outline"  onClick={() => handleUrlDataValidation()}>
+                    Create
             </Button>
         </>
     );

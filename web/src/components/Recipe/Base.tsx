@@ -1,5 +1,5 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { FormControl, FormLabel, Button, Switch } from '@chakra-ui/react';
+import { FormControl, FormLabel, Button, Switch, CheckboxProps } from '@chakra-ui/react';
 import React from 'react';
 import { ErrorMessage } from '../ErrorMessage';
 import { InputFonted } from '../Form/InputFonted';
@@ -12,7 +12,9 @@ interface Props {
 export const RecipeBase : React.FC<Props> = ({next}) => {
 
     const [error, SetError] = React.useState('');
-    const [recipeInfo, SetRecipeInfo] = React.useState<any>();
+    const [recipeInfo, SetRecipeInfo] = React.useState<any>({
+        public: false
+    });
 
     const handleRecipeInfo = (e: React.FormEvent<any>) => {
         console.log('current element id : ', e.currentTarget.id);
@@ -29,6 +31,14 @@ export const RecipeBase : React.FC<Props> = ({next}) => {
         }
         next("recipe", recipeInfo);
     } 
+
+    const handleRecipeVisibility = (e: React.FormEvent<any>) => {
+        SetRecipeInfo({
+            ...recipeInfo,
+            public: e.currentTarget.checked
+        })
+        console.log('recipe info => ', recipeInfo);
+    }
 
     return(
         <>
@@ -47,7 +57,7 @@ export const RecipeBase : React.FC<Props> = ({next}) => {
                     <FormLabel  htmlFor="public-recipe" mb="0">
                         you want this recipe to be public to everyone ?
                     </FormLabel>
-                    <Switch id="public-recipe" colorScheme='green' />
+                    <Switch id="public-recipe" colorScheme='green' onChange={(e) => handleRecipeVisibility(e)} />
                 </FormControl>
                 <FormControl mt={6}>
                     <Button  rightIcon={<ArrowForwardIcon />} onClick={() => handleNext()} colorScheme="teal" variant="outline">
