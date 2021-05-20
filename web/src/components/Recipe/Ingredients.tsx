@@ -6,6 +6,7 @@ import { AutoCompleteInput } from '../Form/AutoCompleteGrocery';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
 import { IGrocery } from '../../helpers/types/IGrocery';
+import { ErrorMessage } from '../ErrorMessage';
 
 interface Props {
     next: () => void;
@@ -15,6 +16,7 @@ interface Props {
 
 export const Ingredients : React.FC<Props> = ({next, back}) => {
 
+    const [error, SetError] = React.useState('');
     const [ingredients, SetIngredients] = React.useState<any[]>([
         {
             id: `i-1`,
@@ -66,6 +68,17 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
         ]);
     }
 
+    // handle affecting unit to ingredient
+    const handleUnitForIngredient = (id: string, e: React.FormEvent<HTMLInputElement>) => {
+        const ingredientIndex = ingredients.findIndex(x => x.id === id);
+        const unit = e.currentTarget.value;
+        if(ingredientIndex === -1 || !unit) return;
+        ingredients[ingredientIndex].unit = unit;
+        SetIngredients([
+            ...ingredients
+        ]);
+    }
+
 
     // List Grocery 
     const [listGrocery, SetListGrocery] = React.useState<any []>();
@@ -84,13 +97,34 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
         
     }, []);
 
+
+    //handle ingredient array validatio
+    const handleIngredientsVaidation = () => {
+        for(let i = 0 ; i < ingredients.length; i++){
+            if(!ingredients[i].unit || !ingredients[i].grocery.label || !ingredients[i].grocery.value){
+                SetError('Some ingredients data are missing!');
+                console.log('not valid', ingredients[i]);
+                return;
+            }
+           
+        }
+        console.log('valid')
+        SetError('')
+        next()
+    }
+
     if(loading){
         return <>Loading</>
     }
 
     return (
-        <Box>
+        <Box mb={15}>
             <Heading mb={5} fontWeight='bold'>Add Ingredients</Heading>
+            {
+                error ? 
+                <ErrorMessage message={error} /> :
+                null
+            }
             {
                 ingredients.map((ing, key) => (
                     <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
@@ -99,7 +133,7 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
                             <CloseButton float='right' onClick={() => deleteIngredient(ing.id)} />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
-                            <Input type="text" variant='filled' w={{md: '27%', base: '100%'}} mr={4} placeholder='Unit' />  
+                            <Input type="text" variant='filled' w={{md: '27%', base: '100%'}} mr={4} placeholder='Unit' onChange={(e) => handleUnitForIngredient(ing.id, e)} />  
                             <Input type="text" variant='filled' readOnly={true} disabled={true} value={ing.grocery.label} w={{md: '60%', base: '100%'}} placeholder='Grocery' /> 
                             <AutoCompleteInput groceries={listGrocery as IGrocery[]} onChange={(i) => handleAddingGroceryToIngredient(ing.id, i)} />
                         </Box>
@@ -115,7 +149,7 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
             <Button  leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
                     Back
             </Button>
-            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline" onClick={() => next()} >
+            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline" onClick={() => handleIngredientsVaidation()} >
                     Next
             </Button>
         </Box>
