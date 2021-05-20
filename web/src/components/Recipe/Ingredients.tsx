@@ -9,7 +9,7 @@ import { IGrocery } from '../../helpers/types/IGrocery';
 import { ErrorMessage } from '../ErrorMessage';
 
 interface Props {
-    next: () => void;
+    next: (key: string, _data: any) => void;
     back: () => void;
 }
 
@@ -110,7 +110,7 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
         }
         console.log('valid')
         SetError('')
-        next()
+        next('ingredients', ingredients);
     }
 
     if(loading){
