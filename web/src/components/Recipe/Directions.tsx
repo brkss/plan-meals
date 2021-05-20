@@ -1,12 +1,19 @@
 import React from 'react';
 import { Heading, Box, CloseButton, Text, Button } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { InputFonted } from '../Form/InputFonted';
 import { Input } from '../Form/InputFonted';
+import { ErrorMessage } from '../ErrorMessage';
 
-export const Directions : React.FC = () => {
+interface Props {
+    next: (key: string, _data: any) => void ;
+    back: () => void ;
+}
 
-    const [indexKey, SetIndexKey] = React.useState(0)
+export const Directions : React.FC<Props> = ({next, back}) => {
+
+    const [error, SetError] = React.useState('');
+    const [indexKey, SetIndexKey] = React.useState(1)
     const [directions, SetDirection] = React.useState<any []>([
         {
             id: `d-${indexKey}`,
@@ -61,14 +68,34 @@ export const Directions : React.FC = () => {
         ])
     }
 
+    //handle recipe direction validation 
+    const handleRecipeDirectionValidation = () => {
+        for(let i = 0 ; i < directions.length; i++){
+            if(!directions[i].title){
+                SetError('Some direction data are missing!');
+                console.log('not valid', directions[i]);
+                return;
+            }
+           
+        }
+        console.log('valid')
+        SetError('')
+        next('directions', directions);
+    }
+
     return(
         <>
             <Heading>Add Directions To Your Recipe </Heading>
             {
+                error ? 
+                <ErrorMessage message={error} /> :
+                null
+            }
+            {
                 directions.map((direction, key) => (
                     <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
                         <Box d='block'>
-                            <Text fontWeight='bold' color='#676666' d='inline-block'>{direction.id}</Text>
+                            <Text fontWeight='bold' color='#676666' d='inline-block'>Direction {key + 1}</Text>
                             <CloseButton float='right' onClick={() => handleRemoveDirection(direction.id)}  />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
@@ -82,6 +109,12 @@ export const Directions : React.FC = () => {
             
             <Button  rightIcon={<AddIcon />} mt={7} w='full' fontSize={14} colorScheme="teal" variant="outline" onClick={() => handleAddingDirection()} >
                     ADD
+            </Button>
+            <Button  leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
+                    Back
+            </Button>
+            <Button  rightIcon={<ArrowForwardIcon />} mt={7} colorScheme="teal" variant="outline" onClick={() => handleRecipeDirectionValidation()} >
+                    Next
             </Button>
         </>
     );

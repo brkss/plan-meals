@@ -98,7 +98,7 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
     }, []);
 
 
-    //handle ingredient array validatio
+    //handle ingredient array validation
     const handleIngredientsVaidation = () => {
         for(let i = 0 ; i < ingredients.length; i++){
             if(!ingredients[i].unit || !ingredients[i].grocery.label || !ingredients[i].grocery.value){

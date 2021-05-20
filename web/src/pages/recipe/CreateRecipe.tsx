@@ -1,19 +1,15 @@
 import React from 'react';
 import { Box, Heading } from '@chakra-ui/react';
-import { InputFonted } from '../../components/Form/InputFonted';
-import { FormControl, FormLabel, Switch, Button } from '@chakra-ui/react';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { ErrorMessage } from '../../components/ErrorMessage';
 import { Ingredients } from '../../components/Recipe/Ingredients';
 import { RecipeBase } from '../../components/Recipe/Base';
 import { Directions } from '../../components/Recipe/Directions';
-
+import { Urls } from '../../components/Recipe/Urls';
 
 export const CreateRecipe : React.FC = () => {
 
-    const [step, SetStep] = React.useState(2);
+    const [step, SetStep] = React.useState(4);
     const [data, SetData] = React.useState<any>({});
-
+    const steps = 4;
 
 
     const handleNext = async (key: string, _data: any) => {
@@ -25,7 +21,7 @@ export const CreateRecipe : React.FC = () => {
            [key]: _data
        });
        
-       if(step < 2){
+       if(step < steps){
            SetStep(step+1);
        }
 
@@ -58,8 +54,14 @@ export const CreateRecipe : React.FC = () => {
 
                 {/* STEpP 3 - DIRECTIONS */}
                 <Box d={step !== 3 ? 'none' : 'block'}>
-                    <Directions />
+                    <Directions next={(key, _data) => handleNext(key, _data)} back={() => handleBack()} />
                 </Box>
+
+                {/* STEP 4 - URLS */}
+                <Box d={step !== 4 ? 'none' : 'block'}>
+                    <Urls next={(key, _data) => handleNext(key, _data)} back={() => handleBack()} />
+                </Box>
+                
                 
             </Box>
 
