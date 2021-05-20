@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box } from '@chakra-ui/react';
 
-interface Props {
+interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     type: string;
     placeholder: string; 
     id: string;
     onChange: (e: React.FormEvent) => void,
-    style?: React.CSSProperties | undefined
+    style?: React.CSSProperties | undefined,
 }
 
 export const InputFonted : React.FC<Props> = (props) => {
@@ -17,15 +17,15 @@ export const InputFonted : React.FC<Props> = (props) => {
         <Box mt={5}>
         {
             props.type === 'textarea' ? 
-            <TextArea placeholder={props.placeholder} rows={3} id={props.id} onChange={(e ) => props.onChange(e)} style={props.style} /> : 
-            <Input type={props.type} placeholder={props.placeholder} id={props.id} onChange={(e) => props.onChange(e)} style={props.style} />
+            <TextArea placeholder={props.placeholder} rows={3} id={props.id}  onChange={(e) => props.onChange(e)} style={props.style} /> : 
+            <Input type={props.type} placeholder={props.placeholder} id={props.id}  onChange={(e) => props.onChange(e)} style={props.style} />
         }
             
         </Box>
     );
 }
 
-const Input = styled.input`
+export const Input = styled.input`
     background: none;
     border: none;
     font-family: 'Playfair Display', serif;
@@ -34,7 +34,7 @@ const Input = styled.input`
     width: 100%;
 `;
 
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
     background: none;
     border: none;
     font-family: 'Playfair Display', serif;

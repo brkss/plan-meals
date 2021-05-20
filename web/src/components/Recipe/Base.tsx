@@ -37,7 +37,7 @@ export const RecipeBase : React.FC<Props> = ({next}) => {
                 <ErrorMessage message={error} /> : null
             }
             <form >
-                <InputFonted type='text' placeholder='Give Your Recipe A Title' id='title' onChange={(e) => handleRecipeInfo(e)} />
+                <InputFonted type='text' placeholder='Give Your Recipe A Title' id='title' onChange={(e) => handleRecipeInfo(e)}  />
                 <hr style={{marginTop: '12px'}} />
                 <InputFonted type='textarea' placeholder='Short Description ?' id='description' onChange={(e) => handleRecipeInfo(e)} />
                 <hr style={{marginTop: '12px'}} />

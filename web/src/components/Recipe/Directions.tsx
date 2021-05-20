@@ -2,7 +2,7 @@ import React from 'react';
 import { Heading, Box, CloseButton, Text, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { InputFonted } from '../Form/InputFonted';
-
+import { Input } from '../Form/InputFonted';
 
 export const Directions : React.FC = () => {
 
@@ -21,7 +21,7 @@ export const Directions : React.FC = () => {
         SetDirection([
             ...directions,
             {
-                id: `i-${indexKey + 1}`,
+                id: `d-${indexKey + 1}`,
                 title: '',
                 text: ''
             }
@@ -35,6 +35,7 @@ export const Directions : React.FC = () => {
         const directionIndex = directions.findIndex(x => x.id === id);
         if(directionIndex === -1) return;
         console.log('remove the item with this index => ', directionIndex);
+        console.log('directions : ', directions)
         directions.splice(directionIndex, 1);
         SetDirection([
             ...directions
@@ -46,10 +47,14 @@ export const Directions : React.FC = () => {
     const handleDirectionInformation = (e: React.FormEvent<any>, id: string) => {
         const directionIndex = directions.findIndex(x => x.id === id);
         if(directionIndex === -1) return;
-        directions[directionIndex] = {
-            ...directions[directionIndex],
-            [e.currentTarget.id]: e.currentTarget.value,
+        console.log('change this id => ', e.currentTarget.id);
+        if(`title-${id}` === e.currentTarget.id){
+            directions[directionIndex].title = e.currentTarget.value
         }
+        if(`text-${id}` === e.currentTarget.id){
+            directions[directionIndex].text = e.currentTarget.value
+        }
+        
         console.log('directions : ', directions);
         SetDirection([
             ...directions,
@@ -63,12 +68,12 @@ export const Directions : React.FC = () => {
                 directions.map((direction, key) => (
                     <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
                         <Box d='block'>
-                            <Text fontWeight='bold' color='#676666' d='inline-block'>{key + 1}</Text>
+                            <Text fontWeight='bold' color='#676666' d='inline-block'>{direction.id}</Text>
                             <CloseButton float='right' onClick={() => handleRemoveDirection(direction.id)}  />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
-                            <InputFonted type='text' placeholder='Exp. Cut the avocado' id='title' onChange={(e) => handleDirectionInformation(e, direction.id) } style={{fontSize: '20px'}} />
-                            <InputFonted type='textarea' placeholder='Exp. cut the avocado into small pieces...' id='text' onChange={(e) => handleDirectionInformation(e, direction.id) } style={{fontSize: '16px'}} />
+                            <Input type='text' placeholder='Exp. Cut the avocado' id={`title-${direction.id}`} value={direction.title}  onChange={(e) => handleDirectionInformation(e, direction.id) } style={{fontSize: '20px'}} />
+                            <InputFonted type='textarea' placeholder='Exp. cut the avocado into small pieces...' id={`text-${direction.id}`} onChange={(e) => handleDirectionInformation(e, direction.id) } style={{fontSize: '16px'}} />
                         </Box>
                     </Box>
 
