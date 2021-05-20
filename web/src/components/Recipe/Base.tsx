@@ -5,7 +5,11 @@ import { ErrorMessage } from '../ErrorMessage';
 import { InputFonted } from '../Form/InputFonted';
 
 
-export const RecipeBase : React.FC = () => {
+interface Props {
+    next: (key: string, _data: any) => void;
+}
+
+export const RecipeBase : React.FC<Props> = ({next}) => {
 
     const [error, SetError] = React.useState('');
     const [recipeInfo, SetRecipeInfo] = React.useState<any>();
@@ -16,6 +20,14 @@ export const RecipeBase : React.FC = () => {
             ...recipeInfo,
             [e.currentTarget.id]: e.currentTarget.value
         })
+    } 
+
+    const handleNext = () => {
+        if(!recipeInfo || !recipeInfo.title || !recipeInfo.tags){
+            SetError('Recipe Base Information Are Missing !');
+            return;
+        }
+        next("recipe", recipeInfo);
     } 
 
     return(
@@ -38,7 +50,7 @@ export const RecipeBase : React.FC = () => {
                     <Switch id="public-recipe" colorScheme='green' />
                 </FormControl>
                 <FormControl mt={6}>
-                    <Button  rightIcon={<ArrowForwardIcon />} onClick={() => {}} colorScheme="teal" variant="outline">
+                    <Button  rightIcon={<ArrowForwardIcon />} onClick={() => handleNext()} colorScheme="teal" variant="outline">
                         Next
                     </Button>
                 </FormControl>

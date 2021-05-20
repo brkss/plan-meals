@@ -16,17 +16,21 @@ export const CreateRecipe : React.FC = () => {
 
     
 
-    const handleNext = (key: string, _data: any) => {
+    const handleNext = async (key: string, _data: any) => {
        //check recipe info data validity 
+       console.log('key => ', key);
+       console.log('_data => ', _data);
        SetData({
            ...data,
            [key]: _data
        })
+       
+       await setTimeout(() => {
+
+       }, 1000);
+
        console.log('_data fron next => ', data);
-       /* if(!recipeInfo || !recipeInfo.title || !recipeInfo.tags){
-            SetError('Recipe Base Information Are Missing !');
-            return;
-       } */
+       
        
        if(step < 2){
            SetStep(step+1);
@@ -50,7 +54,7 @@ export const CreateRecipe : React.FC = () => {
                 
                 {/* STEP 1 - RECIPE BASE INFO */}
                 <Box d={step !== 1 ? 'none' : 'block'}>
-                <   RecipeBase />
+                    <RecipeBase next={(key, _data) => handleNext(key, _data) } />
                 </Box>
                 
 
