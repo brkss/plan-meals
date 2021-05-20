@@ -4,6 +4,9 @@ import { Ingredients } from '../../components/Recipe/Ingredients';
 import { RecipeBase } from '../../components/Recipe/Base';
 import { Directions } from '../../components/Recipe/Directions';
 import { Urls } from '../../components/Recipe/Urls';
+import axios from '../../config/axios';
+import { URLS } from '../../helpers/Constants';
+
 
 export const CreateRecipe : React.FC = () => {
 
@@ -22,7 +25,7 @@ export const CreateRecipe : React.FC = () => {
        if(step < steps){
            SetStep(step+1);
        }else {
-           handleCreateRecipe()
+           await handleCreateRecipe()
        }
        console.log('current data => ', data);
 
@@ -37,7 +40,7 @@ export const CreateRecipe : React.FC = () => {
     }
 
     // handle seting up data to create recipe  
-    const handleCreateRecipe = () => {
+    const handleCreateRecipe = async () => {
         console.log('create recipe and this is the data before mapping => ', data);
         // map ingredients 
         data.ingredients = data.ingredients.map((ing: any) => (
@@ -48,6 +51,10 @@ export const CreateRecipe : React.FC = () => {
             }
         ));
         console.log('create recipe and this is the data after mapping => ', data);
+        axios.post(URLS.recipe.create, data).then(res => {
+            console.log('resp => ', res)
+        });
+        //console.log('create recipe response => ', resp);
 
     }
 

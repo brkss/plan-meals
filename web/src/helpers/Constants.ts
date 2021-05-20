@@ -10,5 +10,8 @@ export const URLS = {
         categories: `${API_URL}/grocery/categories`,
         create: `${API_URL}/grocery/create`,
         list: `${API_URL}/grocery/list`
+    },
+    recipe: {
+        create: `${API_URL}/recipe/create`,
     }
 }

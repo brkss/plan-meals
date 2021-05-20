@@ -3,7 +3,6 @@ import { Heading, Box, CloseButton, Text, Button } from '@chakra-ui/react';
 import { Input } from '../Form/InputFonted';
 import { AddIcon, ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { ErrorMessage } from '../ErrorMessage';
-import { url } from 'inspector';
 
 
 interface Props {

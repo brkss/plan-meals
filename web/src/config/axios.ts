@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode';
 
     axios.defaults.withCredentials = true;
     axios.interceptors.request.use(async (config) => {
+        console.log('axios request')
         config.headers = { 
             'Authorization': `Bearer ${getAccessToken()}`,
             'Accept': 'application/json',
