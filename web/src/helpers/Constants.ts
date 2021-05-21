@@ -13,5 +13,6 @@ export const URLS = {
     },
     recipe: {
         create: `${API_URL}/recipe/create`,
+        list: `${API_URL}/recipe/list`,
     }
 }
