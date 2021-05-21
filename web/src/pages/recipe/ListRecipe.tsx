@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Heading, Grid, GridItem, Text, Button } from '@chakra-ui/react';
+import { Box, Heading, Grid, GridItem, Text, Button, Center } from '@chakra-ui/react';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { AddIcon } from '@chakra-ui/icons';
+import { RouteComponentProps } from 'react-router';
 
 
-export const ListRecipe : React.FC = () => {
+export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
 
 
     const [loading, SetLoading] = React.useState<boolean>(false);
@@ -36,36 +38,22 @@ export const ListRecipe : React.FC = () => {
                 {
                     recipes?.map((recipe, key) => (
                         <GridItem key={key} colSpan={{md: 1, base: 3}}  >
-                            <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6}>
+                            <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
+                                history.push(`/dash/recipe/info/${recipe.id}`)
+                            }}>
                                     <Text fontSize={20} fontWeight='bold'>{recipe.title}</Text>
                                     <Text fontSize={12} opacity={.8}>{recipe.description}</Text>
                             </Box>    
                         </GridItem>
                     ))
                 }
+                
                 <GridItem colSpan={{md: 1, base: 3}}  >
-                    <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6}>
-                            <Text fontSize={20} fontWeight='bold'>Recipe Title</Text>
-                            <Text fontSize={12} opacity={.8}>short description</Text>
-                    </Box>    
-                </GridItem>
-                <GridItem colSpan={{md: 1, base: 3}}  >
-                    <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6}>
-                            <Text fontSize={20} fontWeight='bold'>Recipe Title</Text>
-                            <Text fontSize={12} opacity={.8}>short description</Text>
-                    </Box>    
-                </GridItem>
-                <GridItem colSpan={{md: 1, base: 3}}  >
-                    <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6}>
-                            <Text fontSize={20} fontWeight='bold'>Recipe Title</Text>
-                            <Text fontSize={12} opacity={.8}>short description</Text>
-                    </Box>    
-                </GridItem>
-                <GridItem colSpan={{md: 1, base: 3}}  >
-                    <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6}>
-                            <Text fontSize={20} fontWeight='bold'>Recipe Title</Text>
-                            <Text fontSize={12} opacity={.8}>short description</Text>
-                    </Box>    
+                    <Center p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
+                        history.push(`/dash/recipe/create`)
+                    }}>
+                            <Text fontSize={20} fontWeight='bold'><AddIcon /></Text>
+                    </Center>    
                 </GridItem>
 
             

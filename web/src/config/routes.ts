@@ -9,6 +9,7 @@ import { Grocery } from "../pages/grocery/Grocery";
 import { ListGrocery } from "../pages/grocery/ListGrocery";
 import { HomePage } from '../pages/Home'
 import { CreateRecipe } from "../pages/recipe/CreateRecipe";
+import { InfoRecipe } from "../pages/recipe/InfoRecipe";
 import { ListRecipe } from "../pages/recipe/ListRecipe";
 import { Recipe } from "../pages/recipe/Recipe";
 import { Settings } from "../pages/settings/Settings";
@@ -107,6 +108,13 @@ export const admin_routes : IRoute[] = [
                 component: ListRecipe,
                 exact: true,
                 protected: true,
+            },
+            {
+                name: 'Recipe Info',
+                path: '/dash/recipe/info/:id',
+                component: InfoRecipe,
+                exact: true,
+                protected: true
             }
         ]
     },
