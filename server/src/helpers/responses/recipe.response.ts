@@ -2,7 +2,7 @@
 
 export interface CreateRecipeResponse {
 
-    ok: boolean
+    status: boolean
     message: string;
 
 }

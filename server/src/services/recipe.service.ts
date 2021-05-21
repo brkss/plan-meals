@@ -15,16 +15,17 @@ export class RecipeService {
 
     public async createRecipe(input: CreateRecipeInput ) : Promise<CreateRecipeResponse>{
 
-        if(!input || !input.directions || !input.ingredients || !input.urls){
+        console.log('recipe input => ', input);
+        if(!input || !input.directions || !input.ingredients || !input.urls || !input.recipe){
             return {
-                ok: false ,
+                status: false ,
                 message: 'invalid data'
             }
         }
         const user = await User.findOne({where: {id: httpContext.get('userId')}});
         if(!user){
             return {
-                ok: false,
+                status: false,
                 message: 'user not found'
             }
         }
@@ -68,19 +69,40 @@ export class RecipeService {
             });
 
             return {
-                ok: true,
+                status: true,
                 message: 'Reicipe Added Successfuly'
             }
 
         }catch(e){
             console.log('creating recipe error => ', e);
             return {
-                ok: false,
+                status: false,
                 message: 'Error accured while creating recipe, please check your data and try againg'
             }
         }
         
         
+    }
+
+
+    // get recipes 
+    public async recipes(){
+
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                message: 'user not found!'
+            }
+        }
+
+        const recipes = await Recipe.find({
+            where: {user : user}
+        });
+        return {
+            status: true, 
+            data: recipes
+        }
     }
 
 }

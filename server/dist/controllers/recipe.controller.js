@@ -30,9 +30,16 @@ class RecipeController {
             return res.send(resp).json();
         });
     }
+    recipes(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const resp = yield this.service.recipes();
+            res.send(resp).json();
+        });
+    }
     routing() {
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.recipes(res));
     }
 }
 exports.RecipeController = RecipeController;

@@ -39,16 +39,17 @@ const httpContext = __importStar(require("express-http-context"));
 class RecipeService {
     createRecipe(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!input || !input.directions || !input.ingredients || !input.urls) {
+            console.log('recipe input => ', input);
+            if (!input || !input.directions || !input.ingredients || !input.urls || !input.recipe) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'invalid data'
                 };
             }
             const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
             if (!user) {
                 return {
-                    ok: false,
+                    status: false,
                     message: 'user not found'
                 };
             }
@@ -86,17 +87,35 @@ class RecipeService {
                     });
                 }));
                 return {
-                    ok: true,
+                    status: true,
                     message: 'Reicipe Added Successfuly'
                 };
             }
             catch (e) {
                 console.log('creating recipe error => ', e);
                 return {
-                    ok: false,
+                    status: false,
                     message: 'Error accured while creating recipe, please check your data and try againg'
                 };
             }
+        });
+    }
+    recipes() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found!'
+                };
+            }
+            const recipes = yield Recipe_1.Recipe.find({
+                where: { user: user }
+            });
+            return {
+                status: true,
+                data: recipes
+            };
         });
     }
 }
