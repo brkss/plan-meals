@@ -37,6 +37,5 @@ import jwtDecode from 'jwt-decode';
         return config;
     });
 
-//axios.defaults.headers = {"Authorization": `bearer ${getAccessToken()}` }
 
 export default axios;

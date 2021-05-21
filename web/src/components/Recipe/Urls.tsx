@@ -6,11 +6,12 @@ import { ErrorMessage } from '../ErrorMessage';
 
 
 interface Props {
+    loading: boolean,
     next: (key: string, _data: any) => void,
     back: () => void,
 }
 
-export const Urls : React.FC<Props> = ({next, back}) => {
+export const Urls : React.FC<Props> = ({next, back, loading}) => {
 
     const [error, SetError] = React.useState('');
     const [indexKey, SetIndexKey] = React.useState(1);
@@ -69,7 +70,7 @@ export const Urls : React.FC<Props> = ({next, back}) => {
 
     return(
         <>
-            <Heading>Videos/Blog Urls? </Heading>
+            <Heading>Urls? </Heading>
             {
                 error ? 
                     <ErrorMessage message={error} /> :
@@ -80,10 +81,10 @@ export const Urls : React.FC<Props> = ({next, back}) => {
                     <Box key={key} w='full' bg='white' border='1px solid #f5f5f5' p={5} rounded={6} mt={7}>
                         <Box d='block'>
                             <Text fontWeight='bold' color='#676666' d='inline-block'>URl {key + 1}</Text>
-                            <CloseButton float='right' onClick={() => handleRemoveUrl(url.id)} />
+                            <CloseButton disabled={loading} float='right' onClick={() => handleRemoveUrl(url.id)} />
                         </Box>
                         <Box w='full' d='block' mt='5px'>
-                            <Input type='text' placeholder='Past your link here' id={`title-${url.id}`} value={url.link} style={{fontSize: '20px'}} onChange={(e) => handleURlEntryData(e, url.id)} />
+                            <Input type='text' disabled={loading} placeholder='Past your link here' id={`title-${url.id}`} value={url.link} style={{fontSize: '20px'}} onChange={(e) => handleURlEntryData(e, url.id)} />
                             {/* <Input type='text' placeholder='link?' id={`link-${url.id}`} style={{fontSize: '20px'}} /> */}
                             
                         </Box>
@@ -92,13 +93,13 @@ export const Urls : React.FC<Props> = ({next, back}) => {
                 ))
             }
             
-            <Button  rightIcon={<AddIcon />} mt={7} w='full' onClick={() => handleAddingUrl()} fontSize={14} colorScheme="teal" variant="outline" >
+            <Button  disabled={loading} rightIcon={<AddIcon />} mt={7} w='full' onClick={() => handleAddingUrl()} fontSize={14} colorScheme="teal" variant="outline" >
                     ADD
             </Button>
-            <Button  leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
+            <Button disabled={loading} leftIcon={<ArrowBackIcon />} mt={7} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
                     Back
             </Button>
-            <Button  rightIcon={<AddIcon />} mt={7} colorScheme="teal" variant="outline"  onClick={() => handleUrlDataValidation()}>
+            <Button disabled={loading} loadingText='Creating..' isLoading={loading} rightIcon={<AddIcon />} mt={7} colorScheme="teal" variant="outline"  onClick={() => handleUrlDataValidation()}>
                     Create
             </Button>
         </>

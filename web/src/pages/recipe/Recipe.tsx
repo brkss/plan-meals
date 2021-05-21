@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import { GruardRoute } from '../../components/GuardRoute';
+import { ModuleNavigation } from '../../components/ModuleNavigation';
 import { IRoute } from '../../helpers/types/IRoute';
 
 interface Props {
@@ -9,9 +10,21 @@ interface Props {
 
 export const Recipe : React.FC<Props> = ({childrens}) => {
 
+    const links = [
+        {
+            name: 'Create Recipes',
+            link: '/dash/recipe/create',
+        },
+        {
+            name: 'My Recipes',
+            link: '/dash/recipe/list'
+        }
+        
+    ];
 
     return(
         <>
+             <ModuleNavigation links={links} />
             {
                 childrens?.map((route, key) => (
                     route.protected ? 

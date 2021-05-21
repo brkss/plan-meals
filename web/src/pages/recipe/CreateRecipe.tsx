@@ -6,29 +6,40 @@ import { Directions } from '../../components/Recipe/Directions';
 import { Urls } from '../../components/Recipe/Urls';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { ErrorMessage } from '../../components/ErrorMessage';
+import { RouteComponentProps } from 'react-router';
 
 
-export const CreateRecipe : React.FC = () => {
+export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
 
+    const [loading, SetLoading] = React.useState(false);
+    const [error, SetError] = React.useState('');
     const [step, SetStep] = React.useState(1);
     const [data, SetData] = React.useState<any>({});
     const steps = 4;
 
+   
 
     //handle next action 
     const handleNext = async (key: string, _data: any) => {
-       SetData({
-           ...data,
-           [key]: _data
-       });
-       
+
+        SetData({
+            ...data,
+            [key]: _data
+        });    
+               
        if(step < steps){
            SetStep(step+1);
-       }else {
-           await handleCreateRecipe()
+       }else if(step === steps){
+           let data_ = data;
+           data_ = {
+               ...data_,
+               [key]: _data
+           } 
+           console.log('data_ => ', data_);
+           await handleCreateRecipe(data_);
        }
-       console.log('current data => ', data);
-
+    
     }
 
     // handle back action
@@ -40,21 +51,26 @@ export const CreateRecipe : React.FC = () => {
     }
 
     // handle seting up data to create recipe  
-    const handleCreateRecipe = async () => {
-        console.log('create recipe and this is the data before mapping => ', data);
-        // map ingredients 
-        data.ingredients = data.ingredients.map((ing: any) => (
+    const handleCreateRecipe = async (_data: any) => {
+
+        _data.ingredients = _data.ingredients.map((ing: any) => (
             {
                 measurement: ing.unit,
                 grocery_id: ing.grocery.value,
                 calories: 0
             }
         ));
-        console.log('create recipe and this is the data after mapping => ', data);
-        axios.post(URLS.recipe.create, data).then(res => {
+        
+        SetLoading(true)
+        axios.post(URLS.recipe.create, _data).then(res => {
+            SetLoading(false)
+            if(res.data.status === false){
+                SetError(error);
+            }else if(res.data.status === true) {
+                history.push('/dash/grocery/list')
+            }
             console.log('resp => ', res)
         });
-        //console.log('create recipe response => ', resp);
 
     }
 
@@ -65,6 +81,11 @@ export const CreateRecipe : React.FC = () => {
             <Box w={{md: '40%', base: '100%'}} m='auto'  >
                 <Heading></Heading>
                 
+                {
+                    error ? 
+                    <ErrorMessage message={error} /> : null
+                }
+
                 {/* STEP 1 - RECIPE BASE INFO */}
                 <Box d={step !== 1 ? 'none' : 'block'}>
                     <RecipeBase next={(key, _data) => handleNext(key, _data) } />
@@ -83,9 +104,10 @@ export const CreateRecipe : React.FC = () => {
 
                 {/* STEP 4 - URLS */}
                 <Box d={step !== 4 ? 'none' : 'block'}>
-                    <Urls next={(key, _data) => handleNext(key, _data)} back={() => handleBack()} />
+                    <Urls next={(key, _data) => handleNext(key, _data)} back={() => handleBack()} loading={loading} />
                 </Box>
-                
+
+                 
                 
             </Box>
 
