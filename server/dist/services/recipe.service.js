@@ -118,6 +118,31 @@ class RecipeService {
             };
         });
     }
+    recipeInfo(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found!'
+                };
+            }
+            const recipe = yield Recipe_1.Recipe.find({
+                where: { id: id, user: user },
+                relations: ['ingredients', 'directions', 'urls', 'ingredients.grocery']
+            });
+            if (!recipe) {
+                return {
+                    status: false,
+                    message: 'Recipe not found'
+                };
+            }
+            return {
+                status: true,
+                data: recipe
+            };
+        });
+    }
 }
 exports.RecipeService = RecipeService;
 //# sourceMappingURL=recipe.service.js.map

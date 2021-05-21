@@ -31,9 +31,16 @@ export class RecipeController {
         res.send(resp).json();
     }
 
+    public async recipeInfo(req: Request, res: Response){
+        const id = req.body.recipe_id;
+        const resp = await this.service.recipeInfo(id);
+        res.send(resp).json();
+    }
+
     public routing(){
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create',  (req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/list', (req, res, next) => isAuth(req, res, next), (_, res) => this.recipes(res));
+        this.router.post('/info', (req, res, next) => isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
     }
 }

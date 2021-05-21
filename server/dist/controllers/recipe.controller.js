@@ -36,10 +36,18 @@ class RecipeController {
             res.send(resp).json();
         });
     }
+    recipeInfo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.body.recipe_id;
+            const resp = yield this.service.recipeInfo(id);
+            res.send(resp).json();
+        });
+    }
     routing() {
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.recipes(res));
+        this.router.post('/info', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
     }
 }
 exports.RecipeController = RecipeController;

@@ -105,4 +105,29 @@ export class RecipeService {
         }
     }
 
+    // get recipe info
+    public async recipeInfo(id: number){
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                message: 'user not found!'
+            }
+        }
+        const recipe = await Recipe.find({
+            where: {id: id, user: user},
+            relations: ['ingredients', 'directions', 'urls', 'ingredients.grocery']
+        }) ;
+        if(!recipe){
+            return {
+                status: false,
+                message: 'Recipe not found'
+            }
+        }
+        return {
+            status: true,
+            data: recipe
+        }
+    }
+
 }
