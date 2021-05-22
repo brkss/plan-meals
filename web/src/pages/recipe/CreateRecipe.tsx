@@ -8,29 +8,33 @@ import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { RouteComponentProps } from 'react-router';
+import { Starter } from '../../components/Recipe/Starter';
 
 
 export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
 
     const [loading, SetLoading] = React.useState(false);
     const [error, SetError] = React.useState('');
-    const [step, SetStep] = React.useState(1);
+    const [step, SetStep] = React.useState(0);
     const [data, SetData] = React.useState<any>({});
     const steps = 4;
 
    
 
     //handle next action 
-    const handleNext = async (key: string, _data: any) => {
+    const handleNext = async (key?: string, _data?: any) => {
 
-        SetData({
-            ...data,
-            [key]: _data
-        });    
+        if(key && _data){
+            SetData({
+                ...data,
+                [key]: _data
+            }); 
+        }
+           
                
        if(step < steps){
            SetStep(step+1);
-       }else if(step === steps){
+       }else if(step === steps && (key && _data)){
            let data_ = data;
            data_ = {
                ...data_,
@@ -45,7 +49,7 @@ export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
     // handle back action
     const handleBack = () => {
         console.log('back')
-        if(step > 1){
+        if(step > 0){
             SetStep(step-1);
         }
     }
@@ -86,9 +90,14 @@ export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
                     <ErrorMessage message={error} /> : null
                 }
 
+                {/* STEP 0 - CHOOSE MODE URL OR MANUEL */}
+                <Box d={step !== 0 ? 'none' : 'block'}>
+                    <Starter next={() => handleNext()} />
+                </Box>
+
                 {/* STEP 1 - RECIPE BASE INFO */}
                 <Box d={step !== 1 ? 'none' : 'block'}>
-                    <RecipeBase next={(key, _data) => handleNext(key, _data) } />
+                    <RecipeBase next={(key, _data) => handleNext(key, _data)} back={() => handleBack()} />
                 </Box>
                 
 
@@ -108,7 +117,6 @@ export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
                 </Box>
 
                  
-                
             </Box>
 
            

@@ -8,6 +8,7 @@ interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLIn
     id: string;
     onChange: (e: React.FormEvent) => void,
     style?: React.CSSProperties | undefined,
+    disabled?: boolean 
 }
 
 export const InputFonted : React.FC<Props> = (props) => {
@@ -17,8 +18,8 @@ export const InputFonted : React.FC<Props> = (props) => {
         <Box mt={5}>
         {
             props.type === 'textarea' ? 
-            <TextArea placeholder={props.placeholder} rows={3} id={props.id}  onChange={(e) => props.onChange(e)} style={props.style} /> : 
-            <Input type={props.type} placeholder={props.placeholder} id={props.id}  onChange={(e) => props.onChange(e)} style={props.style} />
+            <TextArea placeholder={props.placeholder} rows={3} id={props.id} disabled={props.disabled}  onChange={(e) => props.onChange(e)} style={props.style} /> : 
+            <Input type={props.type} placeholder={props.placeholder} id={props.id} disabled={props.disabled} onChange={(e) => props.onChange(e)} style={props.style} />
         }
             
         </Box>

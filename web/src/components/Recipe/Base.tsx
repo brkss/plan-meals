@@ -1,4 +1,4 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { FormControl, FormLabel, Button, Switch, CheckboxProps } from '@chakra-ui/react';
 import React from 'react';
 import { ErrorMessage } from '../ErrorMessage';
@@ -7,9 +7,10 @@ import { InputFonted } from '../Form/InputFonted';
 
 interface Props {
     next: (key: string, _data: any) => void;
+    back: () => void;
 }
 
-export const RecipeBase : React.FC<Props> = ({next}) => {
+export const RecipeBase : React.FC<Props> = ({next, back}) => {
 
     const [error, SetError] = React.useState('');
     const [recipeInfo, SetRecipeInfo] = React.useState<any>({
@@ -60,6 +61,9 @@ export const RecipeBase : React.FC<Props> = ({next}) => {
                     <Switch id="public-recipe" colorScheme='green' onChange={(e) => handleRecipeVisibility(e)} />
                 </FormControl>
                 <FormControl mt={6}>
+                    <Button  leftIcon={<ArrowBackIcon />} mr={4} colorScheme="teal" variant="outline" onClick={() => back()}>
+                            Back
+                    </Button>
                     <Button  rightIcon={<ArrowForwardIcon />} onClick={() => handleNext()} colorScheme="teal" variant="outline">
                         Next
                     </Button>
