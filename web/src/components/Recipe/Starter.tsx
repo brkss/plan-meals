@@ -5,6 +5,8 @@ import { ErrorMessage } from '../ErrorMessage';
 import { InputFonted } from '../Form/InputFonted';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { useHistory } from 'react-router';
+
 
 interface Props {
     next: () => void;
@@ -12,6 +14,7 @@ interface Props {
 
 export const Starter : React.FC<Props> = ({next}) => {
 
+    const history = useHistory();
     const [error, SetError] = React.useState('');
     const [url, SetUrl] = React.useState('');
     const [loading, SetLoading] = React.useState(false);
@@ -29,6 +32,12 @@ export const Starter : React.FC<Props> = ({next}) => {
         const resp = await axios.post(URLS.recipe.createFromUrl, {url: url})
         console.log('create from url; response => ', resp);
         SetLoading(false);
+        const _data = resp.data;
+        if(_data.status === false){
+            SetError(_data.message)
+        }else {
+            history.push('/dash/recipe/list')
+        }
 
     }
     

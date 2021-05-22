@@ -38,7 +38,7 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                 {
                     recipes?.map((recipe, key) => (
                         <GridItem key={key} colSpan={{md: 1, base: 3}}  >
-                            <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
+                            <Box  p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
                                 history.push(`/dash/recipe/info/${recipe.id}`)
                             }}>
                                     <Text fontSize={20} fontWeight='bold'>{recipe.title}</Text>

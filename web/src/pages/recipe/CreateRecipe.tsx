@@ -71,7 +71,7 @@ export const CreateRecipe : React.FC<RouteComponentProps> = ({history}) => {
             if(res.data.status === false){
                 SetError(error);
             }else if(res.data.status === true) {
-                history.push('/dash/grocery/list')
+                history.push('/dash/recipe/list')
             }
             console.log('resp => ', res)
         });

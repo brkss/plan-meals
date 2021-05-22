@@ -1,9 +1,10 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router';
-import {Box, Heading, Text, Grid, GridItem } from '@chakra-ui/react';
+import {Box, Heading, Text, Grid, GridItem, Accordion, AccordionItem, AccordionButton, AccordionPanel } from '@chakra-ui/react';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { MinusIcon, AddIcon } from '@chakra-ui/icons';
 
 export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}) => {
 
@@ -15,7 +16,6 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
     React.useEffect(() => {
         SetLoading(true);
         axios.post(URLS.recipe.info, {recipe_id: match.params.id}).then(resp => {
-            SetLoading(false);
             const _data = resp.data;
             if(_data.status === false){
                 if(_data.message.includes('not found')) history.push('/dash/recipe/list');
@@ -23,38 +23,105 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
                 return;
             }else if(_data.status === true){
                 SetRecipe(_data.data[0]);
+                SetLoading(false);
+                console.log('recipe => ', recipe);
             }
             console.log('response => ', _data);
+            
         });
     }, []);
 
     if(loading || !recipe) return <>Loading</>
     if(error) return <Box mt={7}> <ErrorMessage message={error} w={{md: '40%', base: '100%'}} /> </Box>
 
+    console.log('recipe 999 => ', recipe);
     return(
-        <Box mt={7} w={{md: '50%', base: '100%'}} m='auto'>
-            <Heading> {recipe.title} </Heading>
-            <Text opacity={.8}>
-                {recipe.description}
+        <Box w={{md: '50%', base: '100%'}} m='auto' pt={10}>
+            <Heading> {recipe?.title} </Heading>
+            <Text opacity={.8} mt={5}>
+                {recipe?.description}
             </Text>
 
-            <Box bg='blue.50' rounded={6} padding={4} mt={5}>
-                <Heading fontSize='20px'> Ingredients </Heading>
-                <Grid templateColumns="repeat(3, 1fr)" gap={0}>
-                    {
-                        recipe.ingredients.map((ing: any, key: any) => (
-                            <GridItem colSpan={{md: 1, base: 3}}  >
-                                <Text p={3} mt={4} mr={3} bg='blue.100' rounded={6}>
-                                    <Text fontWeight='bold'>{ing.measurement}</Text>
-                                    <Text>{ing.grocery.title}</Text>
-                                </Text>
-                            </GridItem>
-                        )) 
-                    }
+            <Box mt={7}>
+                <Accordion allowMultiple>
+                    <AccordionItem border='1px solid #b1afaf' mt={5}>
+                        {({ isExpanded }) => (
+                        <>
+                            <h2>
+                            <AccordionButton>
+                                <Box flex="1" textAlign="left" fontWeight='bold'>
+                                    Ingredients
+                                </Box>
+                                {isExpanded ? (
+                                <MinusIcon fontSize="12px" />
+                                ) : (
+                                <AddIcon fontSize="12px" />
+                                )}
+                            </AccordionButton>
+                            </h2>
+                            <AccordionPanel pb={4}>
+                                <Grid templateColumns="repeat(2, 1fr)" gap={0} >
+                                    {
+                                        recipe.ingredients?.map((ing: any, key: any) => (
+                                            <GridItem colSpan={{md: 6, base: 2}} key={key}  >
+                                                <Text p={3} mt={4} mr={3} bg='gray.100' rounded={6}>
+                                                    {
+                                                        ing.grocery ? 
+                                                        <>
+                                                            <Text fontWeight='bold'>{ing?.measurement}</Text>
+                                                            <Text>{ing?.grocery.title}</Text>
+                                                        </> : <Text fontWeight='bold'>{ing.name}</Text>
 
-                    
-                </Grid>
+                                                    }
+                                                
+                                                </Text>
+                                            </GridItem>
+                                        )) 
+                                    }
+
+                                    
+                                </Grid>
+                            </AccordionPanel>
+                        </>
+                        )}
+                    </AccordionItem>
+                    <AccordionItem border='1px solid #b1afaf' mt={5}>
+                        {({ isExpanded }) => (
+                        <>
+                            <h2>
+                            <AccordionButton>
+                                <Box flex="1" textAlign="left" fontWeight='bold'>
+                                    Instructions
+                                </Box>
+                                {isExpanded ? (
+                                <MinusIcon fontSize="12px" />
+                                ) : (
+                                <AddIcon fontSize="12px" />
+                                )}
+                            </AccordionButton>
+                            </h2>
+                            <AccordionPanel pb={4}>
+                                <Grid templateColumns="repeat(2, 1fr)" gap={0} >
+                                    {
+                                        recipe.directions?.map((dir: any, key: any) => (
+                                            <GridItem key={key} colSpan={{md: 6, base: 2}}  >
+                                                <Text p={3} mt={4} mr={3} bg='gray.100' rounded={6}>
+                                                    <Text fontWeight='bold'>{dir.text}</Text>                                                
+                                                </Text>
+                                            </GridItem>
+                                        )) 
+                                    }
+
+                                    
+                                </Grid>
+                            </AccordionPanel>
+                        </>
+                        )}
+                    </AccordionItem>
+                </Accordion>
             </Box>
+
+            
 
         </Box>
     );

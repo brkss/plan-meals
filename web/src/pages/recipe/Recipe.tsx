@@ -3,6 +3,7 @@ import { Route, RouteComponentProps } from 'react-router-dom';
 import { GruardRoute } from '../../components/GuardRoute';
 import { ModuleNavigation } from '../../components/ModuleNavigation';
 import { IRoute } from '../../helpers/types/IRoute';
+import { Box } from '@chakra-ui/react';
 
 interface Props {
     childrens?: IRoute[]
@@ -23,7 +24,7 @@ export const Recipe : React.FC<Props> = ({childrens}) => {
     ];
 
     return(
-        <>
+        <Box mt={10} mb={10}>
              <ModuleNavigation links={links} />
             {
                 childrens?.map((route, key) => (
@@ -34,6 +35,6 @@ export const Recipe : React.FC<Props> = ({childrens}) => {
                     )} />
                 ))
             }
-        </>
+        </Box>
     );
 }
