@@ -12,13 +12,16 @@ export class Ingredient extends BaseEntity {
     @Column()
     measurement: string;
 
-    @Column()
+    @Column({nullable: true})
+    name?: string;
+
+    @Column({default: 0})
     calories: number;
 
     @ManyToOne(_ => Recipe, recipe => recipe.ingredients, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     recipe: Recipe;
     
-    @ManyToOne(_ => Grocery, grocery => grocery.ingredients, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    grocery: Grocery;
+    @ManyToOne(_ => Grocery, grocery => grocery.ingredients, {onDelete: 'CASCADE', onUpdate: 'CASCADE', nullable: true})
+    grocery?: Grocery;
 
 }

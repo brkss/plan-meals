@@ -26,6 +26,14 @@ export class RecipeController {
         return res.send(resp).json();
     }
 
+    public async createFromUrl(req: Request, res: Response){
+        let url = req.body.url;
+        console.log('url => ', url);
+        const resp = await this.service.createRecipeByUrl(url);
+        console.log('create from url response => ', resp);
+        return res.send(resp).json();
+    }
+
     public async recipes(res: Response){
         const resp = await this.service.recipes();
         res.send(resp).json();
@@ -40,6 +48,7 @@ export class RecipeController {
     public routing(){
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create',  (req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/create-from-url', (req, res) => this.createFromUrl(req, res));
         this.router.post('/list', (req, res, next) => isAuth(req, res, next), (_, res) => this.recipes(res));
         this.router.post('/info', (req, res, next) => isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
     }

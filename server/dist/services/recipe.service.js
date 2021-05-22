@@ -36,6 +36,7 @@ const Direction_1 = require("../entity/Direction");
 const Ingredient_1 = require("../entity/Ingredient");
 const Grocery_1 = require("../entity/Grocery");
 const httpContext = __importStar(require("express-http-context"));
+const recipeScraper = require("recipe-scraper");
 class RecipeService {
     createRecipe(input) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -141,6 +142,62 @@ class RecipeService {
                 status: true,
                 data: recipe
             };
+        });
+    }
+    createRecipeByUrl(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const recipe_input = yield recipeScraper(url);
+            console.log('recipe => ', recipe_input);
+            if (!recipe_input) {
+                return {
+                    status: false,
+                    message: 'undefiend recipe!'
+                };
+            }
+            const user = yield User_1.User.findOne({ where: { id: 4 } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found'
+                };
+            }
+            try {
+                const recipe_id = yield Recipe_1.Recipe.insert({
+                    title: recipe_input.name,
+                    description: recipe_input.description || 'no description provided',
+                    tags: recipe_input.tags.join('|'),
+                    public: false,
+                    user: user
+                }).then(res => {
+                    return res.identifiers[0].id;
+                });
+                const recipe = yield Recipe_1.Recipe.findOne({ where: { id: recipe_id } });
+                recipe_input.instructions.forEach((direction) => __awaiter(this, void 0, void 0, function* () {
+                    yield Direction_1.Direction.insert({
+                        text: direction,
+                        title: "default",
+                        recipe: recipe
+                    });
+                }));
+                recipe_input.ingredients.forEach((ingredient) => __awaiter(this, void 0, void 0, function* () {
+                    yield Ingredient_1.Ingredient.insert({
+                        measurement: 'none',
+                        recipe: recipe,
+                        name: ingredient
+                    });
+                }));
+                return {
+                    status: true,
+                    message: 'Reicipe Added Successfuly'
+                };
+            }
+            catch (e) {
+                console.log('creating recipe error => ', e);
+                return {
+                    status: false,
+                    message: 'Error accured while creating recipe, please check your data and try againg'
+                };
+            }
         });
     }
 }

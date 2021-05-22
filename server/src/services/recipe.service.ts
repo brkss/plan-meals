@@ -7,8 +7,7 @@ import { Direction } from "../entity/Direction";
 import { Ingredient } from "../entity/Ingredient";
 import { Grocery } from "../entity/Grocery";
 import * as httpContext from 'express-http-context';
-
-
+const recipeScraper = require("recipe-scraper");
 
 export class RecipeService {
 
@@ -128,6 +127,73 @@ export class RecipeService {
             status: true,
             data: recipe
         }
+    }
+
+    // create recipe using url
+    public async createRecipeByUrl(url: string) {
+        
+        const recipe_input = await recipeScraper(url);
+        
+        // do something with recipe
+        console.log('recipe => ', recipe_input);
+        if(!recipe_input){
+            return {
+                status: false,
+                message: 'undefiend recipe!'
+            }
+        }
+        const user = await User.findOne({where: {id: 4}});
+        if(!user){
+            return {
+                status: false,
+                message: 'user not found'
+            }
+        }
+        try{
+            
+            // insert recipe
+            const recipe_id = await Recipe.insert({
+                title: recipe_input.name,
+                description: recipe_input.description || 'no description provided',
+                tags: recipe_input.tags.join('|'),
+                public: false,
+                user: user
+            }).then(res => {
+                return res.identifiers[0].id
+            });
+                const recipe = await Recipe.findOne({where: {id: recipe_id}});
+                // insert directions
+                recipe_input.instructions.forEach(async (direction: any) => {
+                    await Direction.insert({
+                        text: direction,
+                        title: "default",
+                        recipe: recipe
+                    })
+                });
+                //insert ingredients 
+                recipe_input.ingredients.forEach(async (ingredient: any) => {
+                    await Ingredient.insert({
+                        measurement: 'none',
+                        recipe: recipe,
+                        name: ingredient
+                    })
+                });
+
+                return {
+                    status: true,
+                    message: 'Reicipe Added Successfuly'
+                }
+
+            }catch(e){
+                console.log('creating recipe error => ', e);
+                return {
+                    status: false,
+                    message: 'Error accured while creating recipe, please check your data and try againg'
+                }
+            }
+              
+        
+
     }
 
 }

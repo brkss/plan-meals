@@ -24,7 +24,11 @@ __decorate([
     __metadata("design:type", String)
 ], Ingredient.prototype, "measurement", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], Ingredient.prototype, "name", void 0);
+__decorate([
+    typeorm_1.Column({ default: 0 }),
     __metadata("design:type", Number)
 ], Ingredient.prototype, "calories", void 0);
 __decorate([
@@ -32,7 +36,7 @@ __decorate([
     __metadata("design:type", Recipe_1.Recipe)
 ], Ingredient.prototype, "recipe", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_ => Grocery_1.Grocery, grocery => grocery.ingredients, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.ManyToOne(_ => Grocery_1.Grocery, grocery => grocery.ingredients, { onDelete: 'CASCADE', onUpdate: 'CASCADE', nullable: true }),
     __metadata("design:type", Grocery_1.Grocery)
 ], Ingredient.prototype, "grocery", void 0);
 Ingredient = __decorate([
