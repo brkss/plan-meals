@@ -43,7 +43,7 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
             </Text>
 
             <Box mt={7}>
-                <Accordion allowMultiple>
+                <Accordion allowMultiple defaultIndex={[0]}>
                     <AccordionItem border='1px solid #b1afaf' mt={5}>
                         {({ isExpanded }) => (
                         <>
