@@ -151,7 +151,7 @@ export class RecipeService {
                 message: 'undefiend recipe!'
             }
         }
-        const user = await User.findOne({where: {id: 4}});
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
         if(!user){
             return {
                 status: false,

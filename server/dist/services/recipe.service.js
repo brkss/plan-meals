@@ -164,7 +164,7 @@ class RecipeService {
                     message: 'undefiend recipe!'
                 };
             }
-            const user = yield User_1.User.findOne({ where: { id: 4 } });
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
             if (!user) {
                 return {
                     status: false,
