@@ -71,7 +71,6 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
                                                             <Text fontWeight='bold'>{ing?.measurement}</Text>
                                                             <Text>{ing?.grocery.title}</Text>
                                                         </> : <Text fontWeight='bold'>{ing.name}</Text>
-
                                                     }
                                                 
                                                 </Text>
