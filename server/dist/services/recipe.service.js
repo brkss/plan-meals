@@ -111,7 +111,8 @@ class RecipeService {
                 };
             }
             const recipes = yield Recipe_1.Recipe.find({
-                where: { user: user }
+                where: { user: user },
+                order: { id: 'DESC' }
             });
             return {
                 status: true,
@@ -146,7 +147,16 @@ class RecipeService {
     }
     createRecipeByUrl(url) {
         return __awaiter(this, void 0, void 0, function* () {
-            const recipe_input = yield recipeScraper(url);
+            let recipe_input = null;
+            try {
+                recipe_input = yield recipeScraper(url);
+            }
+            catch (_a) {
+                return {
+                    status: false,
+                    message: 'Site not yet supported!'
+                };
+            }
             console.log('recipe => ', recipe_input);
             if (!recipe_input) {
                 return {

@@ -55,7 +55,7 @@ class RecipeController {
     routing() {
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
-        this.router.post('/create-from-url', (req, res) => this.createFromUrl(req, res));
+        this.router.post('/create-from-url', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createFromUrl(req, res));
         this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.recipes(res));
         this.router.post('/info', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
     }

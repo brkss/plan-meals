@@ -96,7 +96,8 @@ export class RecipeService {
         }
 
         const recipes = await Recipe.find({
-            where: {user : user}
+            where: {user : user},
+            order: {id: 'DESC'}
         });
         return {
             status: true, 
@@ -132,7 +133,15 @@ export class RecipeService {
     // create recipe using url
     public async createRecipeByUrl(url: string) {
         
-        const recipe_input = await recipeScraper(url);
+        let recipe_input = null;
+        try {
+            recipe_input = await recipeScraper(url);
+        }catch {
+            return {
+                status: false,
+                message: 'Site not yet supported!'
+            }
+        }
         
         // do something with recipe
         console.log('recipe => ', recipe_input);
