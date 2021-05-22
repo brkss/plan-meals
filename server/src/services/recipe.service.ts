@@ -169,9 +169,10 @@ export class RecipeService {
             if(fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             } */
-            const image = `${String(Date.now()+Math.floor(Math.random() * 1000))}.${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
+            fs.mkdirSync(`./uploads/${user.id}`, { recursive: true });
+            const image = `./uploads/${user.id}/${String(Date.now()+Math.floor(Math.random() * 1000))}.${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
             const file = fs.createWriteStream(image);
-            await mkdirp(`/uploads/${user.id}`);
+            
             https.get(recipe_input.image, function (response) {
                 response.pipe(file);
                 console.log('files saved !');
