@@ -7,7 +7,11 @@ import { Direction } from "../entity/Direction";
 import { Ingredient } from "../entity/Ingredient";
 import { Grocery } from "../entity/Grocery";
 import * as httpContext from 'express-http-context';
+import fs from 'fs';
+import https from 'https';
+import mkdirp from 'mkdirp';
 const recipeScraper = require("recipe-scraper");
+
 
 export class RecipeService {
 
@@ -159,6 +163,20 @@ export class RecipeService {
             }
         }
         try{
+
+            //upload image
+            /* const dir = `${__dirname}/../uploads/images/${user.id}/`;
+            if(fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            } */
+            const image = `${String(Date.now()+Math.floor(Math.random() * 1000))}.${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
+            const file = fs.createWriteStream(image);
+            await mkdirp(`/uploads/${user.id}`);
+            https.get(recipe_input.image, function (response) {
+                response.pipe(file);
+                console.log('files saved !');
+                console.log('dire ', __dirname);
+            });  
             
             // insert recipe
             const recipe_id = await Recipe.insert({
@@ -166,7 +184,8 @@ export class RecipeService {
                 description: recipe_input.description || 'no description provided',
                 tags: recipe_input.tags.join('|'),
                 public: false,
-                user: user
+                user: user,
+                image: image
             }).then(res => {
                 return res.identifiers[0].id
             });
@@ -179,6 +198,14 @@ export class RecipeService {
                         recipe: recipe
                     })
                 });
+                // insert urls 
+            
+                await Url.insert({
+                    recipe: recipe,
+                    link: url,
+                    title: "Source" 
+                });
+        
                 //insert ingredients 
                 recipe_input.ingredients.forEach(async (ingredient: any) => {
                     await Ingredient.insert({
@@ -187,6 +214,8 @@ export class RecipeService {
                         name: ingredient
                     })
                 });
+
+                
 
                 return {
                     status: true,

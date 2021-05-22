@@ -27,6 +27,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecipeService = void 0;
 const Recipe_1 = require("../entity/Recipe");
@@ -36,6 +39,9 @@ const Direction_1 = require("../entity/Direction");
 const Ingredient_1 = require("../entity/Ingredient");
 const Grocery_1 = require("../entity/Grocery");
 const httpContext = __importStar(require("express-http-context"));
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
+const mkdirp_1 = __importDefault(require("mkdirp"));
 const recipeScraper = require("recipe-scraper");
 class RecipeService {
     createRecipe(input) {
@@ -172,12 +178,21 @@ class RecipeService {
                 };
             }
             try {
+                const image = `${String(Date.now() + Math.floor(Math.random() * 1000))}.${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
+                const file = fs_1.default.createWriteStream(image);
+                yield mkdirp_1.default(`/uploads/${user.id}`);
+                https_1.default.get(recipe_input.image, function (response) {
+                    response.pipe(file);
+                    console.log('files saved !');
+                    console.log('dire ', __dirname);
+                });
                 const recipe_id = yield Recipe_1.Recipe.insert({
                     title: recipe_input.name,
                     description: recipe_input.description || 'no description provided',
                     tags: recipe_input.tags.join('|'),
                     public: false,
-                    user: user
+                    user: user,
+                    image: image
                 }).then(res => {
                     return res.identifiers[0].id;
                 });
@@ -189,6 +204,11 @@ class RecipeService {
                         recipe: recipe
                     });
                 }));
+                yield Url_1.Url.insert({
+                    recipe: recipe,
+                    link: url,
+                    title: "Source"
+                });
                 recipe_input.ingredients.forEach((ingredient) => __awaiter(this, void 0, void 0, function* () {
                     yield Ingredient_1.Ingredient.insert({
                         measurement: 'none',

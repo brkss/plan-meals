@@ -38,6 +38,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Recipe.prototype, "public", void 0);
 __decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], Recipe.prototype, "image", void 0);
+__decorate([
     typeorm_1.ManyToOne(_ => User_1.User, user => user.recipes, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", User_1.User)
 ], Recipe.prototype, "user", void 0);

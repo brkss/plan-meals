@@ -24,6 +24,9 @@ export class Recipe extends BaseEntity {
     @Column('boolean')
     public: boolean;
 
+    @Column({nullable: true})
+    image?: string; 
+
     @ManyToOne(_ => User, user => user.recipes, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     user: User; 
 
