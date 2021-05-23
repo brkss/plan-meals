@@ -28,8 +28,8 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Day.prototype, "finish", void 0);
 __decorate([
-    typeorm_1.Column('datetime'),
-    __metadata("design:type", Date)
+    typeorm_1.Column('text'),
+    __metadata("design:type", String)
 ], Day.prototype, "date", void 0);
 __decorate([
     typeorm_1.ManyToOne(_ => User_1.User, user => user.days, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),

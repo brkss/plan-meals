@@ -14,8 +14,8 @@ export class Day extends BaseEntity {
     @Column('boolean', {default: false})
     finish?: boolean;
 
-    @Column('datetime')
-    date: Date;
+    @Column('text')
+    date: string;
 
     @ManyToOne(_ => User, user => user.days, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     user: User; 
