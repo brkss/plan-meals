@@ -42,6 +42,7 @@ const httpContext = __importStar(require("express-http-context"));
 const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const parseRecipes_1 = require("../helpers/fns/parseRecipes");
+const GroceryCategory_1 = require("../entity/GroceryCategory");
 const recipeScraper = require("recipe-scraper");
 class RecipeService {
     createRecipe(input) {
@@ -217,7 +218,8 @@ class RecipeService {
                     if (!grocery) {
                         const grocery_id = yield Grocery_1.Grocery.insert({
                             title: parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.ingredient,
-                            user: user
+                            user: user,
+                            category: yield GroceryCategory_1.GroceryCategory.findOne({ where: { id: 9 } })
                         }).then(res => {
                             return res.identifiers[0].id;
                         });

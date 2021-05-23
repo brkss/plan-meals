@@ -10,6 +10,7 @@ import * as httpContext from 'express-http-context';
 import fs from 'fs';
 import https from 'https';
 import { ParseIngredients } from "../helpers/fns/parseRecipes";
+import { GroceryCategory } from "../entity/GroceryCategory";
 const recipeScraper = require("recipe-scraper");
 
 
@@ -124,7 +125,7 @@ export class RecipeService {
         }) ;
         if(!recipe){
             return {
-                status: false,
+                status: false, 
                 message: 'Recipe not found'
             }
         }
@@ -214,7 +215,8 @@ export class RecipeService {
                     if(!grocery){
                         const grocery_id = await Grocery.insert({
                             title: parsed_ingredient?.ingredient,
-                            user: user
+                            user: user,
+                            category: await GroceryCategory.findOne({where: {id: 9}})
                         }).then(res => {
                             return res.identifiers[0].id
                         });
