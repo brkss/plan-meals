@@ -79,8 +79,8 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                     recipes?.map((recipe, key) => (
                         <GridItem key={key} colSpan={{md: 1, base: 3}}  >
                             <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='140px' >
-                                    <Text fontSize={20} fontWeight='bold'>{recipe.title}</Text>
-                                    <Text fontSize={12} opacity={.8}>{handleCropText(recipe.description)}</Text>
+                                    <Text fontWeight='bold'>{recipe.title}</Text>
+                                    <Text fontSize={11} minHeight={'44px'} opacity={.8}>{handleCropText(recipe.description)}</Text>
                                     <ButtonGroup size="sm" isAttached variant="outline" mt={2} borderColor='gray.900'>
                                         <Button bg='gray.200' mr="-px" leftIcon={<BsEye />} onClick={() => {
                                             history.push(`/dash/recipe/info/${recipe.id}`)
@@ -94,7 +94,7 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                 }
                 
                 <GridItem colSpan={{md: 1, base: 3}}  >
-                    <Center p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
+                    <Center p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='140px' cursor='pointer' onClick={() => {
                         history.push(`/dash/recipe/create`)
                     }}>
                             <Text fontSize={20} fontWeight='bold'><AddIcon /></Text>

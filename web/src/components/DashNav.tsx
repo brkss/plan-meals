@@ -26,7 +26,7 @@ export const DashNav : React.FC = () => {
             </Tooltip>
 
             <Tooltip label="Days & Meals" placement="right">
-                <Center onClick={_ => redir('/dash/days')} w="40px" h="40px" bg='gray.100' p={2} rounded={6} m='auto' mb={3} cursor='pointer' _hover={{bg: 'gray.200'}} transition='.3s'>
+                <Center onClick={_ => redir('/dash/day')} w="40px" h="40px" bg='gray.100' p={2} rounded={6} m='auto' mb={3} cursor='pointer' _hover={{bg: 'gray.200'}} transition='.3s'>
                     <ReactIcon.BiCalendar style={{fontSize: '25px'}} />
                 </Center>
             </Tooltip>

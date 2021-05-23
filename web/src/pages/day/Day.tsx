@@ -1,35 +1,39 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import React from 'react';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import { GruardRoute } from '../../components/GuardRoute';
+import { ModuleNavigation } from '../../components/ModuleNavigation';
+import { IRoute } from '../../helpers/types/IRoute';
 
 
-export const Day : React.FC = () => {
+interface Props {
+    childrens: IRoute[],
+}
+
+export const Day : React.FC<Props> = ({childrens}) => {
 
 
+    const links = [
+        {
+            name: 'Create Day',
+            link: '/dash/day/create',
+        }
+        
+    ];
+    console.log('childrens => ', childrens);
     return(
-        <>
-            <Tabs variant="soft-rounded" colorScheme="blackAlpha">
-                <TabList>
-                    <Tab bg="gray.100" mr={2}>Days </Tab>
-                    <Tab bg="gray.100" mr={2}>Add Day </Tab>
-                    <Tab bg="gray.100" mr={2}>Meals </Tab>
-                    <Tab bg="gray.100" mr={2}>Calendar ⌛️</Tab>
-                </TabList>
-
-                <TabPanels>
-                    <TabPanel>
-                        <p>one!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>two!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>three!</p>
-                    </TabPanel>
-                    <TabPanel>
-                        <p>Four!</p>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
+        <> 
+            <ModuleNavigation links={links} />
+                {
+                    childrens.map((route, key) => (
+                        route.protected ? 
+                        <GruardRoute key={key} route={route} /> : 
+                        <Route  key={key} exact={route.exact} path={`${route.path}`} render={(props: RouteComponentProps) => (
+                            <route.component {...props} {...route.props} name={route.name}  />
+                        )} />
+                    ))
+                }
+           
         </>
     );
 }

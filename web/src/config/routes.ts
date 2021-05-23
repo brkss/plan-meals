@@ -3,6 +3,7 @@ import { Auth } from "../pages/auth/Auth";
 import { LoginPage } from "../pages/auth/Login";
 import { RegisterPage } from "../pages/auth/Register";
 import { DashPage } from "../pages/Dash";
+import { CreateDay } from "../pages/day/CreateDay";
 import { Day } from "../pages/day/Day";
 import { CreateGrocery } from "../pages/grocery/CreateGrocery";
 import { Grocery } from "../pages/grocery/Grocery";
@@ -104,6 +105,13 @@ export const admin_routes : IRoute[] = [
             },
             {
                 name: 'List Recipe',
+                path: '/dash/recipe/',
+                component: ListRecipe,
+                exact: true,
+                protected: true,
+            },
+            {
+                name: 'List Recipe',
                 path: '/dash/recipe/list',
                 component: ListRecipe,
                 exact: true,
@@ -120,10 +128,19 @@ export const admin_routes : IRoute[] = [
     },
     {
         name: 'Day',
-        path: '/days',
+        path: '/dash/day',
         component: Day,
-        exact: true,
-        protected: true
+        exact: false,
+        protected: false,
+        children: [
+            {
+                name: 'Create Day',
+                path: '/dash/day/create',
+                component: CreateDay,
+                exact: true,
+                protected: true
+            }
+        ]
     },
     {
         name: 'Settings',
