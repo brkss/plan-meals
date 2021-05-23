@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], Day.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column('boolean'),
+    typeorm_1.Column('boolean', { default: false }),
     __metadata("design:type", Boolean)
 ], Day.prototype, "finish", void 0);
 __decorate([

@@ -11,8 +11,8 @@ export class Day extends BaseEntity {
     @Column('text')
     title: string;
 
-    @Column('boolean')
-    finish: boolean;
+    @Column('boolean', {default: false})
+    finish?: boolean;
 
     @Column('datetime')
     date: Date;

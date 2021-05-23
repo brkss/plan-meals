@@ -1,4 +1,4 @@
-import { Router, Response} from 'express';
+import { Router, Response, Request} from 'express';
 import { DayService } from '../services/day.service';
 
 export class DayController {
@@ -12,12 +12,14 @@ export class DayController {
         this.routing();
     }
 
-    async create(res: Response){
-        res.send(await this.service.createDay());
+    async create(req: Request, res: Response){
+        const day = req.body;
+        const resp = await this.service.createDay(day); 
+        res.send(resp).json();
     }
 
     public routing(){
-        this.router.get('/', (_, res) => this.create(res));
+        this.router.post('/create', (req, res) => this.create(req, res));
     }
 
 

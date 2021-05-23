@@ -10,10 +10,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DayService = void 0;
+const User_1 = require("../entity/User");
+const Day_1 = require("../entity/Day");
 class DayService {
-    createDay() {
+    createDay(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            return 'day service works';
+            if (!input || !input.date || !input.title) {
+                return {
+                    status: false,
+                    message: 'Invalid data!'
+                };
+            }
+            const user = yield User_1.User.findOne({ where: { id: 5 } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found'
+                };
+            }
+            try {
+                yield Day_1.Day.insert({
+                    title: input.title,
+                    date: input.date,
+                    user: user
+                });
+            }
+            catch (e) {
+                console.log('create date error => ', e);
+                return {
+                    status: false,
+                    message: 'Something went wrong'
+                };
+            }
+            return {
+                status: true,
+                message: 'day created successfuly'
+            };
         });
     }
 }

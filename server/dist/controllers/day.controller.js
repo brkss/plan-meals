@@ -18,13 +18,15 @@ class DayController {
         this.service = new day_service_1.DayService();
         this.routing();
     }
-    create(res) {
+    create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send(yield this.service.createDay());
+            const day = req.body;
+            const resp = yield this.service.createDay(day);
+            res.send(resp).json();
         });
     }
     routing() {
-        this.router.get('/', (_, res) => this.create(res));
+        this.router.post('/create', (req, res) => this.create(req, res));
     }
 }
 exports.DayController = DayController;
