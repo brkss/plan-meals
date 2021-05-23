@@ -231,6 +231,10 @@ class RecipeService {
             }
         });
     }
+    groceristarFetch() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
 }
 exports.RecipeService = RecipeService;
 //# sourceMappingURL=recipe.service.js.map

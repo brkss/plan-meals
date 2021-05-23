@@ -1,7 +1,7 @@
 import {  Request, Response, Router} from 'express';
 import { RecipeService } from '../services/recipe.service';
 import { isAuth } from '../helpers/middlewares/auth.middleware';
-//import { CreateRecipeInput } from 'src/helpers/inputs/recipe.intup';
+import { ParseIngredients } from '../helpers/fns/parseRecipes';
 
 
 export class RecipeController {
@@ -45,11 +45,18 @@ export class RecipeController {
         res.send(resp).json();
     }
 
+    // parse recipe ing 
+    public ParseRecipe(res: Response){
+        const resp = ParseIngredients("2 kg chiken");
+        res.send(resp).json();
+    }
+
     public routing(){
         this.router.get('/', (_, res) => this.index(res));
         this.router.post('/create',  (req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/create-from-url', (req, res, next) => isAuth(req, res, next), (req, res) => this.createFromUrl(req, res));
         this.router.post('/list', (req, res, next) => isAuth(req, res, next), (_, res) => this.recipes(res));
         this.router.post('/info', (req, res, next) => isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
+        this.router.post('/parse', (_, res) => this.ParseRecipe(res));
     }
 }

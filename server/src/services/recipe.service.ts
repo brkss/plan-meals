@@ -231,8 +231,11 @@ export class RecipeService {
                     message: 'Error accured while creating recipe, please check your data and try againg'
                 }
             }
-              
-        
+    }
+
+
+    // test groceristar
+    public async groceristarFetch(){
 
     }
 
