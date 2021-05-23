@@ -193,11 +193,14 @@ export class RecipeService {
                 const recipe = await Recipe.findOne({where: {id: recipe_id}});
                 // insert directions
                 recipe_input.instructions.forEach(async (direction: any) => {
-                    await Direction.insert({
-                        text: direction,
-                        title: "default",
-                        recipe: recipe
-                    })
+                    if(direction){
+                        await Direction.insert({
+                            text: direction,
+                            title: "default",
+                            recipe: recipe
+                        });
+                    }
+                    
                 });
                 // insert urls 
             
@@ -211,10 +214,11 @@ export class RecipeService {
                 recipe_input.ingredients.forEach(async (ingredient: any) => {
                     // parse and check if ingredient exist in groceries 
                     const parsed_ingredient = ParseIngredients(ingredient);
-                    let grocery = await Grocery.findOne({where: {title: parsed_ingredient?.ingredient}});
+                    
+                    let grocery = await Grocery.findOne({where: {title: parsed_ingredient?.result ? parsed_ingredient.result.ingredient : parsed_ingredient?.unknown.instruction}});
                     if(!grocery){
                         const grocery_id = await Grocery.insert({
-                            title: parsed_ingredient?.ingredient,
+                            title: parsed_ingredient?.result ? parsed_ingredient.result.ingredient : parsed_ingredient?.unknown.instruction,
                             user: user,
                             category: await GroceryCategory.findOne({where: {id: 9}})
                         }).then(res => {
@@ -223,7 +227,7 @@ export class RecipeService {
                         grocery = await Grocery.findOne({where: {id: grocery_id}});
                     }
                     await Ingredient.insert({
-                        measurement: `${parsed_ingredient?.unit} ${parsed_ingredient?.amount}`,
+                        measurement: parsed_ingredient?.result ? `${parsed_ingredient?.result.unit} ${parsed_ingredient?.result.amount}` : ` ` ,
                         recipe: recipe,
                         grocery: grocery
                     });

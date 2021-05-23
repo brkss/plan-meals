@@ -201,11 +201,13 @@ class RecipeService {
                 });
                 const recipe = yield Recipe_1.Recipe.findOne({ where: { id: recipe_id } });
                 recipe_input.instructions.forEach((direction) => __awaiter(this, void 0, void 0, function* () {
-                    yield Direction_1.Direction.insert({
-                        text: direction,
-                        title: "default",
-                        recipe: recipe
-                    });
+                    if (direction) {
+                        yield Direction_1.Direction.insert({
+                            text: direction,
+                            title: "default",
+                            recipe: recipe
+                        });
+                    }
                 }));
                 yield Url_1.Url.insert({
                     recipe: recipe,
@@ -214,10 +216,10 @@ class RecipeService {
                 });
                 recipe_input.ingredients.forEach((ingredient) => __awaiter(this, void 0, void 0, function* () {
                     const parsed_ingredient = parseRecipes_1.ParseIngredients(ingredient);
-                    let grocery = yield Grocery_1.Grocery.findOne({ where: { title: parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.ingredient } });
+                    let grocery = yield Grocery_1.Grocery.findOne({ where: { title: (parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.result) ? parsed_ingredient.result.ingredient : parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.unknown.instruction } });
                     if (!grocery) {
                         const grocery_id = yield Grocery_1.Grocery.insert({
-                            title: parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.ingredient,
+                            title: (parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.result) ? parsed_ingredient.result.ingredient : parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.unknown.instruction,
                             user: user,
                             category: yield GroceryCategory_1.GroceryCategory.findOne({ where: { id: 9 } })
                         }).then(res => {
@@ -226,7 +228,7 @@ class RecipeService {
                         grocery = yield Grocery_1.Grocery.findOne({ where: { id: grocery_id } });
                     }
                     yield Ingredient_1.Ingredient.insert({
-                        measurement: `${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.unit} ${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.amount}`,
+                        measurement: (parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.result) ? `${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.result.unit} ${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.result.amount}` : ` `,
                         recipe: recipe,
                         grocery: grocery
                     });

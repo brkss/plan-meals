@@ -46,7 +46,7 @@ const ParseIngredients = (ingredient) => {
     }
     console.log('ingredients => ', mapped_ing);
     console.log('parsed ing => ', results);
-    return results[0].result;
+    return results[0];
 };
 exports.ParseIngredients = ParseIngredients;
 //# sourceMappingURL=parseRecipes.js.map
