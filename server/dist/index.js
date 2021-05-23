@@ -34,6 +34,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
+const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const controllers_1 = require("./controllers/controllers");
 const httpContext = __importStar(require("express-http-context"));
@@ -65,6 +66,8 @@ const cors_1 = __importDefault(require("cors"));
     app.use(`/user/`, controllers_1.controllers.user.router);
     app.use(`/recipe/`, controllers_1.controllers.recipe.router);
     app.use(`/grocery/`, controllers_1.controllers.grocery.router);
+    var dir = path_1.default.join(__dirname, 'public');
+    app.use(express_1.default.static(dir));
     app.listen(4000, () => {
         console.log('server listen ar http://127.0.0.1:4000');
     });

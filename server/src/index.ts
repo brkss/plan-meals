@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import path from 'path';
 import express from 'express';
 import { controllers } from './controllers/controllers';
 import * as httpContext from 'express-http-context';
@@ -39,6 +40,10 @@ import cors from 'cors';
     app.use(`/user/`, controllers.user.router);
     app.use(`/recipe/`, controllers.recipe.router);
     app.use(`/grocery/`, controllers.grocery.router);
+
+    // cdn
+    var dir = path.join(__dirname, 'public');
+    app.use(express.static(dir));
 
     app.listen(4000, () => {
         console.log('server listen ar http://127.0.0.1:4000')

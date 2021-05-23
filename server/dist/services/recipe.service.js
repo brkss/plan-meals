@@ -177,10 +177,11 @@ class RecipeService {
                 };
             }
             try {
-                fs_1.default.mkdirSync(`./uploads/${user.id}`, { recursive: true });
+                fs_1.default.mkdirSync(`./dist/public/uploads/${user.id}`, { recursive: true });
                 const file_extension = `${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
-                const image = `./uploads/${user.id}/${String(Date.now() + Math.floor(Math.random() * 1000))}.${file_extension.includes('?') ? file_extension.split('?')[0] : file_extension}`;
-                const file = fs_1.default.createWriteStream(image);
+                const image = `/uploads/${user.id}/${String(Date.now() + Math.floor(Math.random() * 1000))}.${file_extension.includes('?') ? file_extension.split('?')[0] : file_extension}`;
+                const abs_path = `./dist/public${image}`;
+                const file = fs_1.default.createWriteStream(abs_path);
                 https_1.default.get(recipe_input.image, function (response) {
                     response.pipe(file);
                     console.log('files saved !');

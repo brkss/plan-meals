@@ -9,7 +9,6 @@ import { Grocery } from "../entity/Grocery";
 import * as httpContext from 'express-http-context';
 import fs from 'fs';
 import https from 'https';
-import mkdirp from 'mkdirp';
 const recipeScraper = require("recipe-scraper");
 
 
@@ -169,10 +168,11 @@ export class RecipeService {
             if(fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             } */
-            fs.mkdirSync(`./uploads/${user.id}`, { recursive: true });
+            fs.mkdirSync(`./dist/public/uploads/${user.id}`, { recursive: true });
             const file_extension = `${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
-            const image = `./uploads/${user.id}/${String(Date.now()+Math.floor(Math.random() * 1000))}.${file_extension.includes('?') ? file_extension.split('?')[0] : file_extension}`;
-            const file = fs.createWriteStream(image);
+            const image = `/uploads/${user.id}/${String(Date.now()+Math.floor(Math.random() * 1000))}.${file_extension.includes('?') ? file_extension.split('?')[0] : file_extension}`;
+            const abs_path = `./dist/public${image}`;
+            const file = fs.createWriteStream(abs_path);
             
             https.get(recipe_input.image, function (response) {
                 response.pipe(file);
