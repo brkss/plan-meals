@@ -51,7 +51,7 @@ class UserService {
                 if (!user) {
                     return {
                         status: false,
-                        message: 'username not found'
+                        message: 'User not found'
                     };
                 }
                 const validate = yield bcrypt.compare(userInput.password, user.password);

@@ -9,6 +9,7 @@ import { Grocery } from "../entity/Grocery";
 import * as httpContext from 'express-http-context';
 import fs from 'fs';
 import https from 'https';
+import { ParseIngredients } from "../helpers/fns/parseRecipes";
 const recipeScraper = require("recipe-scraper");
 
 
@@ -164,10 +165,7 @@ export class RecipeService {
         try{
 
             //upload image
-            /* const dir = `${__dirname}/../uploads/images/${user.id}/`;
-            if(fs.existsSync(dir)){
-                fs.mkdirSync(dir);
-            } */
+            
             fs.mkdirSync(`./dist/public/uploads/${user.id}`, { recursive: true });
             const file_extension = `${recipe_input.image.split('.')[recipe_input.image.split('.').length - 1]}`;
             const image = `/uploads/${user.id}/${String(Date.now()+Math.floor(Math.random() * 1000))}.${file_extension.includes('?') ? file_extension.split('?')[0] : file_extension}`;
@@ -210,11 +208,23 @@ export class RecipeService {
         
                 //insert ingredients 
                 recipe_input.ingredients.forEach(async (ingredient: any) => {
+                    // parse and check if ingredient exist in groceries 
+                    const parsed_ingredient = ParseIngredients(ingredient);
+                    let grocery = await Grocery.findOne({where: {title: parsed_ingredient?.ingredient}});
+                    if(!grocery){
+                        const grocery_id = await Grocery.insert({
+                            title: parsed_ingredient?.ingredient,
+                            user: user
+                        }).then(res => {
+                            return res.identifiers[0].id
+                        });
+                        grocery = await Grocery.findOne({where: {id: grocery_id}});
+                    }
                     await Ingredient.insert({
-                        measurement: 'none',
+                        measurement: `${parsed_ingredient?.unit} ${parsed_ingredient?.amount}`,
                         recipe: recipe,
-                        name: ingredient
-                    })
+                        grocery: grocery
+                    });
                 });
 
                 

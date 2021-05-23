@@ -41,6 +41,7 @@ const Grocery_1 = require("../entity/Grocery");
 const httpContext = __importStar(require("express-http-context"));
 const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
+const parseRecipes_1 = require("../helpers/fns/parseRecipes");
 const recipeScraper = require("recipe-scraper");
 class RecipeService {
     createRecipe(input) {
@@ -211,10 +212,21 @@ class RecipeService {
                     title: "Source"
                 });
                 recipe_input.ingredients.forEach((ingredient) => __awaiter(this, void 0, void 0, function* () {
+                    const parsed_ingredient = parseRecipes_1.ParseIngredients(ingredient);
+                    let grocery = yield Grocery_1.Grocery.findOne({ where: { title: parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.ingredient } });
+                    if (!grocery) {
+                        const grocery_id = yield Grocery_1.Grocery.insert({
+                            title: parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.ingredient,
+                            user: user
+                        }).then(res => {
+                            return res.identifiers[0].id;
+                        });
+                        grocery = yield Grocery_1.Grocery.findOne({ where: { id: grocery_id } });
+                    }
                     yield Ingredient_1.Ingredient.insert({
-                        measurement: 'none',
+                        measurement: `${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.unit} ${parsed_ingredient === null || parsed_ingredient === void 0 ? void 0 : parsed_ingredient.amount}`,
                         recipe: recipe,
-                        name: ingredient
+                        grocery: grocery
                     });
                 }));
                 return {

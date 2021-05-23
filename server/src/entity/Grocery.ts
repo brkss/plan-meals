@@ -12,11 +12,11 @@ export class Grocery extends BaseEntity {
     @Column('text')
     title: string;
 
-    @Column('boolean')
-    available: boolean
+    @Column('boolean', {default: false})
+    available?: boolean
 
-    @Column('double')
-    price: number
+    @Column('double', {default: 0})
+    price?: number
     
 
     @ManyToOne(_ => User, user => user.groceries, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})

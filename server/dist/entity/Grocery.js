@@ -25,11 +25,11 @@ __decorate([
     __metadata("design:type", String)
 ], Grocery.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column('boolean'),
+    typeorm_1.Column('boolean', { default: false }),
     __metadata("design:type", Boolean)
 ], Grocery.prototype, "available", void 0);
 __decorate([
-    typeorm_1.Column('double'),
+    typeorm_1.Column('double', { default: 0 }),
     __metadata("design:type", Number)
 ], Grocery.prototype, "price", void 0);
 __decorate([
