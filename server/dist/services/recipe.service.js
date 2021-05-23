@@ -245,8 +245,28 @@ class RecipeService {
             }
         });
     }
-    groceristarFetch() {
+    deleteRecipe(recipe_id) {
         return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found'
+                };
+            }
+            try {
+                yield Recipe_1.Recipe.delete({ id: recipe_id, user: user });
+                return {
+                    status: true,
+                    message: 'Recipe deleted successfuly'
+                };
+            }
+            catch (_a) {
+                return {
+                    status: false,
+                    message: 'Something went wrong while deleting recipe'
+                };
+            }
         });
     }
 }

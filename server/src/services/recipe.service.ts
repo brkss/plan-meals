@@ -246,9 +246,29 @@ export class RecipeService {
     }
 
 
-    // test groceristar
-    public async groceristarFetch(){
-
+    // delete recipe 
+    public async deleteRecipe(recipe_id: number){
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                message: 'user not found'
+            }
+        }
+        try {
+            await Recipe.delete({id: recipe_id, user: user});
+            return {
+                status: true,
+                message: 'Recipe deleted successfuly'
+            }
+        }catch {
+            return {
+                status: false,
+                message: 'Something went wrong while deleting recipe'
+            }
+        }
+        
+        
     }
 
 }

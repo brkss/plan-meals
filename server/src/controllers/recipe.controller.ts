@@ -1,7 +1,6 @@
 import {  Request, Response, Router} from 'express';
 import { RecipeService } from '../services/recipe.service';
 import { isAuth } from '../helpers/middlewares/auth.middleware';
-import { ParseIngredients } from '../helpers/fns/parseRecipes';
 
 
 export class RecipeController {
@@ -46,8 +45,9 @@ export class RecipeController {
     }
 
     // parse recipe ing 
-    public ParseRecipe(res: Response){
-        const resp = ParseIngredients("2 kg chiken");
+    public async deleteRecipe(req: Request, res: Response){
+        const id = req.body.recipe_id;
+        const resp = await this.service.deleteRecipe(id);
         res.send(resp).json();
     }
 
@@ -57,6 +57,6 @@ export class RecipeController {
         this.router.post('/create-from-url', (req, res, next) => isAuth(req, res, next), (req, res) => this.createFromUrl(req, res));
         this.router.post('/list', (req, res, next) => isAuth(req, res, next), (_, res) => this.recipes(res));
         this.router.post('/info', (req, res, next) => isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
-        this.router.post('/parse', (_, res) => this.ParseRecipe(res));
+        this.router.post('/delete', (req, res, next) => isAuth(req, res, next), (req, res) => this.deleteRecipe(req, res));
     }
 }

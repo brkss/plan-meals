@@ -13,7 +13,6 @@ exports.RecipeController = void 0;
 const express_1 = require("express");
 const recipe_service_1 = require("../services/recipe.service");
 const auth_middleware_1 = require("../helpers/middlewares/auth.middleware");
-const parseRecipes_1 = require("../helpers/fns/parseRecipes");
 class RecipeController {
     constructor() {
         this.router = express_1.Router();
@@ -53,9 +52,12 @@ class RecipeController {
             res.send(resp).json();
         });
     }
-    ParseRecipe(res) {
-        const resp = parseRecipes_1.ParseIngredients("2 kg chiken");
-        res.send(resp).json();
+    deleteRecipe(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.body.recipe_id;
+            const resp = yield this.service.deleteRecipe(id);
+            res.send(resp).json();
+        });
     }
     routing() {
         this.router.get('/', (_, res) => this.index(res));
@@ -63,7 +65,7 @@ class RecipeController {
         this.router.post('/create-from-url', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createFromUrl(req, res));
         this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.recipes(res));
         this.router.post('/info', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.recipeInfo(req, res));
-        this.router.post('/parse', (_, res) => this.ParseRecipe(res));
+        this.router.post('/delete', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.deleteRecipe(req, res));
     }
 }
 exports.RecipeController = RecipeController;
