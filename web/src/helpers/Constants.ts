@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:4000';
+export const API_URL = 'http://localhost:4000';
+export const CDN_URL = 'http://localhost:4000';
 
 export const URLS = {
     user : {

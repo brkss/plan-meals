@@ -107,20 +107,24 @@ export const Starter : React.FC<Props> = ({next}) => {
                     <Button mt={2} onClick={onOpen}>Where to find recipes?</Button>
                 </FormLabel>
                 <hr style={{marginTop: '12px', marginBottom: '4px'}} />
-                <FormControl display="flex" alignItems="center" mt={6}>
-                    <FormLabel  htmlFor="public-recipe" mb="0">
-                        Manual insert is for your special recipe
-                    </FormLabel>
-                </FormControl>
+               
                 <FormControl mt={3}>
                     {
                         url ?
                         <Button  rightIcon={<AddIcon />} colorScheme="teal" variant="outline" onClick={() => handleCreationFromUrl()} loadingText='Cloning..' isLoading={loading} >
                             Clone this recipe
                         </Button> : 
-                        <Button  rightIcon={<ArrowForwardIcon />} onClick={() => next()} colorScheme="teal" variant="outline">
-                            Create Recipe Manualy
-                        </Button>
+                        <>
+                             <FormControl display="flex" alignItems="center" mt={6}>
+                                <FormLabel  htmlFor="public-recipe" mb="0">
+                                    Manual insert is for your special recipe
+                                </FormLabel>
+                            </FormControl>
+                            <Button  rightIcon={<ArrowForwardIcon />} onClick={() => next()} colorScheme="teal" variant="outline">
+                                Create Recipe Manualy
+                            </Button>
+                        </>
+                        
                     }
                    
                 </FormControl>

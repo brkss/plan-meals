@@ -5,6 +5,7 @@ import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { MinusIcon, AddIcon } from '@chakra-ui/icons';
+import {CDN_URL} from '../../helpers/Constants';
 
 export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}) => {
 
@@ -31,6 +32,8 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
         });
     }, []);
 
+     
+
     if(loading || !recipe) return <>Loading</>
     if(error) return <Box mt={7}> <ErrorMessage message={error} w={{md: '40%', base: '100%'}} /> </Box>
 
@@ -38,9 +41,17 @@ export const InfoRecipe : React.FC<RouteComponentProps<any>> = ({match, history}
     return(
         <Box w={{md: '50%', base: '100%'}} m='auto' pt={10}>
             <Heading> {recipe?.title} </Heading>
+            
+            {
+                recipe.image ? 
+                <img src={`${CDN_URL}${recipe.image}`} style={{borderRadius: '6px', margin: '7px 0'}} /> : null
+            }
+           
             <Text opacity={.8} mt={5}>
                 {recipe?.description}
             </Text>
+
+           
 
             <Box mt={7}>
                 <Accordion allowMultiple defaultIndex={[0]}>

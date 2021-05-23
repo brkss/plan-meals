@@ -27,6 +27,14 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
         });
     }, []);
 
+    // crop text 
+    const handleCropText = (text: string) => {
+        return text.length > 127 ? 
+            `${text.substring(0, 127)}...`:
+            text;
+        
+    }
+
     if(loading){
         return <>Loading</>
     }
@@ -42,7 +50,7 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                                 history.push(`/dash/recipe/info/${recipe.id}`)
                             }}>
                                     <Text fontSize={20} fontWeight='bold'>{recipe.title}</Text>
-                                    <Text fontSize={12} opacity={.8}>{recipe.description}</Text>
+                                    <Text fontSize={12} opacity={.8}>{handleCropText(recipe.description)}</Text>
                             </Box>    
                         </GridItem>
                     ))
