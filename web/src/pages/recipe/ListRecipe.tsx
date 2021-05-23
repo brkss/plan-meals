@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Heading, Grid, GridItem, Text, Button, Center } from '@chakra-ui/react';
+import { Box, Heading, Grid, GridItem, Text, Button, Center, ButtonGroup, IconButton } from '@chakra-ui/react';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { RouteComponentProps } from 'react-router';
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 
 
 export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
@@ -46,11 +47,16 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                 {
                     recipes?.map((recipe, key) => (
                         <GridItem key={key} colSpan={{md: 1, base: 3}}  >
-                            <Box  p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='100px' cursor='pointer' onClick={() => {
-                                history.push(`/dash/recipe/info/${recipe.id}`)
-                            }}>
+                            <Box p={4} mt={4} mr={3}  bg='gray.100' rounded={6} minH='140px' >
                                     <Text fontSize={20} fontWeight='bold'>{recipe.title}</Text>
                                     <Text fontSize={12} opacity={.8}>{handleCropText(recipe.description)}</Text>
+                                    <ButtonGroup size="sm" isAttached variant="outline" mt={2} borderColor='gray.900'>
+                                        <Button bg='gray.200' mr="-px" leftIcon={<BsEye />} onClick={() => {
+                                            history.push(`/dash/recipe/info/${recipe.id}`)
+                                        }}>View</Button>
+                                        <IconButton bg='gray.200' aria-label="Delete Recipe" icon={<BsTrash />} />
+                                        <IconButton bg='gray.200' aria-label="Edit Recipe" icon={<BsPencil />} />
+                                    </ButtonGroup>
                             </Box>    
                         </GridItem>
                     ))
