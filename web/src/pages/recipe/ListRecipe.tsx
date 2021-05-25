@@ -87,7 +87,7 @@ export const ListRecipe : React.FC<RouteComponentProps> = ({history}) => {
                                         }}>View</Button>
                                         <IconButton bg='gray.200' aria-label="Delete Recipe" icon={<BsTrash />} isLoading={loadingDelete === recipe.id} onClick={() => handleDeletingRecipe(recipe.id)} />
                                         <IconButton bg='gray.200' aria-label="Edit Recipe" icon={<BsPencil />} />
-                                    </ButtonGroup>
+                                    </ButtonGroup> 
                             </Box>    
                         </GridItem>
                     ))

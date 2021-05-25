@@ -1,7 +1,7 @@
-import { Box, Heading, FormControl, Button } from '@chakra-ui/react';
+import { Box, Heading, FormControl, Button, Grid, GridItem, Center } from '@chakra-ui/react';
 import React from 'react';
 import { ErrorMessage } from '../../components/ErrorMessage';
-import { InputFonted } from '../../components/Form/InputFonted';
+
 
 export const CreateDay : React.FC = () => {
 
@@ -34,7 +34,7 @@ export const CreateDay : React.FC = () => {
                 error ? 
                 <ErrorMessage message={error} /> : null
             }
-            <form >
+            {/* <form >
                 <FormControl>
                     <InputFonted type='text' id="title" onChange={(e) => handleForm(e)} placeholder="Title exp. Monday"  />
                 </FormControl>
@@ -46,7 +46,56 @@ export const CreateDay : React.FC = () => {
                     Create
                 </Button>
                 </FormControl>
-            </form>
+            </form> */}
+            <Box>
+                <Grid  templateColumns="repeat(18, 1fr)" gap={0}>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    <GridItem colSpan={{md: 6, base: 3}}  >
+                        <Box m={5}>
+                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
+                                Day 1
+                            </Center>
+                        </Box>
+                    </GridItem>
+                    
+                    
+                    
+                </Grid>
+            </Box>
         </Box>
     )
 }
