@@ -3,7 +3,7 @@ import React from 'react';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { Next30Days } from '../../helpers/fns/dates.fn';
 
-export const CreateDay : React.FC = () => {
+export const ListDay : React.FC = () => {
 
     const [loading, SetLoading] = React.useState(false);
     const [error, SetError] = React.useState('');
@@ -54,9 +54,9 @@ export const CreateDay : React.FC = () => {
                    
                     {
                         days.map((day: any, key: number) => (
-                            <GridItem key={key} colSpan={{md: 6, base: 16}}  >
+                            <GridItem key={key} colSpan={{lg: 6, md: 12, base: 16}}  >
                                 <Box m={3}>
-                                    <Center rounded={6} fontWeight='bold' height='100px' bg='gray.100' border={key === 0 ? '2px solid black' : ''}>
+                                    <Center cursor='pointer' rounded={6} fontWeight='bold' height='100px' bg='gray.100' border={key === 0 ? '2px solid black' : ''}>
                                         <Text textAlign='center'>
                                             {day.date}, {day.month} 
                                             <br />

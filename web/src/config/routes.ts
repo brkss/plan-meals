@@ -3,7 +3,7 @@ import { Auth } from "../pages/auth/Auth";
 import { LoginPage } from "../pages/auth/Login";
 import { RegisterPage } from "../pages/auth/Register";
 import { DashPage } from "../pages/Dash";
-import { CreateDay } from "../pages/day/CreateDay";
+import { ListDay } from "../pages/day/ListDay";
 import { Day } from "../pages/day/Day";
 import { CreateGrocery } from "../pages/grocery/CreateGrocery";
 import { Grocery } from "../pages/grocery/Grocery";
@@ -135,8 +135,15 @@ export const admin_routes : IRoute[] = [
         children: [
             {
                 name: 'Create Day',
-                path: '/dash/day/create',
-                component: CreateDay,
+                path: '/dash/day/list',
+                component: ListDay,
+                exact: true,
+                protected: true
+            },
+            {
+                name: 'Create Day',
+                path: '/dash/day/',
+                component: ListDay,
                 exact: true,
                 protected: true
             }

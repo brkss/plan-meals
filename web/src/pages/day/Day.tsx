@@ -23,7 +23,7 @@ export const Day : React.FC<Props> = ({childrens}) => {
     console.log('childrens => ', childrens);
     return(
         <> 
-            <ModuleNavigation links={links} />
+            {/* <ModuleNavigation links={links} /> */}
                 {
                     childrens.map((route, key) => (
                         route.protected ? 
