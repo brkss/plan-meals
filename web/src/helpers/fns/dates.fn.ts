@@ -1,7 +1,8 @@
+import { IDayDate } from "../types/IDayDate";
 
 
 const GetDates = (startDate: Date, daysToAdd: number) => {
-    let aryDates = [];
+    let aryDates : IDayDate[] = [];
 
     for (var i = 0; i <= daysToAdd; i++) {
         let currentDate = new Date();
@@ -53,8 +54,8 @@ const DayAsString = (dayIndex: number) => {
 
 
 
-export const Next30Days = () => {
+export const Next30Days = () : IDayDate[] => {
     const startDate = new Date();
-    const aryDates = GetDates(startDate, 30);
+    const aryDates = GetDates(startDate, 30) as IDayDate[];
     return aryDates;
 }
