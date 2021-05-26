@@ -10,11 +10,11 @@ export class Meal extends BaseEntity {
     @Column('text')
     title: string;
 
-    @Column('boolean')
+    @Column('boolean', {default: false})
     finish: boolean;
 
-    @Column('text')
-    time: string;
+    @Column('text', {nullable: true})
+    time?: string;
 
     @ManyToOne(_ => Day, day => day.meals, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     day: Day; 

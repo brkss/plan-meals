@@ -23,11 +23,11 @@ __decorate([
     __metadata("design:type", String)
 ], Meal.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column('boolean'),
+    typeorm_1.Column('boolean', { default: false }),
     __metadata("design:type", Boolean)
 ], Meal.prototype, "finish", void 0);
 __decorate([
-    typeorm_1.Column('text'),
+    typeorm_1.Column('text', { nullable: true }),
     __metadata("design:type", String)
 ], Meal.prototype, "time", void 0);
 __decorate([

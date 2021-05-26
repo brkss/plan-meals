@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DayController = void 0;
 const express_1 = require("express");
+const auth_middleware_1 = require("../helpers/middlewares/auth.middleware");
 const day_service_1 = require("../services/day.service");
 class DayController {
     constructor() {
@@ -25,8 +26,16 @@ class DayController {
             res.send(resp).json();
         });
     }
+    addRecipeToMeal(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const input = req.body;
+            const resp = yield this.service.addRecipetoMeal(input);
+            res.send(resp).json();
+        });
+    }
     routing() {
-        this.router.post('/create', (req, res) => this.create(req, res));
+        this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/add-recipe-to-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res));
     }
 }
 exports.DayController = DayController;

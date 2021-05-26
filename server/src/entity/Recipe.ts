@@ -1,6 +1,7 @@
-import { BaseEntity, Entity, Column,  PrimaryGeneratedColumn, ManyToOne, OneToMany} from 'typeorm';
+import { BaseEntity, Entity, Column,  PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable} from 'typeorm';
 import { Direction } from './Direction';
 import { Ingredient } from './Ingredient';
+import { Meal } from './Meal';
 import { Url } from './Url';
 import { User } from './User';
 
@@ -39,6 +40,9 @@ export class Recipe extends BaseEntity {
     @OneToMany(_ => Ingredient, direction => direction.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     ingredients: Ingredient[]
 
+    @ManyToMany(() => Meal, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    @JoinTable()
+    meals: Meal[];
     
 
 }

@@ -13,6 +13,7 @@ exports.Recipe = void 0;
 const typeorm_1 = require("typeorm");
 const Direction_1 = require("./Direction");
 const Ingredient_1 = require("./Ingredient");
+const Meal_1 = require("./Meal");
 const Url_1 = require("./Url");
 const User_1 = require("./User");
 let Recipe = class Recipe extends typeorm_1.BaseEntity {
@@ -57,6 +58,11 @@ __decorate([
     typeorm_1.OneToMany(_ => Ingredient_1.Ingredient, direction => direction.recipe, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], Recipe.prototype, "ingredients", void 0);
+__decorate([
+    typeorm_1.ManyToMany(() => Meal_1.Meal, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
+], Recipe.prototype, "meals", void 0);
 Recipe = __decorate([
     typeorm_1.Entity('recipes')
 ], Recipe);

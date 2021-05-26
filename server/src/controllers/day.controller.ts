@@ -1,4 +1,5 @@
 import { Router, Response, Request} from 'express';
+import { isAuth } from '../helpers/middlewares/auth.middleware';
 import { DayService } from '../services/day.service';
 
 export class DayController {
@@ -18,8 +19,15 @@ export class DayController {
         res.send(resp).json();
     }
 
+    async addRecipeToMeal(req: Request, res: Response){
+        const input = req.body;
+        const resp = await this.service.addRecipetoMeal(input);
+        res.send(resp).json();
+    }
+
     public routing(){
-        this.router.post('/create', (req, res) => this.create(req, res));
+        this.router.post('/create',(req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/add-recipe-to-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res))
     }
 
 
