@@ -4,6 +4,9 @@ import { IDayDate } from '../../helpers/types/IDayDate';
 import { AddIcon } from '@chakra-ui/icons';
 import { MealRecipes } from './MealRecipes';
 import { CgBowl } from 'react-icons/all';
+import axios from '../../config/axios';
+import { URLS } from '../../helpers/Constants';
+
 
 interface Props {
     isOpenMeal: boolean;
@@ -14,8 +17,36 @@ interface Props {
 export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const ref = `${day?.date}${day?.month}${day?.year}`
-    const [meals, SetMeals] = React.useState([
+    const [loading, SetLoading] = React.useState(false);
+    const [meals, SetMeals] = React.useState<any []>([]);
+
+
+    React.useEffect(() => {
+        if(isOpenMeal){
+            createDate();
+        }
+        console.log('create day')
+        
+    }, [isOpenMeal])
+
+    const createDate = () => {
+        const ref = `${day?.date}${day?.month.toUpperCase()}${day?.year}`;
+        const _data = {
+            date: ref,
+            title: `${day?.date} ,${day?.month}`
+        }
+        SetLoading(true);
+        axios.post(URLS.day.create, _data).then(res => {
+            const data = res.data;
+            if(res.data.status === true){
+                SetMeals(data.meals);
+            }
+            SetLoading(false);
+            console.log('create day resp => ', res);
+        });
+    }
+
+    /* const [meals, SetMeals] = React.useState([
         {
             name: 'Breakfast'
         },
@@ -25,7 +56,12 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         {
             name: 'Dinner'
         }
-    ])
+    ]) */
+
+
+    if(loading){
+        return <>Loading ....</>
+    }
 
 
     return(
@@ -45,11 +81,11 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
                 <DrawerBody>
                    <Text fontWeight='bold' fontSize='22px'> {day?.name}  {day?.date}, {day?.month} </Text>
-                   id: {ref}
+                   
                    {
-                       meals.map((meal, key) =>(
+                       meals?.map((meal: any, key: number) =>(
                             <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
-                                <Text fontWeight='bold'>{meal.name}</Text>
+                                <Text fontWeight='bold'>{meal.title}</Text>
                                 <Box p={3} bg='gray.100' rounded={6} mt={3}>
                                     <Text fontWeight='bold' opacity={.8} > <CgBowl /> Pasta with Creamy Crushed Walnut Sauce </Text>
                                 </Box>

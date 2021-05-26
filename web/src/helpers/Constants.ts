@@ -18,5 +18,8 @@ export const URLS = {
         info: `${API_URL}/recipe/info`,
         createFromUrl: `${API_URL}/recipe/create-from-url`,
         delete: `${API_URL}/recipe/delete`
+    },
+    day: {
+        create: `${API_URL}/day/create`
     }
 }
