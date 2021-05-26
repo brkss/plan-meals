@@ -10,7 +10,8 @@ const GetDates = (startDate: Date, daysToAdd: number) => {
             name: DayAsString(currentDate.getDay()),
             date: currentDate.getDate(),
             month: MonthAsString(currentDate.getMonth()),
-            year: currentDate.getFullYear()
+            year: currentDate.getFullYear(),
+            currentDate: currentDate
         }
         aryDates.push(day_obj);
     }
