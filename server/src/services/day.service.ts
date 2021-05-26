@@ -12,11 +12,11 @@ import { Recipe } from "../entity/Recipe";
 export class DayService {
 
 
-    private default_meals : string[] = [
+   /*  private default_meals : string[] = [
         'Breakfast',
         'Lunch',
         'Dinner'
-    ];
+    ]; */
 
     public async createDay(input: CreateDayInput) : Promise<DefaultResponse>{
         if(!input || !input.date || !input.title){
@@ -34,12 +34,14 @@ export class DayService {
         }
 
         //check if day exist 
-        const day = await Day.findOne({where: {date: input.date}});
+        const day = await Day.findOne({where: {date: input.date.toUpperCase()}});
         if(day){
+            const meals = await Meal.find({where: {day: day}, order: {id: 'ASC'}});
             return {
                 status: true,
                 message: 'Day already exist!',
-                id: day.id
+                id: day.id,
+                meals: meals
             }
         }
 
@@ -50,16 +52,18 @@ export class DayService {
                 date: input.date, // "ddMMyyyy" exp => 22MAY2021
                 user: user
             });
-            
-            // create default meals 
-            this.default_meals.forEach(async (meal) => {
-                await this.CreateMeal({title: meal, day_id: day_resp.identifiers[0].id})
-            })
+            const day = await Day.findOne({where: {id: day_resp.identifiers[0].id}});
+            // create default meals ....
+            await this.CreateMeal({title: 'Breakfast', day_id: day!.id});
+            await this.CreateMeal({title: 'Lunch', day_id: day!.id});
+            await this.CreateMeal({title: 'Dinner', day_id: day!.id});
 
+            const meals = await Meal.find({where: {day: day}, order: {id: 'ASC'}});
             return {
                 status: true,
                 message: 'day created successfuly',
-                id: day_resp.identifiers[0].id
+                id: day_resp.identifiers[0].id,
+                meals: meals
             }
         }catch(e) {
             console.log('create date error => ', e);

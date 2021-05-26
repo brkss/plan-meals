@@ -35,13 +35,6 @@ const Day_1 = require("../entity/Day");
 const Meal_1 = require("../entity/Meal");
 const Recipe_1 = require("../entity/Recipe");
 class DayService {
-    constructor() {
-        this.default_meals = [
-            'Breakfast',
-            'Lunch',
-            'Dinner'
-        ];
-    }
     createDay(input) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!input || !input.date || !input.title) {
@@ -57,12 +50,14 @@ class DayService {
                     message: 'User not found'
                 };
             }
-            const day = yield Day_1.Day.findOne({ where: { date: input.date } });
+            const day = yield Day_1.Day.findOne({ where: { date: input.date.toUpperCase() } });
             if (day) {
+                const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' } });
                 return {
                     status: true,
                     message: 'Day already exist!',
-                    id: day.id
+                    id: day.id,
+                    meals: meals
                 };
             }
             try {
@@ -71,13 +66,16 @@ class DayService {
                     date: input.date,
                     user: user
                 });
-                this.default_meals.forEach((meal) => __awaiter(this, void 0, void 0, function* () {
-                    yield this.CreateMeal({ title: meal, day_id: day_resp.identifiers[0].id });
-                }));
+                const day = yield Day_1.Day.findOne({ where: { id: day_resp.identifiers[0].id } });
+                yield this.CreateMeal({ title: 'Breakfast', day_id: day.id });
+                yield this.CreateMeal({ title: 'Lunch', day_id: day.id });
+                yield this.CreateMeal({ title: 'Dinner', day_id: day.id });
+                const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' } });
                 return {
                     status: true,
                     message: 'day created successfuly',
-                    id: day_resp.identifiers[0].id
+                    id: day_resp.identifiers[0].id,
+                    meals: meals
                 };
             }
             catch (e) {
