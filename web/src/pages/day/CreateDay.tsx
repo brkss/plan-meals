@@ -1,7 +1,7 @@
-import { Box, Heading, FormControl, Button, Grid, GridItem, Center } from '@chakra-ui/react';
+import { Box, Heading, FormControl, Button, Grid, GridItem, Center, Text } from '@chakra-ui/react';
 import React from 'react';
 import { ErrorMessage } from '../../components/ErrorMessage';
-
+import { Next30Days } from '../../helpers/fns/dates.fn';
 
 export const CreateDay : React.FC = () => {
 
@@ -26,6 +26,7 @@ export const CreateDay : React.FC = () => {
         SetError('');
     }
 
+    const days = Next30Days();
 
     return(
         <Box mt={5}>
@@ -48,49 +49,27 @@ export const CreateDay : React.FC = () => {
                 </FormControl>
             </form> */}
             <Box>
-                <Grid  templateColumns="repeat(18, 1fr)" gap={0}>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
-                    <GridItem colSpan={{md: 6, base: 3}}  >
-                        <Box m={5}>
-                            <Center rounded={6} fontWeight='bold' height='100px' bg='gray.300'>
-                                Day 1
-                            </Center>
-                        </Box>
-                    </GridItem>
+                
+                <Grid  templateColumns="repeat(48, 1fr)" gap={0}>
+                   
+                    {
+                        days.map((day: any, key: number) => (
+                            <GridItem key={key} colSpan={{md: 6, base: 16}}  >
+                                <Box m={3}>
+                                    <Center rounded={6} fontWeight='bold' height='100px' bg='gray.100' border={key === 0 ? '2px solid black' : ''}>
+                                        <Text textAlign='center'>
+                                            {day.date}, {day.month} 
+                                            <br />
+                                            <span style={{fontSize: '12px', opacity: '.8'}}>{day.name}</span>
+                                        </Text>
+                                        
+                                    </Center>
+                                </Box>
+                            </GridItem>
+                        ))
+                    }
+                    
+                    
                     
                     
                     
