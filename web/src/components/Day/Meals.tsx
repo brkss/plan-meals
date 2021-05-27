@@ -143,7 +143,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
             if(_data.status === true){
                 toast({
                     title: _data.message,
-                    status: "warning",
+                    status: "success",
                     duration: 9000,
                     isClosable: true,
                 });
@@ -161,21 +161,6 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
             }
         })
     }
-
-    /* const [meals, SetMeals] = React.useState([
-        {
-            name: 'Breakfast'
-        },
-        {
-            name: 'Lunch'
-        },
-        {
-            name: 'Dinner'
-        }
-    ]) */
-
-
-    
 
 
     return(
