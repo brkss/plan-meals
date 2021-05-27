@@ -21,6 +21,7 @@ export const URLS = {
     },
     day: {
         create: `${API_URL}/day/create`,
-        add_recipe_to_meal: `${API_URL}/day/add-recipe-to-meal`
+        add_recipe_to_meal: `${API_URL}/day/add-recipe-to-meal`,
+        delete_meal: `${API_URL}/day//delete-meal`
     }
 }

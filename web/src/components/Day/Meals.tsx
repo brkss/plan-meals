@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDisclosure, Text, Drawer, Center, DrawerOverlay, Box, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Button } from '@chakra-ui/react';
+import { useDisclosure, Text, Drawer, Center, DrawerOverlay, Box, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Input, InputGroup, Button, CloseButton, useToast } from '@chakra-ui/react';
 import { IDayDate } from '../../helpers/types/IDayDate';
 import { AddIcon } from '@chakra-ui/icons';
 import { MealRecipes } from './MealRecipes';
@@ -16,9 +16,12 @@ interface Props {
 
 export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
+    const toast = useToast();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [mealId, SetMealId] = React.useState<number>();
     const [loading, SetLoading] = React.useState(false);
+    const [isAddingMeal, SetIsAddingMeal] = React.useState(false);
     const [meals, SetMeals] = React.useState<any []>([]);
 
 
@@ -45,6 +48,31 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
             SetLoading(false);
             console.log('create day resp => ', res);
         });
+    }
+
+    const deleteMeal = (meal_id: number) => {
+
+        axios.post(URLS.day.delete_meal, {id: meal_id}).then(res => {
+            const _data = res.data;
+            if(_data.status === true){
+                toast({
+                    title: _data.message,
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
+                createDay()
+            }else if(_data.status === false){
+                toast({
+                    title: _data.message,
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+            console.log('delete meal response => ', res);
+        })
+
     }
 
     /* const [meals, SetMeals] = React.useState([
@@ -89,7 +117,8 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                 {
                                     meals?.map((meal: any, key: number) =>(
                                             <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
-                                                <Text fontWeight='bold'>{meal?.title}</Text>
+                                                
+                                                <Text fontWeight='bold'>{meal?.title} <CloseButton float='right' onClick={() => deleteMeal(meal.id)} /></Text>
                                                 {
                                                     meal?.recipes?.map((recipe: any, key: any) => (
                                                         <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
@@ -112,7 +141,21 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                             </Box>
                                     ))
                                 }
-                                <Box p={3} background='gray.50' cursor='pointer' rounded={6} mt={5} border='1px dotted #ababab'>
+                                {
+                                    isAddingMeal ? 
+                                    <Box p={3} background='gray.50' cursor='pointer' rounded={6} mt={5}  >
+                                           
+                                            <Center>
+                                               <InputGroup>
+                                                    <Input variant='filled' placeholder='Meal Title' type='text' />
+                                                    <Button colorScheme='green' ml={3}>Add</Button>
+                                                    <CloseButton float='right' onClick={() => SetIsAddingMeal(false)} ml={3} mt={1} />
+                                                </InputGroup>
+                                            </Center>
+                                    </Box> : null 
+                                }
+                                
+                                <Box p={3} background='gray.50' cursor='pointer' rounded={6} mt={5} border='1px dotted #ababab' onClick={() => SetIsAddingMeal(true)}>
                                         <Center>
                                             <AddIcon />
                                         </Center>
@@ -121,17 +164,9 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
                         }
                     </>
-                   
-                    
-
+                
                 </DrawerBody>
 
-                <DrawerFooter>
-                    <Button variant="outline" mr={3} onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button colorScheme="blue">Save</Button>
-                </DrawerFooter>
                 </DrawerContent>
             </Drawer>
         </>
