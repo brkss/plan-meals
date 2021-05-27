@@ -173,6 +173,7 @@ class DayService {
                 };
             }
             try {
+                yield Meal_1.Meal.delete({ id: id });
             }
             catch (e) {
                 console.log('error deleting ');

@@ -173,6 +173,8 @@ export class DayService {
 
         try {
 
+            await Meal.delete({id: id});
+
         }catch(e){
             console.log('error deleting ')
         }

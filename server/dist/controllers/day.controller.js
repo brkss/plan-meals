@@ -33,9 +33,17 @@ class DayController {
             res.send(resp).json();
         });
     }
+    deleteMeal(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.body.id;
+            const resp = yield this.service.deleteMeal(id);
+            res.send(resp).json();
+        });
+    }
     routing() {
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/add-recipe-to-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res));
+        this.router.post('/delete-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.deleteMeal(req, res));
     }
 }
 exports.DayController = DayController;
