@@ -178,7 +178,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                 <DrawerCloseButton />
                 <DrawerHeader>Meals</DrawerHeader>
 
-                <DrawerBody>
+                <DrawerBody pb={35}>
                     <>
                         {
                             loading ? 
@@ -194,7 +194,12 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                                 {
                                                     meal?.recipes?.map((recipe: any, key: any) => (
                                                         <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
-                                                            <Text fontWeight='bold' opacity={.8} > <CgBowl /> {recipe?.title} <CloseButton float='right' onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} /></Text>
+                                                            
+                                                            <Text fontWeight='bold' opacity={.8} > 
+                                                                <CgBowl />
+                                                                {recipe?.title}
+                                                                <CloseButton float='right' mt={-25} onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} />
+                                                            </Text>
                                                         </Box>
                                                     ))
                                                 }
