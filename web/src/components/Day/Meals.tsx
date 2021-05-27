@@ -6,6 +6,7 @@ import { MealRecipes } from './MealRecipes';
 import { CgBowl } from 'react-icons/all';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
+import { Loading } from '../Loading';
 
 
 interface Props {
@@ -163,6 +164,8 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
     }
 
 
+    
+
     return(
 
         <>
@@ -178,11 +181,11 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                 <DrawerCloseButton />
                 <DrawerHeader>Meals</DrawerHeader>
 
-                <DrawerBody pb={35}>
+                <DrawerBody p6b={35}>
                     <>
                         {
                             loading ? 
-                                <>loading..</>
+                                <Loading />
                             : 
                             <>
                                 <Text fontWeight='bold' fontSize='22px'> {day?.name}  {day?.date}, {day?.month} </Text>
