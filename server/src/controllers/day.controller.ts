@@ -31,9 +31,16 @@ export class DayController {
         res.send(resp).json();
     }
 
+    async createMeal(req: Request, res: Response){
+        const input = req.body;
+        const resp = await this.service.CreateMeal(input);
+        res.send(resp).json();
+    }
+
     public routing(){
         this.router.post('/create',(req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/add-recipe-to-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res))
+        this.router.post('/add-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.createMeal(req, res))
         this.router.post('/delete-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.deleteMeal(req, res))
     }
 
