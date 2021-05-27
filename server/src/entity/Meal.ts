@@ -1,5 +1,6 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
 import { Day } from './Day';
+import { Recipe } from './Recipe';
 
 @Entity('meals')
 export class Meal extends BaseEntity {
@@ -18,5 +19,8 @@ export class Meal extends BaseEntity {
 
     @ManyToOne(_ => Day, day => day.meals, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     day: Day; 
+
+    @ManyToMany(() => Recipe, recipe => recipe.meals)
+    recipes: Recipe[];
 
 }

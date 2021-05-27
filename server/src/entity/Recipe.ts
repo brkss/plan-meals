@@ -40,7 +40,7 @@ export class Recipe extends BaseEntity {
     @OneToMany(_ => Ingredient, direction => direction.recipe, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     ingredients: Ingredient[]
 
-    @ManyToMany(() => Meal, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    @ManyToMany(() => Meal, meal => meal.recipes, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     @JoinTable()
     meals: Meal[];
     

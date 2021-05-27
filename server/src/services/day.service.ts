@@ -36,7 +36,7 @@ export class DayService {
         //check if day exist 
         const day = await Day.findOne({where: {date: input.date.toUpperCase()}});
         if(day){
-            const meals = await Meal.find({where: {day: day}, order: {id: 'ASC'}});
+            const meals = await Meal.find({where: {day: day}, order: {id: 'ASC'}, relations: ['recipes']});
             return {
                 status: true,
                 message: 'Day already exist!',
@@ -44,7 +44,7 @@ export class DayService {
                 meals: meals
             }
         }
-
+ 
         // create day
         try {
             const day_resp = await Day.insert({
@@ -116,7 +116,7 @@ export class DayService {
 
     // add recipe to meal
     public async addRecipetoMeal(input: AddRecipeToMeal) : Promise<DefaultResponse>{
-        if(!input  || !input.meal_id || !input.recipe_id || !input.day_id){
+        if(!input  || !input.meal_id || !input.recipe_id ){
             return {
                 status: false,
                 message: 'Invalid data!'
@@ -126,11 +126,18 @@ export class DayService {
          
         // add recipe to meal 
         const meal = await Meal.findOne({where: {id: input.meal_id}});
-        const recipe = await Recipe.findOne({where: {id: input.recipe_id}});
+        
+        const recipe = await Recipe.findOne({where: {id: input.recipe_id}, relations:['meals']});
         if(!recipe || !meal){
             return {
                 status: false,
                 message: 'Invalid recipe or meal data!'
+            }
+        }
+        if(recipe.meals.findIndex(x => x.id === meal.id) !== -1){
+            return {
+                status: false,
+                message: 'You already added this recipe to your meal :D'
             }
         }
         recipe.meals = [meal];
@@ -140,6 +147,39 @@ export class DayService {
         return {
             status: true, 
             message: 'recipe added to meal successfuly !'
+        }
+    }
+
+    // delete meal 
+    async deleteMeal(id: number) : Promise<DefaultResponse>{
+
+        if(!id) return {
+            status: false,
+            message: 'Invalid Meal ID!'
+        }
+        const meal = await Meal.findOne({where:{id: id}, relations: ['day', 'day.user']});
+        if(!meal){
+            return {
+                status: false,
+                message: 'Meal not found!'
+            }
+        }
+        if(meal.day.user.id !== httpContext.get('userId')){
+            return {
+                status: false,
+                message: 'user not found!'
+            }
+        }
+
+        try {
+
+        }catch(e){
+            console.log('error deleting ')
+        }
+
+        return {
+            status: true,
+            message: 'Meal deleted successfuly'
         }
     }
 

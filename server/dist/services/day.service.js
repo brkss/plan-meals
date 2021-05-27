@@ -52,7 +52,7 @@ class DayService {
             }
             const day = yield Day_1.Day.findOne({ where: { date: input.date.toUpperCase() } });
             if (day) {
-                const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' } });
+                const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' }, relations: ['recipes'] });
                 return {
                     status: true,
                     message: 'Day already exist!',
@@ -124,18 +124,24 @@ class DayService {
     }
     addRecipetoMeal(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!input || !input.meal_id || !input.recipe_id || !input.day_id) {
+            if (!input || !input.meal_id || !input.recipe_id) {
                 return {
                     status: false,
                     message: 'Invalid data!'
                 };
             }
             const meal = yield Meal_1.Meal.findOne({ where: { id: input.meal_id } });
-            const recipe = yield Recipe_1.Recipe.findOne({ where: { id: input.recipe_id } });
+            const recipe = yield Recipe_1.Recipe.findOne({ where: { id: input.recipe_id }, relations: ['meals'] });
             if (!recipe || !meal) {
                 return {
                     status: false,
                     message: 'Invalid recipe or meal data!'
+                };
+            }
+            if (recipe.meals.findIndex(x => x.id === meal.id) !== -1) {
+                return {
+                    status: false,
+                    message: 'You already added this recipe to your meal :D'
                 };
             }
             recipe.meals = [meal];
@@ -143,6 +149,37 @@ class DayService {
             return {
                 status: true,
                 message: 'recipe added to meal successfuly !'
+            };
+        });
+    }
+    deleteMeal(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!id)
+                return {
+                    status: false,
+                    message: 'Invalid Meal ID!'
+                };
+            const meal = yield Meal_1.Meal.findOne({ where: { id: id }, relations: ['day', 'day.user'] });
+            if (!meal) {
+                return {
+                    status: false,
+                    message: 'Meal not found!'
+                };
+            }
+            if (meal.day.user.id !== httpContext.get('userId')) {
+                return {
+                    status: false,
+                    message: 'user not found!'
+                };
+            }
+            try {
+            }
+            catch (e) {
+                console.log('error deleting ');
+            }
+            return {
+                status: true,
+                message: 'Meal deleted successfuly'
             };
         });
     }

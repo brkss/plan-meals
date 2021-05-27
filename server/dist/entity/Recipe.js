@@ -59,7 +59,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Recipe.prototype, "ingredients", void 0);
 __decorate([
-    typeorm_1.ManyToMany(() => Meal_1.Meal, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.ManyToMany(() => Meal_1.Meal, meal => meal.recipes, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], Recipe.prototype, "meals", void 0);

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Meal = void 0;
 const typeorm_1 = require("typeorm");
 const Day_1 = require("./Day");
+const Recipe_1 = require("./Recipe");
 let Meal = class Meal extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -34,6 +35,10 @@ __decorate([
     typeorm_1.ManyToOne(_ => Day_1.Day, day => day.meals, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Day_1.Day)
 ], Meal.prototype, "day", void 0);
+__decorate([
+    typeorm_1.ManyToMany(() => Recipe_1.Recipe, recipe => recipe.meals),
+    __metadata("design:type", Array)
+], Meal.prototype, "recipes", void 0);
 Meal = __decorate([
     typeorm_1.Entity('meals')
 ], Meal);
