@@ -11,10 +11,11 @@ import { Urls } from '../Recipe/Urls';
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    meal_id: number
+    meal_id: number;
+    refresh_meals: () => void;
 }
 
-export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id}) => {
+export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id, refresh_meals}) => {
 
     const toast = useToast();
 
@@ -42,8 +43,9 @@ export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id}) => {
                     status: "success",
                     duration: 9000,
                     isClosable: true,
-                })
-                onClose()
+                });
+                refresh_meals();
+                onClose();
             }else if(_data.status === false){
                 toast({
                     title: _data.message,
@@ -103,21 +105,7 @@ export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id}) => {
                                 </Box>
                             ))
                         }
-                        <Box bg='gray.50' p={3} mt={3} cursor='pointer' rounded={6}>
-                            <Text><CgBowl /></Text>
-                            <Text fontWeight='bold'>Pasta with Creamy Crushed Walnut Sauce</Text>
-                            <Text>Toasted walnuts pounded with garlic into a creamy sauce make this pasta easy and exceptional. If you have dried pasta, a few cl...</Text>
-                        </Box>
-                        <Box bg='gray.50' p={3} mt={3} cursor='pointer' rounded={6}>
-                            <Text><CgBowl /></Text>
-                            <Text fontWeight='bold'>Pasta with Creamy Crushed Walnut Sauce</Text>
-                            <Text>Toasted walnuts pounded with garlic into a creamy sauce make this pasta easy and exceptional. If you have dried pasta, a few cl...</Text>
-                        </Box>
-                        <Box bg='gray.50' p={3} mt={3} cursor='pointer' rounded={6}>
-                            <Text><CgBowl /></Text>
-                            <Text fontWeight='bold'>Pasta with Creamy Crushed Walnut Sauce</Text>
-                            <Text>Toasted walnuts pounded with garlic into a creamy sauce make this pasta easy and exceptional. If you have dried pasta, a few cl...</Text>
-                        </Box>
+                        
                     </Box>
                 </DrawerBody>
 
