@@ -23,7 +23,8 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
     const [loading, SetLoading] = React.useState(false);
     const [isAddingMeal, SetIsAddingMeal] = React.useState(false);
     const [meals, SetMeals] = React.useState<any []>([]);
-
+    const [dayId, SetDayId] = React.useState<number>();
+    const [title, SetTitle] = React.useState<string>();
 
     React.useEffect(() => {
         if(isOpenMeal){
@@ -31,7 +32,13 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         }
         console.log('create day')
         
-    }, [isOpenMeal])
+    }, [isOpenMeal]);
+
+
+    // handle title change 
+    const handleMealTitle = (e: React.FormEvent<HTMLInputElement>) => {
+        SetTitle(e.currentTarget.value);
+    }
 
     const createDay = () => {
         const ref = `${day?.date}${day?.month.toUpperCase()}${day?.year}`;
@@ -43,6 +50,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         axios.post(URLS.day.create, _data).then(res => {
             const data = res.data;
             if(res.data.status === true){
+                SetDayId(data.id);
                 SetMeals(data.meals);
             }
             SetLoading(false);
@@ -71,6 +79,45 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                 });
             }
             console.log('delete meal response => ', res);
+        })
+    }
+
+    // create meal 
+    const CreateMeal = () => {
+        const data = {
+            day_id: dayId,
+            title: title
+        }
+        if(!data.day_id || !data.title){
+            toast({
+                title: `Invalid information! day id : ${data.day_id} title : ${data.title}`,
+                status: "warning",
+                duration: 9000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        axios.post(URLS.day.create_meal, data).then(resp => {
+            console.log('create meal resp => ', resp);
+            const _data = resp.data;
+            if(_data.status === true){
+                toast({
+                    title: _data.message,
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
+                createDay();
+                SetIsAddingMeal(false);
+            }else if(_data.status === false){
+                toast({
+                    title: _data.message,
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
         })
 
     }
@@ -147,8 +194,8 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                            
                                             <Center>
                                                <InputGroup>
-                                                    <Input variant='filled' placeholder='Meal Title' type='text' />
-                                                    <Button colorScheme='green' ml={3}>Add</Button>
+                                                    <Input variant='filled' placeholder='Meal Title' type='text' onChange={(e) => handleMealTitle(e)} />
+                                                    <Button colorScheme='green' variant='outline' ml={3} onClick={() => CreateMeal()}>Add</Button>
                                                     <CloseButton float='right' onClick={() => SetIsAddingMeal(false)} ml={3} mt={1} />
                                                 </InputGroup>
                                             </Center>
