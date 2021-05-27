@@ -17,6 +17,7 @@ interface Props {
 export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [mealId, SetMealId] = React.useState<number>();
     const [loading, SetLoading] = React.useState(false);
     const [meals, SetMeals] = React.useState<any []>([]);
 
@@ -67,7 +68,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
     return(
 
         <>
-            <MealRecipes isOpen={isOpen} onClose={onClose} />
+            <MealRecipes meal_id={mealId!} isOpen={isOpen} onClose={onClose} />
             <Drawer
                 isOpen={isOpenMeal}
                 placement="right"
@@ -91,7 +92,10 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                 </Box>
                                 
                                 <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
-                                    onClick={onOpen}
+                                    onClick={() => {
+                                        SetMealId(meal.id)
+                                        onOpen();
+                                    }}
                                 >
                                     <Center>
                                         <AddIcon />
