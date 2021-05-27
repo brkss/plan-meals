@@ -1,6 +1,6 @@
 
 
-export interface AddRecipeToMeal {
+export interface RecipeToMealInput {
 
     meal_id: number;
     recipe_id: number;

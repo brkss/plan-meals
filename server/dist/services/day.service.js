@@ -130,6 +130,12 @@ class DayService {
                     message: 'Invalid data!'
                 };
             }
+            if (!(yield this.checkIfMealBelongToUser(input.meal_id))) {
+                return {
+                    status: false,
+                    message: 'Something is wrong with your meal'
+                };
+            }
             const meal = yield Meal_1.Meal.findOne({ where: { id: input.meal_id } });
             const recipe = yield Recipe_1.Recipe.findOne({ where: { id: input.recipe_id }, relations: ['meals'] });
             if (!recipe || !meal) {
@@ -159,17 +165,10 @@ class DayService {
                     status: false,
                     message: 'Invalid Meal ID!'
                 };
-            const meal = yield Meal_1.Meal.findOne({ where: { id: id }, relations: ['day', 'day.user'] });
-            if (!meal) {
+            if (!(yield this.checkIfMealBelongToUser(id))) {
                 return {
                     status: false,
-                    message: 'Meal not found!'
-                };
-            }
-            if (meal.day.user.id !== httpContext.get('userId')) {
-                return {
-                    status: false,
-                    message: 'user not found!'
+                    message: 'Something is wrong with your meal'
                 };
             }
             try {
@@ -182,6 +181,38 @@ class DayService {
                 status: true,
                 message: 'Meal deleted successfuly'
             };
+        });
+    }
+    deleteRecipeFromMeal(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!input || !input.meal_id || !input.recipe_id) {
+                return {
+                    status: false,
+                    message: 'Invalid data!'
+                };
+            }
+            if (!(yield this.checkIfMealBelongToUser(input.meal_id))) {
+                return {
+                    status: false,
+                    message: 'Something is wrong with your meal'
+                };
+            }
+            return {
+                status: true,
+                message: ''
+            };
+        });
+    }
+    checkIfMealBelongToUser(meal_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const meal = yield Meal_1.Meal.findOne({ where: { id: meal_id }, relations: ['day', 'day.user'] });
+            if (!meal) {
+                return false;
+            }
+            if (meal.day.user.id !== httpContext.get('userId')) {
+                return false;
+            }
+            return true;
         });
     }
 }

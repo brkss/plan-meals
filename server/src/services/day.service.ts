@@ -2,7 +2,7 @@ import { CreateDayInput } from "../helpers/inputs/day.input";
 import * as httpContext from 'express-http-context'
 import { User } from "../entity/User";
 import { Day } from "../entity/Day";
-import { AddRecipeToMeal } from "../helpers/inputs/recipe_meal_day.input";
+import { RecipeToMealInput } from "../helpers/inputs/recipe_meal_day.input";
 import { DefaultResponse } from "../helpers/responses/default.response";
 import { CreateMealInput } from "../helpers/inputs/meal.input";
 import { Meal } from "../entity/Meal";
@@ -12,11 +12,6 @@ import { Recipe } from "../entity/Recipe";
 export class DayService {
 
 
-   /*  private default_meals : string[] = [
-        'Breakfast',
-        'Lunch',
-        'Dinner'
-    ]; */
 
     public async createDay(input: CreateDayInput) : Promise<DefaultResponse>{
         if(!input || !input.date || !input.title){
@@ -115,7 +110,7 @@ export class DayService {
 
 
     // add recipe to meal
-    public async addRecipetoMeal(input: AddRecipeToMeal) : Promise<DefaultResponse>{
+    public async addRecipetoMeal(input: RecipeToMealInput) : Promise<DefaultResponse>{
         if(!input  || !input.meal_id || !input.recipe_id ){
             return {
                 status: false,
@@ -123,6 +118,12 @@ export class DayService {
             }
         }
         
+        if(!await this.checkIfMealBelongToUser(input.meal_id)){
+            return {
+                status: false,
+                message: 'Something is wrong with your meal'
+            }
+        }
          
         // add recipe to meal 
         const meal = await Meal.findOne({where: {id: input.meal_id}});
@@ -157,17 +158,10 @@ export class DayService {
             status: false,
             message: 'Invalid Meal ID!'
         }
-        const meal = await Meal.findOne({where:{id: id}, relations: ['day', 'day.user']});
-        if(!meal){
+        if(!await this.checkIfMealBelongToUser(id)){
             return {
                 status: false,
-                message: 'Meal not found!'
-            }
-        }
-        if(meal.day.user.id !== httpContext.get('userId')){
-            return {
-                status: false,
-                message: 'user not found!'
+                message: 'Something is wrong with your meal'
             }
         }
 
@@ -183,6 +177,44 @@ export class DayService {
             status: true,
             message: 'Meal deleted successfuly'
         }
+    }
+
+    // delete recipe from a meal 
+    async deleteRecipeFromMeal(input: RecipeToMealInput) : Promise<DefaultResponse>{
+
+        if(!input || !input.meal_id || !input.recipe_id){
+            return {
+                status: false,
+                message: 'Invalid data!'
+            }
+        }
+
+
+        if(!await this.checkIfMealBelongToUser(input.meal_id)){
+            return {
+                status: false,
+                message: 'Something is wrong with your meal'
+            }
+        }
+        
+
+        return {
+            status: true,
+            message: ''
+        }
+
+    }
+
+
+    async checkIfMealBelongToUser(meal_id: number){
+        const meal = await Meal.findOne({where:{id: meal_id}, relations: ['day', 'day.user']});
+        if(!meal){
+            return false;
+        }
+        if(meal.day.user.id !== httpContext.get('userId')){
+            return false
+        }
+        return true;
     }
 
 }
