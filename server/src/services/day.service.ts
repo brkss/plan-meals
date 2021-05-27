@@ -196,6 +196,39 @@ export class DayService {
                 message: 'Something is wrong with your meal'
             }
         }
+
+        const recipe = await Recipe.findOne({where: {id: input.recipe_id}});
+        const meal = await Meal.findOne({where: {id: input.meal_id}, relations: ['recipes']});
+        if(!meal || !recipe){
+            return {
+                status: false, 
+                message: 'Data not found!'
+            }
+        }
+
+        try {
+
+            const recipeIndex = meal.recipes.findIndex(x => x.id === recipe.id)
+            if(recipeIndex === -1){
+                return {
+                    status: false,
+                    message: 'Recipe not found'
+                }
+            }
+            meal.recipes.splice(recipeIndex, 1);
+            await meal.save();
+            return {
+                status: true,
+                message: 'Recipe removed successfuly from your meal'
+            }
+
+        }catch(e){
+            console.log('deleting recipe from meals => ', e);
+            return {
+                status: false,
+                message: 'Something went wrong deleting this recipe from your meal'
+            }
+        }
         
 
         return {

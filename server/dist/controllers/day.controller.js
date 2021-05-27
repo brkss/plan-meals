@@ -47,9 +47,17 @@ class DayController {
             res.send(resp).json();
         });
     }
+    deleteRecipeFromMeal(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const input = req.body;
+            const resp = yield this.service.deleteRecipeFromMeal(input);
+            res.send(resp).json();
+        });
+    }
     routing() {
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/add-recipe-to-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res));
+        this.router.post('/delete-recipe-from-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.deleteRecipeFromMeal(req, res));
         this.router.post('/add-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createMeal(req, res));
         this.router.post('/delete-meal', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.deleteMeal(req, res));
     }
