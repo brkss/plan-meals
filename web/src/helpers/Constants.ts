@@ -23,6 +23,7 @@ export const URLS = {
         create: `${API_URL}/day/create`,
         add_recipe_to_meal: `${API_URL}/day/add-recipe-to-meal`,
         delete_meal: `${API_URL}/day/delete-meal`,
-        create_meal: `${API_URL}/day/add-meal`
+        create_meal: `${API_URL}/day/add-meal`,
+        delete_recipe_from_meal: `${API_URL}/day/delete-recipe-from-meal`
     }
 }

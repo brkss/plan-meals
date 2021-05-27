@@ -90,7 +90,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         }
         if(!data.day_id || !data.title){
             toast({
-                title: `Invalid information! day id : ${data.day_id} title : ${data.title}`,
+                title: `Invalid information!`,
                 status: "warning",
                 duration: 9000,
                 isClosable: true,
@@ -120,6 +120,46 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
             }
         })
 
+    }
+
+    // delete recipe from meal
+    const deleteRecipeFromMeal = (meal_id: number, recipe_id: number) => {
+        if(!meal_id || !recipe_id){
+            toast({
+                title: `Invalid information!`,
+                status: "warning",
+                duration: 9000,
+                isClosable: true,
+            });
+            return;
+        }
+        const _data = {
+            meal_id: meal_id,
+            recipe_id: recipe_id
+        }
+        axios.post(URLS.day.delete_recipe_from_meal, _data).then(res => {
+            console.log('remove recipe from meal => ', res);
+            const _data = res.data;
+            if(_data.status === true){
+                toast({
+                    title: _data.message,
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                });
+                const mealIndex = meals.findIndex(x => x.id === meal_id) ;
+                const recipeIndex = meals[mealIndex].recipes.findIndex((x: any) => x.id === recipe_id);
+                meals[mealIndex].recipes.splice(recipeIndex, 1);
+                SetMeals([...meals]);
+            }else if(_data.status === false){
+                toast({
+                    title: _data.message,
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+        })
     }
 
     /* const [meals, SetMeals] = React.useState([
@@ -169,7 +209,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                                 {
                                                     meal?.recipes?.map((recipe: any, key: any) => (
                                                         <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
-                                                            <Text fontWeight='bold' opacity={.8} > <CgBowl /> {recipe?.title} </Text>
+                                                            <Text fontWeight='bold' opacity={.8} > <CgBowl /> {recipe?.title} <CloseButton float='right' onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} /></Text>
                                                         </Box>
                                                     ))
                                                 }

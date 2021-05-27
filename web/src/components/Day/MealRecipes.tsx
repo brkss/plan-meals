@@ -91,7 +91,7 @@ export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id, refresh
                 <DrawerOverlay />
                 <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Recipes meal id : {meal_id}</DrawerHeader>
+                <DrawerHeader>Recipes</DrawerHeader>
 
                 <DrawerBody >
                    <Input variant='filled' placeholder='Search..' />
