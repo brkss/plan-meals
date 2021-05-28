@@ -43,9 +43,16 @@ export class DayController {
         res.send(resp).json();
     }
 
-//deleteRecipeFromMeal
+    async checkDay(req: Request, res: Response){
+        const input = req.body;
+        const resp = await this.service.checkDay(input);
+        res.send(resp).json();
+    } 
+
+//checkDay
     public routing(){
         this.router.post('/create',(req, res, next) => isAuth(req, res, next), (req, res) => this.create(req, res));
+        this.router.post('/check', (req, res, next) => isAuth(req, res, next), (req, res) => this.checkDay(req, res))
         this.router.post('/add-recipe-to-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.addRecipeToMeal(req, res))
         this.router.post('/delete-recipe-from-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.deleteRecipeFromMeal(req, res))
         this.router.post('/add-meal', (req, res, next) => isAuth(req, res, next), (req, res) => this.createMeal(req, res))

@@ -13,6 +13,52 @@ export class DayService {
 
 
 
+    public async checkDay(input: CreateDayInput){
+        if(!input || !input.date || !input.title){
+            return {
+                status: false,
+                message: 'Invalid data!'
+            }
+        }
+        const user = await User.findOne({where: {id: httpContext.get('userId')}})
+        if(!user){
+            return {
+                status: false,
+                message: 'User not found'
+            }
+        }
+
+        //check if day exist 
+        const day = await Day.findOne({where: {date: input.date.toUpperCase()}});
+        if(day){
+            const meals = await Meal.find({where: {day: day}, order: {id: 'ASC'}, relations: ['recipes']});
+            return {
+                status: true,
+                message: 'Day already exist!',
+                id: day.id,
+                meals: meals
+            }
+        }else {
+            return {
+                status: true,
+                message: 'Day have no recipes',
+                id: null,
+                meals: [],
+                default_meals: [
+                    {
+                        title: 'Breakfast'
+                    },
+                    {
+                        title: 'Lunch'
+                    },
+                    {
+                        title: 'Dinner'
+                    }
+                ]
+            }
+        }
+    }
+
     public async createDay(input: CreateDayInput) : Promise<DefaultResponse>{
         if(!input || !input.date || !input.title){
             return {

@@ -35,6 +35,52 @@ const Day_1 = require("../entity/Day");
 const Meal_1 = require("../entity/Meal");
 const Recipe_1 = require("../entity/Recipe");
 class DayService {
+    checkDay(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!input || !input.date || !input.title) {
+                return {
+                    status: false,
+                    message: 'Invalid data!'
+                };
+            }
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found'
+                };
+            }
+            const day = yield Day_1.Day.findOne({ where: { date: input.date.toUpperCase() } });
+            if (day) {
+                const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' }, relations: ['recipes'] });
+                return {
+                    status: true,
+                    message: 'Day already exist!',
+                    id: day.id,
+                    meals: meals
+                };
+            }
+            else {
+                return {
+                    status: true,
+                    message: 'Day have no recipes',
+                    id: null,
+                    meals: [],
+                    default_meals: [
+                        {
+                            title: 'Breakfast'
+                        },
+                        {
+                            title: 'Lunch'
+                        },
+                        {
+                            title: 'Dinner'
+                        }
+                    ]
+                };
+            }
+        });
+    }
     createDay(input) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!input || !input.date || !input.title) {
