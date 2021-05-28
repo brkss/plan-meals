@@ -24,6 +24,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
     const [loading, SetLoading] = React.useState(false);
     const [isAddingMeal, SetIsAddingMeal] = React.useState(false);
     const [meals, SetMeals] = React.useState<any []>([]);
+    const [isDefaultMeals, SetIsDefaultMeals] = React.useState<boolean>(false);
     const [dayId, SetDayId] = React.useState<number>();
     const [title, SetTitle] = React.useState<string>();
 
@@ -48,14 +49,21 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
             title: `${day?.date} ,${day?.month}`
         }
         SetLoading(true);
-        axios.post(URLS.day.create, _data).then(res => {
+        axios.post(URLS.day.check, _data).then(res => {
+            console.log('check day resp => ', res);
+            SetLoading(false);
             const data = res.data;
             if(res.data.status === true){
-                SetDayId(data.id);
-                SetMeals(data.meals);
+                if(data.meals.length > 0){
+                    SetDayId(data.id);
+                    SetMeals(data.meals);
+                }else {
+                    SetMeals(data.default_meals);
+                    SetIsDefaultMeals(true);
+                }
+                
             }
-            SetLoading(false);
-            console.log('create day resp => ', res);
+            
         });
     }
 
@@ -190,36 +198,66 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                             <>
                                 <Text fontWeight='bold' fontSize='22px'> {day?.name}  {day?.date}, {day?.month} </Text>
                                 {
-                                    meals?.map((meal: any, key: number) =>(
-                                            <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
-                                                
-                                                <Text fontWeight='bold'>{meal?.title} <CloseButton float='right' onClick={() => deleteMeal(meal.id)} /></Text>
-                                                {
-                                                    meal?.recipes?.map((recipe: any, key: any) => (
-                                                        <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
-                                                            
-                                                            <Text fontWeight='bold' opacity={.8} > 
-                                                                <CgBowl />
-                                                                {recipe?.title}
-                                                                <CloseButton float='right' mt={-25} onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} />
-                                                            </Text>
+                                    isDefaultMeals ? 
+                                    <>
+                                        {
+                                            meals?.map((meal: any, key: number) =>(
+                                                    <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
+                                                        
+                                                        <Text fontWeight='bold'>{meal?.title} <CloseButton float='right' onClick={() => deleteMeal(meal.id)} /></Text>
+                                                        {
+                                                            meal?.recipes?.map((recipe: any, key: any) => (
+                                                                <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
+                                                                    
+                                                                    <Text fontWeight='bold' opacity={.8} > 
+                                                                        <CgBowl />
+                                                                        {recipe?.title}
+                                                                        <CloseButton float='right' mt={-25} onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} />
+                                                                    </Text>
+                                                                </Box>
+                                                            ))
+                                                        }
+                                                        
+                                                        
+                                                        <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
+                                                            onClick={() => {
+                                                                SetMealId(meal.id)
+                                                                onOpen();
+                                                            }}
+                                                        >
+                                                            <Center>
+                                                                <AddIcon />
+                                                            </Center>
                                                         </Box>
-                                                    ))
-                                                }
-                                                
-                                                
-                                                <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
-                                                    onClick={() => {
-                                                        SetMealId(meal.id)
-                                                        onOpen();
-                                                    }}
-                                                >
-                                                    <Center>
-                                                        <AddIcon />
-                                                    </Center>
+                                                    </Box>
+                                            ))
+                                        }
+                                    </> : 
+                                    <>
+                                        {
+                                            meals?.map((meal: any, key: number) =>(
+                                                <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
+                                                    
+                                                    <Text fontWeight='bold'>{meal.title} <CloseButton float='right' onClick={() => {}} /></Text>
+                                                    
+                                                    
+                                                    
+                                                    <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
+                                                        onClick={() => {
+                                                            //SetMealId(meal.id)
+                                                            onOpen();
+                                                        }}
+                                                    >
+                                                        <Center>
+                                                            <AddIcon />
+                                                        </Center>
+                                                    </Box>
                                                 </Box>
-                                            </Box>
-                                    ))
+                                            ))
+                                        }   
+
+                                    </>
+                                    
                                 }
                                 {
                                     isAddingMeal ? 

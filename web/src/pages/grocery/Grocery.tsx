@@ -39,9 +39,6 @@ export const Grocery : React.FC<Props> = ({childrens}) => {
                         )} />
                     ))
                 }
-           
-
-            
         </>
     );
 }
