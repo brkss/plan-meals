@@ -74,6 +74,10 @@ export class DayService {
             }
         }
 
+        if(await this.cleanupEmptyDays()){
+            console.log('days deleted successfuly');
+        }
+
         //check if day exist 
         const day = await Day.findOne({where: {date: input.date.toUpperCase()}});
         if(day){
@@ -293,6 +297,34 @@ export class DayService {
         if(meal.day.user.id !== httpContext.get('userId')){
             return false
         }
+        return true;
+    }
+
+
+    // cleanup empty days 
+    async cleanupEmptyDays(){
+        
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        
+        if(!user){
+            return false;
+        }
+        
+        const days = await Day.find({where: {user: user}});
+        
+        if(days.length === 0){
+            return true;
+        }
+        for(let j = 0; j < days.length; j++){
+            const day_meals = await Meal.find({where: {day: days[j]}, relations: ['recipes']});
+            for(let i = 0; i < day_meals.length; i++){
+                if(day_meals[i].recipes.length > 0){
+                    return false;
+                }
+            }
+            await Day.delete(days[j]);
+        }
+
         return true;
     }
 

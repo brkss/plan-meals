@@ -96,6 +96,9 @@ class DayService {
                     message: 'User not found'
                 };
             }
+            if (yield this.cleanupEmptyDays()) {
+                console.log('days deleted successfuly');
+            }
             const day = yield Day_1.Day.findOne({ where: { date: input.date.toUpperCase() } });
             if (day) {
                 const meals = yield Meal_1.Meal.find({ where: { day: day }, order: { id: 'ASC' }, relations: ['recipes'] });
@@ -287,6 +290,28 @@ class DayService {
             }
             if (meal.day.user.id !== httpContext.get('userId')) {
                 return false;
+            }
+            return true;
+        });
+    }
+    cleanupEmptyDays() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return false;
+            }
+            const days = yield Day_1.Day.find({ where: { user: user } });
+            if (days.length === 0) {
+                return true;
+            }
+            for (let j = 0; j < days.length; j++) {
+                const day_meals = yield Meal_1.Meal.find({ where: { day: days[j] }, relations: ['recipes'] });
+                for (let i = 0; i < day_meals.length; i++) {
+                    if (day_meals[i].recipes.length > 0) {
+                        return false;
+                    }
+                }
+                yield Day_1.Day.delete(days[j]);
             }
             return true;
         });
