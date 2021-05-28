@@ -13,6 +13,10 @@ export const Grocery : React.FC<Props> = ({childrens}) => {
  
     const links = [
         {
+            name: 'Shopping List',
+            link: '/dash/grocery/shop'
+        },
+        {
             name: 'My Groceries',
             link: '/dash/grocery/list',
         },

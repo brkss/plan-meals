@@ -14,6 +14,7 @@ import { InfoRecipe } from "../pages/recipe/InfoRecipe";
 import { ListRecipe } from "../pages/recipe/ListRecipe";
 import { Recipe } from "../pages/recipe/Recipe";
 import { Settings } from "../pages/settings/Settings";
+import { ShoppingList } from "../pages/grocery/ShoppingList";
 
 
 export const routes : IRoute[] = [
@@ -67,11 +68,18 @@ export const admin_routes : IRoute[] = [
         protected: true,
         children: [
             {
-                name: 'List Groceries',
+                name: 'Shopping List',
                 path: '/dash/grocery/',
                 exact: true,
                 protected: true,
-                component: ListGrocery
+                component: ShoppingList
+            },
+            {
+                name: 'Shopping List',
+                path: '/dash/grocery/shop',
+                exact: true,
+                protected: true,
+                component: ShoppingList
             },
             {
                 name: 'List Groceries',
