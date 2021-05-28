@@ -30,7 +30,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
 
     React.useEffect(() => {
         if(isOpenMeal){
-            createDay();
+            checkDay();
         }
         console.log('create day')
         
@@ -42,28 +42,23 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         SetTitle(e.currentTarget.value);
     }
 
-    const createDay = () => {
+    const checkDay = () => {
         const ref = `${day?.date}${day?.month.toUpperCase()}${day?.year}`;
         const _data = {
             date: ref,
             title: `${day?.date} ,${day?.month}`
         }
         SetLoading(true);
-        axios.post(URLS.day.check, _data).then(res => {
+        axios.post(URLS.day.create, _data).then(res => {
             console.log('check day resp => ', res);
             SetLoading(false);
             const data = res.data;
             if(res.data.status === true){
-                if(data.meals.length > 0){
+               
                     SetDayId(data.id);
                     SetMeals(data.meals);
-                }else {
-                    SetMeals(data.default_meals);
-                    SetIsDefaultMeals(true);
-                }
                 
             }
-            
         });
     }
 
@@ -78,7 +73,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                     duration: 9000,
                     isClosable: true,
                 });
-                createDay()
+                checkDay()
             }else if(_data.status === false){
                 toast({
                     title: _data.message,
@@ -117,7 +112,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                     duration: 9000,
                     isClosable: true,
                 });
-                createDay();
+                checkDay();
                 SetIsAddingMeal(false);
             }else if(_data.status === false){
                 toast({
@@ -177,7 +172,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
     return(
 
         <>
-            <MealRecipes meal_id={mealId!} isOpen={isOpen} onClose={onClose} refresh_meals={() => createDay()} />
+            <MealRecipes meal_id={mealId!} isOpen={isOpen} onClose={onClose} refresh_meals={() => checkDay()} />
             <Drawer
                 isOpen={isOpenMeal}
                 placement="right"
@@ -239,9 +234,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                                                 <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
                                                     
                                                     <Text fontWeight='bold'>{meal.title} <CloseButton float='right' onClick={() => {}} /></Text>
-                                                    
-                                                    
-                                                    
+                            
                                                     <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
                                                         onClick={() => {
                                                             //SetMealId(meal.id)
