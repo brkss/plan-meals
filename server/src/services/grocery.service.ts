@@ -105,20 +105,23 @@ export class GroceryService {
             if(d && d.meals.length > 0 && d.meals){
                 let day_tmp = {
                     name: d.title,
-                    grcoeries: {}
+                    grcoeries: {} as any
                 }
                 // map day groceries....
+                let groceries : any[] = []; 
                 for(const meal of d.meals){
                    if(meal.recipes.length === 0) break;
                     for(const recipe of meal.recipes){
                         if(recipe.ingredients.length === 0) break;
-                        day_tmp.grcoeries = recipe.ingredients.map((ing) => {
+                        groceries.push(recipe.ingredients.map((ing) => {
                             return ing.grocery
-                        });
-                        shop_list.push(day_tmp);
-                   }
+                        }));
+                   }   
                 }
-                
+                console.log('groceries => ', groceries);
+                day_tmp.grcoeries = groceries.concat.apply([], groceries);
+                shop_list.push(day_tmp);
+                groceries = [];
             }
         }
         console.log('grocery => ', shop_list);
