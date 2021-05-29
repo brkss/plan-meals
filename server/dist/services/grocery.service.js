@@ -115,15 +115,30 @@ class GroceryService {
     NextDaysGrocery() {
         return __awaiter(this, void 0, void 0, function* () {
             const days = dates_fn_1.NextDays(3);
-            let grocery = [];
-            days.forEach((day) => __awaiter(this, void 0, void 0, function* () {
-                const d = yield Day_1.Day.findOne({ where: { date: day.ref }, relations: ['meals', 'meals.recipes'] });
-                if (d) {
-                    grocery.push(d);
+            let shop_list = [];
+            for (const day of days) {
+                const d = yield Day_1.Day.findOne({ where: { date: day.ref }, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery'] });
+                if (d && d.meals.length > 0 && d.meals) {
+                    let day_tmp = {
+                        name: d.title,
+                        grcoeries: {}
+                    };
+                    for (const meal of d.meals) {
+                        if (meal.recipes.length === 0)
+                            break;
+                        for (const recipe of meal.recipes) {
+                            if (recipe.ingredients.length === 0)
+                                break;
+                            day_tmp.grcoeries = recipe.ingredients.map((ing) => {
+                                return ing.grocery;
+                            });
+                            shop_list.push(day_tmp);
+                        }
+                    }
                 }
-            }));
-            console.log('grocery => ', grocery);
-            return grocery;
+            }
+            console.log('grocery => ', shop_list);
+            return shop_list;
         });
     }
 }

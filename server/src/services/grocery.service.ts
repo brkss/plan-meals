@@ -90,15 +90,30 @@ export class GroceryService {
 
     async NextDaysGrocery(){
         const days = NextDays(3);
-        let grocery : any[] = [];
-        days.forEach(async day => {
-            const d = await Day.findOne({where: {date: day.ref}, relations: ['meals', 'meals.recipes']});
-            if(d){
-                grocery.push(d);
+        let shop_list : any[] = [];
+        for(const day of days){
+            const d = await Day.findOne({where: {date: day.ref}, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery']});
+            if(d && d.meals.length > 0 && d.meals){
+                let day_tmp = {
+                    name: d.title,
+                    grcoeries: {}
+                }
+                // map day groceries....
+                for(const meal of d.meals){
+                   if(meal.recipes.length === 0) break;
+                    for(const recipe of meal.recipes){
+                        if(recipe.ingredients.length === 0) break;
+                        day_tmp.grcoeries = recipe.ingredients.map((ing) => {
+                            return ing.grocery
+                        });
+                        shop_list.push(day_tmp);
+                   }
+                }
+                
             }
-        });
-        console.log('grocery => ', grocery);
-        return grocery;
+        }
+        console.log('grocery => ', shop_list);
+        return shop_list;
     }
 
 }
