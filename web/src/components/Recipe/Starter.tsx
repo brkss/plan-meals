@@ -32,15 +32,17 @@ export const Starter : React.FC<Props> = ({next}) => {
             SetError('Invalide Url');
         }
         SetLoading(true);
-        const resp = await axios.post(URLS.recipe.createFromUrl, {url: url})
-        console.log('create from url; response => ', resp);
-        SetLoading(false);
-        const _data = resp.data;
-        if(_data.status === false){
-            SetError(_data.message)
-        }else {
-            history.push('/dash/recipe/list')
-        }
+        axios.post(URLS.recipe.createFromUrl, {url: url}).then(res => {
+            console.log('create from url; response => ', res);
+            SetLoading(false);
+            const _data = res.data;
+            if(_data.status === false){
+                SetError(_data.message)
+            }else {
+                history.push('/dash/recipe/list')
+            }
+        });
+        
 
     }
     

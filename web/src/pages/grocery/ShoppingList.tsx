@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, GridItem, Text, List, ListItem, ListIcon } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Text, List, ListItem, ListIcon, Heading } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/all';
 import axios from '../../config/axios';
 import { URLS } from '../../helpers/Constants';
@@ -31,6 +31,7 @@ export const ShoppingList : React.FC = () => {
 
     return(
         <>
+            <Heading mt={7}>What you'll need in the next 3 days</Heading>
             <Grid  templateColumns="repeat(12, 1fr)" gap={0}>
                 {
                     shopList?.map((day, key) => (

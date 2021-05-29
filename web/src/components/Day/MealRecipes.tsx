@@ -82,32 +82,30 @@ export const MealRecipes : React.FC<Props> = ({isOpen, onClose, meal_id, refresh
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Recipes</DrawerHeader>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Recipes</DrawerHeader>
 
-                <DrawerBody >
-                    {
-                        !loading ? 
-                        <>
-                            <Input variant='filled' placeholder='Search..' />
-                            <Box>
-                                {
-                                    recipes?.map((recipe, key) => (
-                                        <Box key={key} bg='gray.50' p={3} mt={3} cursor='pointer' rounded={6} onClick={async () => await addRecipeToMeal(recipe.id)}>
-                                            <Text><CgBowl /></Text>
-                                            <Text fontWeight='bold'>{recipe.title}</Text>
-                                            <Text>{recipe.description}</Text>
-                                        </Box>
-                                    ))
-                                }
-                                
-                            </Box>
-                        </> : <Loading />
-                    }
-                    
-                </DrawerBody>
-
-                
+                    <DrawerBody >
+                        {
+                            !loading ? 
+                            <>
+                                <Input variant='filled' placeholder='Search..' />
+                                <Box>
+                                    {
+                                        recipes?.map((recipe, key) => (
+                                            <Box key={key} bg='gray.50' p={3} mt={3} cursor='pointer' rounded={6} onClick={async () => await addRecipeToMeal(recipe.id)}>
+                                                <Text><CgBowl /></Text>
+                                                <Text fontWeight='bold'>{recipe.title}</Text>
+                                                <Text>{recipe.description}</Text>
+                                            </Box>
+                                        ))
+                                    }
+                                    
+                                </Box>
+                            </> : <Loading />
+                        }
+                        
+                    </DrawerBody>
                 </DrawerContent>
             </Drawer>
         </>
