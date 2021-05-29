@@ -3,6 +3,8 @@ import { Grocery } from "../entity/Grocery";
 import { User } from "../entity/User";
 import { CreateGroceryInput } from "../helpers/inputs/grocery.input";
 import * as httpContext from 'express-http-context';
+import { NextDays } from "../helpers/fns/dates.fn";
+import { Day } from "../entity/Day";
 
 
 export class GroceryService {
@@ -83,6 +85,20 @@ export class GroceryService {
             status: true,
             data: groceries
         }
+    }
+
+
+    async NextDaysGrocery(){
+        const days = NextDays(3);
+        let grocery : any[] = [];
+        days.forEach(async day => {
+            const d = await Day.findOne({where: {date: day.ref}, relations: ['meals', 'meals.recipes']});
+            if(d){
+                grocery.push(d);
+            }
+        });
+        console.log('grocery => ', grocery);
+        return grocery;
     }
 
 }

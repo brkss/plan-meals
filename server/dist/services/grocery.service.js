@@ -33,6 +33,8 @@ const GroceryCategory_1 = require("../entity/GroceryCategory");
 const Grocery_1 = require("../entity/Grocery");
 const User_1 = require("../entity/User");
 const httpContext = __importStar(require("express-http-context"));
+const dates_fn_1 = require("../helpers/fns/dates.fn");
+const Day_1 = require("../entity/Day");
 class GroceryService {
     create(input) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -108,6 +110,20 @@ class GroceryService {
                 status: true,
                 data: groceries
             };
+        });
+    }
+    NextDaysGrocery() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const days = dates_fn_1.NextDays(3);
+            let grocery = [];
+            days.forEach((day) => __awaiter(this, void 0, void 0, function* () {
+                const d = yield Day_1.Day.findOne({ where: { date: day.ref }, relations: ['meals', 'meals.recipes'] });
+                if (d) {
+                    grocery.push(d);
+                }
+            }));
+            console.log('grocery => ', grocery);
+            return grocery;
         });
     }
 }

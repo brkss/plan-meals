@@ -31,11 +31,17 @@ export class GroceryController {
         res.send(list).json();
     }
 
+    public async NextDaysGrocery(res: Response){
+        const grocery = await this.service.NextDaysGrocery();
+        res.send(grocery).json();
+    }
+
     public routing(){
 
         this.router.post('/create', (req, res, next) => isAuth(req, res, next),(req, res) => this.create(req, res));
         this.router.post('/categories',  (req, res, next) => isAuth(req, res, next),(_, res) => this.categories(res)); 
         this.router.post('/list',  (req, res, next) => isAuth(req, res, next),(_, res) => this.groceries(res)); 
+        this.router.post('/shop-list', (_, res) => this.NextDaysGrocery(res));
 
     }
 }

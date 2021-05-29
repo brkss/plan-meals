@@ -38,10 +38,17 @@ class GroceryController {
             res.send(list).json();
         });
     }
+    NextDaysGrocery(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const grocery = yield this.service.NextDaysGrocery();
+            res.send(grocery).json();
+        });
+    }
     routing() {
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.create(req, res));
         this.router.post('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.categories(res));
         this.router.post('/list', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.groceries(res));
+        this.router.post('/shop-list', (_, res) => this.NextDaysGrocery(res));
     }
 }
 exports.GroceryController = GroceryController;
