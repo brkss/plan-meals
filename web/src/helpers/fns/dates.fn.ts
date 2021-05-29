@@ -21,7 +21,6 @@ const GetDates = (startDate: Date, daysToAdd: number) => {
 }
 
 const MonthAsString = (monthIndex: number) => {
-    var d = new Date();
     var month = new Array();
     month[0] = "January";
     month[1] = "February";

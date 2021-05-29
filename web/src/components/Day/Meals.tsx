@@ -193,65 +193,38 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
                             <>
                                 <Text fontWeight='bold' fontSize='22px'> {day?.name}  {day?.date}, {day?.month} </Text>
                                 {
-                                    isDefaultMeals ? 
-                                    <>
-                                        {
-                                            meals?.map((meal: any, key: number) =>(
-                                                    <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
-                                                        
-                                                        <Text fontWeight='bold'>{meal?.title} <CloseButton float='right' onClick={() => deleteMeal(meal.id)} /></Text>
-                                                        {
-                                                            meal?.recipes?.map((recipe: any, key: any) => (
-                                                                <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
-                                                                    
-                                                                    <Text fontWeight='bold' opacity={.8} > 
-                                                                        <CgBowl />
-                                                                        {recipe?.title}
-                                                                        <CloseButton float='right' mt={-25} onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} />
-                                                                    </Text>
-                                                                </Box>
-                                                            ))
-                                                        }
-                                                        
-                                                        
-                                                        <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
-                                                            onClick={() => {
-                                                                SetMealId(meal.id)
-                                                                onOpen();
-                                                            }}
-                                                        >
-                                                            <Center>
-                                                                <AddIcon />
-                                                            </Center>
+                                    meals?.map((meal: any, key: number) =>(
+                                            <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
+                                                
+                                                <Text fontWeight='bold'>{meal?.title} <CloseButton float='right' onClick={() => deleteMeal(meal.id)} /></Text>
+                                                {
+                                                    meal?.recipes?.map((recipe: any, key: any) => (
+                                                        <Box p={3} bg='gray.100' rounded={6} mt={3} key={key}>
+                                                            
+                                                            <Text fontWeight='bold' opacity={.8} > 
+                                                                <CgBowl />
+                                                                {recipe?.title}
+                                                                <CloseButton float='right' mt={-25} onClick={() => deleteRecipeFromMeal(meal.id, recipe.id)} />
+                                                            </Text>
                                                         </Box>
-                                                    </Box>
-                                            ))
-                                        }
-                                    </> : 
-                                    <>
-                                        {
-                                            meals?.map((meal: any, key: number) =>(
-                                                <Box key={key} p={3} background='gray.50' rounded={6} mt={5}>
-                                                    
-                                                    <Text fontWeight='bold'>{meal.title} <CloseButton float='right' onClick={() => {}} /></Text>
-                            
-                                                    <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
-                                                        onClick={() => {
-                                                            //SetMealId(meal.id)
-                                                            onOpen();
-                                                        }}
-                                                    >
-                                                        <Center>
-                                                            <AddIcon />
-                                                        </Center>
-                                                    </Box>
+                                                    ))
+                                                }
+                                                
+                                                
+                                                <Box p={3} bg='gray.100' rounded={6} mt={3} border='1px dotted #ababab' cursor='pointer' 
+                                                    onClick={() => {
+                                                        SetMealId(meal.id)
+                                                        onOpen();
+                                                    }}
+                                                >
+                                                    <Center>
+                                                        <AddIcon />
+                                                    </Center>
                                                 </Box>
-                                            ))
-                                        }   
-
-                                    </>
-                                    
+                                            </Box>
+                                    ))
                                 }
+                
                                 {
                                     isAddingMeal ? 
                                     <Box p={3} background='gray.50' cursor='pointer' rounded={6} mt={5}  >
