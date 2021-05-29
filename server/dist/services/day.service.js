@@ -199,7 +199,7 @@ class DayService {
                     message: 'You already added this recipe to your meal :D'
                 };
             }
-            recipe.meals = [meal];
+            recipe.meals = [...recipe.meals, meal];
             yield recipe.save();
             return {
                 status: true,

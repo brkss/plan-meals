@@ -91,8 +91,17 @@ export class GroceryService {
     async NextDaysGrocery(){
         const days = NextDays(3);
         let shop_list : any[] = [];
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                message: 'User not found!',
+                data: []
+            }
+        }
         for(const day of days){
-            const d = await Day.findOne({where: {date: day.ref}, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery']});
+            const d = await Day.findOne({where: {date: day.ref, user: user}, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery']});
+            console.log('day found => ', d, day.ref);
             if(d && d.meals.length > 0 && d.meals){
                 let day_tmp = {
                     name: d.title,
@@ -113,7 +122,10 @@ export class GroceryService {
             }
         }
         console.log('grocery => ', shop_list);
-        return shop_list;
+        return{
+            status: true,
+            data: shop_list
+        }
     }
 
 }

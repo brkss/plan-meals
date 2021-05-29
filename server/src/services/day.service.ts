@@ -191,7 +191,7 @@ export class DayService {
                 message: 'You already added this recipe to your meal :D'
             }
         }
-        recipe.meals = [meal];
+        recipe.meals = [...recipe.meals, meal];
         await recipe.save();
 
     
@@ -305,7 +305,6 @@ export class DayService {
     async cleanupEmptyDays(){
         
         const user = await User.findOne({where: {id: httpContext.get('userId')}});
-        
         if(!user){
             return false;
         }
@@ -315,8 +314,18 @@ export class DayService {
         if(days.length === 0){
             return true;
         }
+        
         for(let j = 0; j < days.length; j++){
             const day_meals = await Meal.find({where: {day: days[j]}, relations: ['recipes']});
+            /* try {
+                for(let i = 0; i < day_meals.length; i++){
+                    if(day_meals[i].recipes.length > 0){
+                        return false;
+                    }
+                }
+            } finally{
+                await Day.delete(days[j]);    
+            } */
             for(let i = 0; i < day_meals.length; i++){
                 if(day_meals[i].recipes.length > 0){
                     return false;

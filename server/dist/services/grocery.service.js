@@ -116,8 +116,17 @@ class GroceryService {
         return __awaiter(this, void 0, void 0, function* () {
             const days = dates_fn_1.NextDays(3);
             let shop_list = [];
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found!',
+                    data: []
+                };
+            }
             for (const day of days) {
-                const d = yield Day_1.Day.findOne({ where: { date: day.ref }, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery'] });
+                const d = yield Day_1.Day.findOne({ where: { date: day.ref, user: user }, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery'] });
+                console.log('day found => ', d, day.ref);
                 if (d && d.meals.length > 0 && d.meals) {
                     let day_tmp = {
                         name: d.title,
@@ -138,7 +147,10 @@ class GroceryService {
                 }
             }
             console.log('grocery => ', shop_list);
-            return shop_list;
+            return {
+                status: true,
+                data: shop_list
+            };
         });
     }
 }
