@@ -120,37 +120,74 @@ class GroceryService {
             if (!user) {
                 return {
                     status: false,
+                    message: 'User not found !',
+                    data: []
+                };
+            }
+            for (const day of days) {
+                const _day = yield Day_1.Day.findOne({ where: { date: day.ref, user: user }, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery'] });
+                if (_day) {
+                    let groceries = [];
+                    for (const meal of _day.meals) {
+                        if (meal.recipes.length > 0) {
+                            for (const recipe of meal.recipes) {
+                                groceries.push(recipe.ingredients.map((ing) => (ing.grocery)));
+                            }
+                        }
+                    }
+                    shop_list.push({
+                        name: _day.title,
+                        grcoeries: groceries.concat.apply([], groceries)
+                    });
+                }
+            }
+            return {
+                status: true,
+                data: shop_list
+            };
+        });
+    }
+    NextDaysGrocery2() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const days = dates_fn_1.NextDays(3);
+            let shop_list = [];
+            const user = yield User_1.User.findOne({ where: { id: httpContext.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
                     message: 'User not found!',
                     data: []
                 };
             }
             for (const day of days) {
                 const d = yield Day_1.Day.findOne({ where: { date: day.ref, user: user }, relations: ['meals', 'meals.recipes', 'meals.recipes.ingredients', 'meals.recipes.ingredients.grocery'] });
-                console.log('day found => ', d, day.ref);
                 if (d && d.meals.length > 0 && d.meals) {
+                    console.log('passed days => ', day.ref);
                     let day_tmp = {
                         name: d.title,
                         grcoeries: {}
                     };
                     let groceries = [];
-                    for (const meal of d.meals) {
-                        if (meal.recipes.length === 0)
-                            break;
-                        for (const recipe of meal.recipes) {
-                            if (recipe.ingredients.length === 0)
-                                break;
-                            groceries.push(recipe.ingredients.map((ing) => {
-                                return ing.grocery;
-                            }));
+                    try {
+                        for (const meal of d.meals) {
+                            if (meal.recipes.length === 0)
+                                return;
+                            for (const recipe of meal.recipes) {
+                                if (recipe.ingredients.length === 0)
+                                    break;
+                                groceries.push(recipe.ingredients.map((ing) => {
+                                    return ing.grocery;
+                                }));
+                            }
                         }
                     }
-                    console.log('groceries => ', groceries);
-                    day_tmp.grcoeries = groceries.concat.apply([], groceries);
-                    shop_list.push(day_tmp);
+                    finally {
+                        day_tmp.grcoeries = groceries.concat.apply([], groceries);
+                        shop_list.push(day_tmp);
+                    }
                     groceries = [];
                 }
             }
-            console.log('grocery => ', shop_list);
             return {
                 status: true,
                 data: shop_list
