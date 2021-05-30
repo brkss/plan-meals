@@ -135,10 +135,12 @@ class GroceryService {
                             }
                         }
                     }
-                    shop_list.push({
-                        name: _day.title,
-                        grcoeries: groceries.concat.apply([], groceries)
-                    });
+                    if (groceries.length > 0) {
+                        shop_list.push({
+                            name: _day.title,
+                            grcoeries: groceries.concat.apply([], groceries)
+                        });
+                    }
                 }
             }
             return {
