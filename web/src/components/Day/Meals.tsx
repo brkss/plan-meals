@@ -46,7 +46,7 @@ export const DayMeals : React.FC<Props> = ({isOpenMeal, onCloseMeal, day}) => {
         const ref = `${day?.date}${day?.month.toUpperCase()}${day?.year}`;
         const _data = {
             date: ref,
-            title: `${day?.date} ,${day?.month}`
+            title: `${day?.date}, ${day?.month}`
         }
         SetLoading(true);
         axios.post(URLS.day.create, _data).then(res => {
