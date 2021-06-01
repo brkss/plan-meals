@@ -15,6 +15,7 @@ import { ListRecipe } from "../pages/recipe/ListRecipe";
 import { Recipe } from "../pages/recipe/Recipe";
 import { Settings } from "../pages/settings/Settings";
 import { ShoppingList } from "../pages/grocery/ShoppingList";
+import { ProfileSetting } from "../pages/settings/Profile";
 
 
 export const routes : IRoute[] = [
@@ -159,9 +160,18 @@ export const admin_routes : IRoute[] = [
     },
     {
         name: 'Settings',
-        path: '/settings',
+        path: '/dash/settings',
         component: Settings,
-        exact: true,
-        protected: true
+        exact: false,
+        protected: true,
+        children : [
+            {
+                name: 'Profile Setting',
+                path: '/dash/settings/',
+                component: ProfileSetting,
+                exact: true,
+                protected: true
+            }
+        ]
     },
 ]

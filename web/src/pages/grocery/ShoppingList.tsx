@@ -18,7 +18,6 @@ export const ShoppingList : React.FC = () => {
             }
             console.log('res =>', res);
         });
-
     }, []);
 
     
@@ -47,15 +46,11 @@ export const ShoppingList : React.FC = () => {
                                             </ListItem>
                                         ))
                                     }
-                                    
-                                    
-                                    
                                 </List>
                             </Box>
                         </GridItem>
                     ))
                 }
-                
             </Grid>
         </>
     )
