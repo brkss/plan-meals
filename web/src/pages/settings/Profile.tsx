@@ -6,6 +6,7 @@ import chillImage from '../../dist/happy-jump.svg';
 import { InfoMessage } from '../../components/InfoMessage';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { RouteComponentProps } from 'react-router';
+import { Password } from '../../components/Setting/Password';
 
 export const ProfileSetting : React.FC<RouteComponentProps> = ({history}) => {
 
@@ -21,8 +22,7 @@ export const ProfileSetting : React.FC<RouteComponentProps> = ({history}) => {
     return (
         <Box mt={10}>
             <Grid h="100vh" templateColumns="repeat(6, 1fr)" gap={0}>
-                <GridItem colSpan={{md: 3, base: 6}}  >
-                    <InfoMessage message="Adding groceries help you manage your recipe ingredients better" />
+                <GridItem colSpan={{md: 3, base: 6}} ml={7}  mr={7} >
                     <Heading>Settings</Heading>
                     <Box w={{md: '100%', base: '100%'} }>
                         <form>
@@ -32,60 +32,29 @@ export const ProfileSetting : React.FC<RouteComponentProps> = ({history}) => {
                             }
                             <FormControl mt={6}>
                                     <FormLabel fontWeight='bold'>Name</FormLabel>
-                                    <Input type="text" placeholder="Title" variant="filled" id='title'  />
+                                    <Input type="text" placeholder="Name" variant="filled" id='title'  />
                             </FormControl>
                             <FormControl mt={6}>
                                     <FormLabel fontWeight='bold'>Username</FormLabel>
-                                    <Input type="text" placeholder="Title" variant="filled" id='title'  />
+                                    <Input type="text" placeholder="Username" variant="filled" id='title'  />
                             </FormControl>
                             <FormControl mt={6}>
                                     <FormLabel fontWeight='bold'>Email</FormLabel>
-                                    <Input type="text" placeholder="Title" variant="filled" id='title'  />
+                                    <Input type="text" placeholder="Email" variant="filled" id='title'  />
                             </FormControl>
-                            
-                            <FormControl mt={6}>
-                                    <FormLabel fontWeight='bold'>Price <span style={{fontSize: '12px', opacity:'.8'}}> - optional</span></FormLabel>
-                                    <NumberInput variant="filled" >
-                                        <NumberInputField placeholder="Price" id='price'  />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput>
-                            </FormControl>
-                        
-                            <FormControl display="flex" alignItems="center" mt={6}>
-                                <FormLabel  htmlFor="email-alerts" mb="0">
-                                    do you have this element in your fridge ?
-                                </FormLabel>
-                                <Switch id="email-alerts" />
-                            </FormControl>
-                            <Button width="full" mt={4} type="submit" w={{md: '30%', base: '100%'}}  isLoading={true} loadingText="Adding">
-                                Create
+                           
+                            <Button width="full" mt={4} type="submit" w={{md: '30%', base: '100%'}} colorScheme='green'  isLoading={false} loadingText="Adding">
+                                Apply
                             </Button>
                             
                         </form>
                         <br />
                         <hr />
-                        <Box border='1px solid #d8d8d8' mt={5} p={6} rounded={5}>
-                            <FormControl mt={6}>
-                                    <FormLabel fontWeight='bold'>Old Password</FormLabel>
-                                    <Input type="password" placeholder="old password" variant="filled" id='title'  />
-                            </FormControl>
-                            <FormControl mt={6}>
-                                    <FormLabel fontWeight='bold'>New Password</FormLabel>
-                                    <Input type="password" placeholder="new password" variant="filled" id='title'  />
-                            </FormControl>
-                            <FormControl mt={6}>
-                                    <FormLabel fontWeight='bold'>Repeat Password</FormLabel>
-                                    <Input type="password" placeholder="repeat password" variant="filled" id='title'  />
-                            </FormControl>
-                        </Box>
+                        <br />
+                        <Password /> 
                     </Box>
                 </GridItem>
-                <GridItem colSpan={{md: 3, base: 6}} ml={7} >
-                            <img src={chillImage} alt=""  />
-                </GridItem>
+                
             </Grid>
             
             
