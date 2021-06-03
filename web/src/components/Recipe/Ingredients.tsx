@@ -106,7 +106,6 @@ export const Ingredients : React.FC<Props> = ({next, back}) => {
                 console.log('not valid', ingredients[i]);
                 return;
             }
-           
         }
         console.log('valid')
         SetError('')

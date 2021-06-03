@@ -54,7 +54,7 @@ export const AutoCompleteInput : React.FC<Props> = ({onChange, groceries}) => {
     return (
           <CUIAutoComplete
             label=""
-            placeholder="Search in grocery"
+            placeholder="Search .."
             onCreateItem={async (item) => {
               await handleItemCreation(item);
             }}

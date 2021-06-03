@@ -19,7 +19,17 @@ export const Recipe : React.FC<Props> = ({childrens}) => {
         {
             name: 'My Recipes',
             link: '/dash/recipe/list'
-        }
+        },
+        {
+            name: 'Saved Bowls',
+            link: '/dash/recipe/create-bowl'
+        },
+        {
+            name: 'Make a bowl?',
+            link: '/dash/recipe/create-bowl'
+        },
+        
+        
         
     ];
 
