@@ -71,6 +71,7 @@ class BowlController {
         this.router.get('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowl(req, res));
         this.router.get('/bowls', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowls(res));
+        this.router.post('/bowl-elements', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowlElements(res));
     }
 }
 exports.BowlController = BowlController;
