@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const Bowl_1 = require("./Bowl");
 const Day_1 = require("./Day");
 const Grocery_1 = require("./Grocery");
 const Recipe_1 = require("./Recipe");
@@ -48,6 +49,10 @@ __decorate([
     typeorm_1.OneToMany(_ => Day_1.Day, day => day.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], User.prototype, "days", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => Bowl_1.Bowl, bowl => bowl.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "bowls", void 0);
 User = __decorate([
     typeorm_1.Entity('users')
 ], User);

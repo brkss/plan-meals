@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BowlGrocery = void 0;
 const typeorm_1 = require("typeorm");
+const Bowl_1 = require("./Bowl");
 const BowlGroceryCategory_1 = require("./BowlGroceryCategory");
 let BowlGrocery = class BowlGrocery extends typeorm_1.BaseEntity {
 };
@@ -30,6 +31,11 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
 ], BowlGrocery.prototype, "cals", void 0);
+__decorate([
+    typeorm_1.ManyToMany(() => Bowl_1.Bowl, bowl => bowl.elements, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
+], BowlGrocery.prototype, "bowls", void 0);
 __decorate([
     typeorm_1.ManyToOne(() => BowlGroceryCategory_1.BowlGroceryCategory, category => category.bowlgroceries),
     __metadata("design:type", BowlGroceryCategory_1.BowlGroceryCategory)

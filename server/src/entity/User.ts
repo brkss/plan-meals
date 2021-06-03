@@ -1,4 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
+import { Bowl } from "./Bowl";
 import { Day } from "./Day";
 import { Grocery } from "./Grocery";
 import { Recipe } from "./Recipe";
@@ -29,5 +30,8 @@ export class User extends BaseEntity{
 
     @OneToMany(_ => Day, day => day.user, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     days: Day[];
+
+    @OneToMany(_ => Bowl, bowl => bowl.user, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    bowls: Bowl[];
 
 }
