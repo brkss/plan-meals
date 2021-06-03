@@ -56,10 +56,16 @@ class BowlController {
             return res.send(yield this.service.getBowlGroceriesCategory()).json();
         });
     }
+    getBowls(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return res.send(yield this.service.getBowls()).json();
+        });
+    }
     routing() {
         this.router.post('/create-grocery', (req, res, next) => auth_middleware_1.isAuth(req, res, next), this.upload.single('image'), (req, res) => this.createBowlGrocery(req, res));
         this.router.get('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowl(req, res));
+        this.router.get('/bowls', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowls(res));
     }
 }
 exports.BowlController = BowlController;

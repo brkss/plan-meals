@@ -49,9 +49,15 @@ export class BowlController {
         return res.send(await this.service.getBowlGroceriesCategory()).json();
     }
 
+    // get bowls 
+    public async getBowls(res :Response){
+        return res.send(await this.service.getBowls()).json();
+    }
+
     public routing() {
         this.router.post('/create-grocery', (req, res, next) => isAuth(req, res, next), this.upload.single('image'), (req, res) => this.createBowlGrocery(req, res));
         this.router.get('/categories', (req, res, next) => isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
         this.router.post('/create', (req, res, next) => isAuth(req, res, next), (req, res) => this.createBowl(req, res));
+        this.router.get('/bowls', (req, res, next) => isAuth(req, res, next), (_, res) => this.getBowls(res));
     }
 }

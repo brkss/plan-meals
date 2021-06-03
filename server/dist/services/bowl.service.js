@@ -39,6 +39,7 @@ class BowlService {
             bowl.title = input.title;
             bowl.ticket = input.ticket;
             bowl.time = input.time;
+            bowl.user = user;
             bowl.elements = [];
             for (const id of input.bowlGroceries) {
                 console.log('element id => ', id);
@@ -105,6 +106,23 @@ class BowlService {
     getBowlGroceriesCategory() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield BowlGroceryCategory_1.BowlGroceryCategory.find();
+        });
+    }
+    getBowls() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: express_http_context_1.default.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found !'
+                };
+            }
+            const bowls = yield Bowl_1.Bowl.find({ where: { user: user }, relations: ['elements', 'elements.category'] });
+            return {
+                status: true,
+                message: `${bowls.length} bowls founds!`,
+                data: bowls
+            };
         });
     }
 }

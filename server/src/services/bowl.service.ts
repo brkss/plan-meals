@@ -29,6 +29,7 @@ export class BowlService {
         bowl.title = input.title;
         bowl.ticket = input.ticket;
         bowl.time = input.time;
+        bowl.user = user;
         bowl.elements = [];
         for(const id of input.bowlGroceries){
             console.log('element id => ', id);
@@ -101,6 +102,26 @@ export class BowlService {
     // get bowl grocery categories 
     public async getBowlGroceriesCategory(){
         return await BowlGroceryCategory.find();
+    }
+
+    // created bowls 
+    public async getBowls() : Promise<DefaultResponse>{
+        
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false, 
+                message: 'User not found !'
+            }
+        }
+        const bowls = await Bowl.find({where: {user : user}, relations: ['elements', 'elements.category']});
+        
+        return {
+            status: true, 
+            message:  `${bowls.length} bowls founds!`,
+            data: bowls
+        }
+
     }
 
 }
