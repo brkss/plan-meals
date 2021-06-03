@@ -16,6 +16,7 @@ import { Recipe } from "../pages/recipe/Recipe";
 import { Settings } from "../pages/settings/Settings";
 import { ShoppingList } from "../pages/grocery/ShoppingList";
 import { ProfileSetting } from "../pages/settings/Profile";
+import { ListBowls } from '../pages/recipe/Bowls';
 
 
 export const routes : IRoute[] = [
@@ -132,7 +133,14 @@ export const admin_routes : IRoute[] = [
                 component: InfoRecipe,
                 exact: true,
                 protected: true
-            }
+            },
+            {
+                name: 'List Bowls',
+                path: '/dash/recipe/bowls',
+                component: ListBowls,
+                exact: true,
+                protected: true,
+            },
         ]
     },
     {
