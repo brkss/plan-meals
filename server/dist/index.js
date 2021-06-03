@@ -67,6 +67,7 @@ const cors_1 = __importDefault(require("cors"));
     app.use(`/recipe/`, controllers_1.controllers.recipe.router);
     app.use(`/grocery/`, controllers_1.controllers.grocery.router);
     app.use(`/day/`, controllers_1.controllers.day.router);
+    app.use(`/bowl/`, controllers_1.controllers.bowl.router);
     var dir = path_1.default.join(__dirname, 'public');
     app.use(express_1.default.static(dir));
     app.listen(4000, () => {

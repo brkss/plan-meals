@@ -41,6 +41,7 @@ import cors from 'cors';
     app.use(`/recipe/`, controllers.recipe.router);
     app.use(`/grocery/`, controllers.grocery.router);
     app.use(`/day/`, controllers.day.router);
+    app.use(`/bowl/`, controllers.bowl.router);
 
     // cdn
     var dir = path.join(__dirname, 'public');
