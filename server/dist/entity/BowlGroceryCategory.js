@@ -23,6 +23,10 @@ __decorate([
     __metadata("design:type", String)
 ], BowlGroceryCategory.prototype, "title", void 0);
 __decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], BowlGroceryCategory.prototype, "description", void 0);
+__decorate([
     typeorm_1.OneToMany(() => BowlGrocery_1.BowlGrocery, bowlgrocery => bowlgrocery.category),
     __metadata("design:type", Array)
 ], BowlGroceryCategory.prototype, "bowlgroceries", void 0);

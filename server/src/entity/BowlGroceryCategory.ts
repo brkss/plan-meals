@@ -10,6 +10,9 @@ export class BowlGroceryCategory extends BaseEntity {
     @Column()
     title: string;
 
+    @Column()
+    description: string;
+
     @OneToMany(() => BowlGrocery, bowlgrocery => bowlgrocery.category)
     bowlgroceries: BowlGroceryCategory[];
 

@@ -1,6 +1,7 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { Bowl } from './Bowl';
 import { BowlGroceryCategory } from './BowlGroceryCategory';
+import { User } from './User';
 
 
 @Entity()
@@ -24,6 +25,9 @@ export class BowlGrocery extends BaseEntity {
     
     @ManyToOne(() => BowlGroceryCategory, category => category.bowlgroceries)
     category: BowlGroceryCategory;
+
+    @ManyToOne(() => User, user => user.bowlgrocery)
+    user: User;
 
 
 }

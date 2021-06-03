@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const Bowl_1 = require("./Bowl");
+const BowlGrocery_1 = require("./BowlGrocery");
 const Day_1 = require("./Day");
 const Grocery_1 = require("./Grocery");
 const Recipe_1 = require("./Recipe");
@@ -53,6 +54,10 @@ __decorate([
     typeorm_1.OneToMany(_ => Bowl_1.Bowl, bowl => bowl.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], User.prototype, "bowls", void 0);
+__decorate([
+    typeorm_1.OneToMany(_ => BowlGrocery_1.BowlGrocery, bowlgrocery => bowlgrocery.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "bowlgrocery", void 0);
 User = __decorate([
     typeorm_1.Entity('users')
 ], User);

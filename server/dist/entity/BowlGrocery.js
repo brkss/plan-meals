@@ -13,6 +13,7 @@ exports.BowlGrocery = void 0;
 const typeorm_1 = require("typeorm");
 const Bowl_1 = require("./Bowl");
 const BowlGroceryCategory_1 = require("./BowlGroceryCategory");
+const User_1 = require("./User");
 let BowlGrocery = class BowlGrocery extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -40,6 +41,10 @@ __decorate([
     typeorm_1.ManyToOne(() => BowlGroceryCategory_1.BowlGroceryCategory, category => category.bowlgroceries),
     __metadata("design:type", BowlGroceryCategory_1.BowlGroceryCategory)
 ], BowlGrocery.prototype, "category", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => User_1.User, user => user.bowlgrocery),
+    __metadata("design:type", User_1.User)
+], BowlGrocery.prototype, "user", void 0);
 BowlGrocery = __decorate([
     typeorm_1.Entity()
 ], BowlGrocery);
