@@ -17,6 +17,7 @@ import { Settings } from "../pages/settings/Settings";
 import { ShoppingList } from "../pages/grocery/ShoppingList";
 import { ProfileSetting } from "../pages/settings/Profile";
 import { ListBowls } from '../pages/recipe/Bowls';
+import { CreateBowl } from "../pages/recipe/CreateBowl";
 
 
 export const routes : IRoute[] = [
@@ -144,7 +145,7 @@ export const admin_routes : IRoute[] = [
             {
                 name: 'List Bowls',
                 path: '/dash/recipe/create-bowl',
-                component: ListBowls,
+                component: CreateBowl,
                 exact: true,
                 protected: true,
             },
