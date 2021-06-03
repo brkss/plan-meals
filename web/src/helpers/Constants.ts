@@ -27,5 +27,12 @@ export const URLS = {
         delete_meal: `${API_URL}/day/delete-meal`,
         create_meal: `${API_URL}/day/add-meal`,
         delete_recipe_from_meal: `${API_URL}/day/delete-recipe-from-meal`
+    },
+    bowl : {
+        create: `${API_URL}/bowl/create`,
+        categories: `${API_URL}/bowl/categories`,
+        create_category: `${API_URL}/bowl/create-grocery`,
+        bowls: `${API_URL}/bowl/bowls`,
+        bowls_elements: `${API_URL}/bowl/bowl-elements`,
     }
 }

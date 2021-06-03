@@ -141,6 +141,13 @@ export const admin_routes : IRoute[] = [
                 exact: true,
                 protected: true,
             },
+            {
+                name: 'List Bowls',
+                path: '/dash/recipe/create-bowl',
+                component: ListBowls,
+                exact: true,
+                protected: true,
+            },
         ]
     },
     {
