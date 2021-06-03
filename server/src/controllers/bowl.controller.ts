@@ -54,6 +54,11 @@ export class BowlController {
         return res.send(await this.service.getBowls()).json();
     }
 
+    // get bowl elements 
+    public async getBowlElements(res: Response){
+        return res.send(await this.service.getBowlElements()).json();
+    }
+
     public routing() {
         this.router.post('/create-grocery', (req, res, next) => isAuth(req, res, next), this.upload.single('image'), (req, res) => this.createBowlGrocery(req, res));
         this.router.get('/categories', (req, res, next) => isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));

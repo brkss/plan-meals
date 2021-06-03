@@ -125,6 +125,23 @@ class BowlService {
             };
         });
     }
+    getBowlElements() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: express_http_context_1.default.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found !'
+                };
+            }
+            const bowlElements = yield BowlGrocery_1.BowlGrocery.find({ where: { user: user } });
+            return {
+                status: true,
+                message: `${bowlElements.length} elemts found `,
+                data: bowlElements
+            };
+        });
+    }
 }
 exports.BowlService = BowlService;
 //# sourceMappingURL=bowl.service.js.map

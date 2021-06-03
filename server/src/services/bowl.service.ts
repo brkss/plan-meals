@@ -124,4 +124,22 @@ export class BowlService {
 
     }
 
+    // get bowl elements 
+    public async getBowlElements() : Promise<DefaultResponse>{
+        const user = await User.findOne({where: {id: httpContext.get('userId')}});
+        if(!user){
+            return {
+                status: false,
+                message: 'user not found !'
+            }
+        }
+        const bowlElements = await BowlGrocery.find({where: {user: user}});
+        
+        return {
+            status: true,
+            message: `${bowlElements.length} elemts found `,
+            data: bowlElements
+        }
+    }
+
 }
