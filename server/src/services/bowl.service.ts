@@ -68,6 +68,7 @@ export class BowlService {
             }
         }
         const bowl_grocery_category = await BowlGroceryCategory.findOne({where: {id: input.category_id}});
+       
         if(!bowl_grocery_category){
             return {
                 status: false,

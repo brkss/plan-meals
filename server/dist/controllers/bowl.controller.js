@@ -8,15 +8,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BowlController = void 0;
 const express_1 = require("express");
 const bowl_service_1 = require("../services/bowl.service");
 const auth_middleware_1 = require("../helpers/middlewares/auth.middleware");
+const multer_1 = __importDefault(require("multer"));
+const path_1 = __importDefault(require("path"));
 class BowlController {
     constructor() {
         this.router = express_1.Router();
         this.service = new bowl_service_1.BowlService();
+        this.storage = multer_1.default.diskStorage({
+            destination: function (_, __, cb) {
+                cb(null, 'uploads/');
+            },
+            filename: function (_, file, cb) {
+                cb(null, Date.now() + path_1.default.extname(file.originalname));
+            }
+        });
+        this.upload = multer_1.default({ storage: this.storage });
         this.routing();
     }
     index(req, res) {
@@ -43,7 +57,7 @@ class BowlController {
         });
     }
     routing() {
-        this.router.post('/create-grocery', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowlGrocery(req, res));
+        this.router.post('/create-grocery', (req, res, next) => auth_middleware_1.isAuth(req, res, next), this.upload.single('image'), (req, res) => this.createBowlGrocery(req, res));
         this.router.get('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
         this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowl(req, res));
     }
