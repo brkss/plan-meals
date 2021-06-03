@@ -17,7 +17,48 @@ const express_http_context_1 = __importDefault(require("express-http-context"));
 const BowlGrocery_1 = require("../entity/BowlGrocery");
 const BowlGroceryCategory_1 = require("../entity/BowlGroceryCategory");
 const User_1 = require("../entity/User");
+const Bowl_1 = require("../entity/Bowl");
 class BowlService {
+    createBowl(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            input.bowlGroceries = JSON.parse(input.bowlGroceries);
+            if (!input || !input.title || !input.ticket || !input.time || input.bowlGroceries.length === 0) {
+                return {
+                    status: false,
+                    message: 'Some data is missing to create this bowl :('
+                };
+            }
+            const user = yield User_1.User.findOne({ where: { id: express_http_context_1.default.get('userId') } });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'user not found !'
+                };
+            }
+            let bowl = new Bowl_1.Bowl();
+            bowl.title = input.title;
+            bowl.ticket = input.ticket;
+            bowl.time = input.time;
+            bowl.elements = [];
+            for (const id of input.bowlGroceries) {
+                console.log('element id => ', id);
+                const element = yield BowlGrocery_1.BowlGrocery.findOne({ id });
+                if (!element) {
+                    return {
+                        status: false,
+                        message: 'Element not found !'
+                    };
+                }
+                console.log('element -> ', element);
+                bowl.elements.push(element);
+            }
+            yield bowl.save();
+            return {
+                status: true,
+                message: 'Bowl created successfuly !'
+            };
+        });
+    }
     createBowlGrocery(input) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!input || !input.title || !input.category_id) {
@@ -59,6 +100,11 @@ class BowlService {
                     message: 'Something went wring while adding you grocery !'
                 };
             }
+        });
+    }
+    getBowlGroceriesCategory() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield BowlGroceryCategory_1.BowlGroceryCategory.find();
         });
     }
 }

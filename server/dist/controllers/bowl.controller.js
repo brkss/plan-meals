@@ -23,15 +23,29 @@ class BowlController {
         req.body;
         res.send('hello world from bowl ');
     }
+    createBowl(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const input = req.body;
+            const resp = yield this.service.createBowl(input);
+            return res.send(resp).json();
+        });
+    }
     createBowlGrocery(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const input = req.body;
             const resp = yield this.service.createBowlGrocery(input);
-            res.send(resp).json();
+            return res.send(resp).json();
+        });
+    }
+    getBowlGroceryCategories(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return res.send(yield this.service.getBowlGroceriesCategory()).json();
         });
     }
     routing() {
-        this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowlGrocery(req, res));
+        this.router.post('/create-grocery', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowlGrocery(req, res));
+        this.router.get('/categories', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
+        this.router.post('/create', (req, res, next) => auth_middleware_1.isAuth(req, res, next), (req, res) => this.createBowl(req, res));
     }
 }
 exports.BowlController = BowlController;

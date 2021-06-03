@@ -17,17 +17,29 @@ export class BowlController {
         req.body;
         res.send('hello world from bowl ');
     }
+
+    // create bowl 
+    public async createBowl(req: Request, res: Response){
+        const input = req.body;
+        const resp = await this.service.createBowl(input);
+        return res.send(resp).json();
+    }
     
     // create bowl groicery 
     public async createBowlGrocery(req: Request, res: Response) {
         const input = req.body;
         const resp = await this.service.createBowlGrocery(input);
-        res.send(resp).json();
+        return res.send(resp).json();
+    }
+
+    // get bowl grocery categories 
+    public async getBowlGroceryCategories(res: Response){
+        return res.send(await this.service.getBowlGroceriesCategory()).json();
     }
 
     public routing() {
-
-        this.router.post('/create', (req, res, next) => isAuth(req, res, next), (req, res) => this.createBowlGrocery(req, res));
-
+        this.router.post('/create-grocery', (req, res, next) => isAuth(req, res, next), (req, res) => this.createBowlGrocery(req, res));
+        this.router.get('/categories', (req, res, next) => isAuth(req, res, next), (_, res) => this.getBowlGroceryCategories(res));
+        this.router.post('/create', (req, res, next) => isAuth(req, res, next), (req, res) => this.createBowl(req, res));
     }
 }
