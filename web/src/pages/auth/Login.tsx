@@ -11,7 +11,9 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react';
-import { Redirect } from 'react-router-dom';
+import { Grid, GridItem } from '@chakra-ui/react';
+import { InputRegular } from '../../components/Form/InputRegular';
+import { ButtonRegular } from '../../components/Form/ButtonRegular';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
@@ -73,6 +75,46 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
   }
 
 
+
+  return(
+    <>
+      <Grid templateColumns="repeat(12, 1fr)" height='100vh' >
+          <GridItem colSpan={1} bg="#ACCDC5" borderRight='1px solid black'>
+            
+          </GridItem>
+          <GridItem colSpan={11} bg="#F4F3E7" >
+          <Flex w='full' align='center' justifyContent='center'>
+                <Box p={12} w='100%' maxW='475px' rounded={6}>
+                      <Box textAlign='left'> 
+                          <Heading>Login.</Heading>
+                      </Box>
+                      {error !== '' ? <ErrorMessage message={error} /> : null}
+                      <Box my={4} textAlign='left'>
+                          <form >
+                              <FormControl mt={6}>
+                                <InputRegular type='text' placeholder='Username / Email' />
+                              </FormControl>
+                              <FormControl mt={6}>
+                                <InputRegular type='password' placeholder='Password' />
+                              </FormControl>
+                             
+                              <FormControl mt={3}>
+                                  <Link to="/auth/register" >Create account ? </Link>
+                              </FormControl>
+                              <FormControl mt={6}>
+                                <ButtonRegular text='Login.' />
+                              </FormControl>
+                              
+                              
+                          </form>
+                      </Box>
+                </Box>
+            </Flex> 
+          </GridItem>
+      </Grid>
+    </>
+
+  );
 
 
   return (
