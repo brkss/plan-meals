@@ -1,0 +1,7 @@
+mutation Login($identifier: String!, $password: String!){
+    login(data: {identifier: $identifier, password: $password}){
+        status
+        accessToken
+        message
+    }
+}

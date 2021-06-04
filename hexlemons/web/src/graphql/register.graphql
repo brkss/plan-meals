@@ -1,0 +1,12 @@
+mutation Register($name: String!, $email: String!, $phone: String!, $password: String!){
+    register(data: {
+        name: $name,
+        email: $email,
+        phone: $phone,
+        password: $password
+    }){
+        status
+        message
+        accessToken
+    }
+}
