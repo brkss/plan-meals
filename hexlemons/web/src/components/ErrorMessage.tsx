@@ -8,7 +8,7 @@ interface Props {
 export const ErrorMessage : React.FC<Props> = ({message}) => {
 
     return(
-        <Alert status="error">
+        <Alert mt={4} rounded={6} status="error">
             <AlertIcon />
             <AlertTitle mr={2}>{message}</AlertTitle>
         </Alert>
