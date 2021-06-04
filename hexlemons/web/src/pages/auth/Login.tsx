@@ -87,7 +87,7 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
                                 </FormControl>
                               
                                 <FormControl mt={3}>
-                                    <Link to="/auth/register" >Create account ? </Link>
+                                    <Link to="/auth/register" >You don't have account ? join now </Link>
                                 </FormControl>
                                 <FormControl mt={6}>
                                   <ButtonRegular text='Login.' />

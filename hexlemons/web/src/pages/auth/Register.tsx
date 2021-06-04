@@ -35,7 +35,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
       SetError('')
 
       // validate
-      if(!form || !form.name || !form.email || !form.phone || !form.password ){
+      if(!form || !form.name || !form.email || !form.username || !form.password ){
           SetError('Invalid data');
           return ;
       }
@@ -43,7 +43,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
       const _data = {
         name: form.name,
         email: form.email,
-        phone: form.phone,
+        username: form.username,
         password: form.password
       }
       console.log('data => ', _data);
@@ -53,7 +53,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
           name: _data.name,
           email: _data.email,
           password: _data.password,
-          phone: _data.phone
+          username: _data.username
         },
       });
       
@@ -90,7 +90,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
                                   <InputRegular type='text' placeholder='Full Name.' id="name" onChange={(e) => handleForm(e)} disabled={loading} />
                                 </FormControl>
                                 <FormControl mt={6}>
-                                  <InputRegular type="text" placeholder='Username.' id="phone" onChange={(e) => handleForm(e)} disabled={loading} />
+                                  <InputRegular type="text" placeholder='Username.' id="username" onChange={(e) => handleForm(e)} disabled={loading} />
                                 </FormControl>
                                 <FormControl mt={6}>
                                   <InputRegular type="email" placeholder='Email.' id="email" onChange={(e) => handleForm(e)} disabled={loading}/>
@@ -100,7 +100,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
                                 </FormControl>
                               
                                 <FormControl mt={3}>
-                                    <Link to="/auth/register" >Create account ? </Link>
+                                    <Link to="/auth/login" >Login to your account ? </Link>
                                 </FormControl>
                                 <FormControl mt={6}>
                                   <ButtonRegular text='Create Account.' />

@@ -46,24 +46,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me: Scalars['String'];
-  users: Array<User>;
 };
 
 export type RegisterUserInput = {
   name: Scalars['String'];
   email: Scalars['String'];
-  phone: Scalars['String'];
+  username: Scalars['String'];
   password: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  phone: Scalars['String'];
-  password: Scalars['String'];
-  tokenVersion: Scalars['Float'];
 };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
@@ -91,7 +80,7 @@ export type LoginMutation = (
 export type RegisterMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
-  phone: Scalars['String'];
+  username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
@@ -174,8 +163,10 @@ export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($name: String!, $email: String!, $phone: String!, $password: String!) {
-  register(data: {name: $name, email: $email, phone: $phone, password: $password}) {
+    mutation Register($name: String!, $email: String!, $username: String!, $password: String!) {
+  register(
+    data: {name: $name, email: $email, username: $username, password: $password}
+  ) {
     status
     message
     accessToken
@@ -199,7 +190,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   variables: {
  *      name: // value for 'name'
  *      email: // value for 'email'
- *      phone: // value for 'phone'
+ *      username: // value for 'username'
  *      password: // value for 'password'
  *   },
  * });
