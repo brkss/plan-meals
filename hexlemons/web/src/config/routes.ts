@@ -1,10 +1,12 @@
 import { IRoute } from '../helpers/types/Route';
 import { LoginPage } from '../pages/auth/Login';
 import { RegisterPage } from '../pages/auth/Register';
+import { Dashboard } from '../pages/dashboard/dashboard';
 import { HomePage } from '../pages/Home';
 import { ProfilePage } from '../pages/Profile';
 
 export const routes : IRoute[] = [
+    
     {
         name: 'Home page',
         path: '/',
@@ -27,10 +29,19 @@ export const routes : IRoute[] = [
         protected: false,
     },
     {
+        name: 'DashBoard Page',
+        path: '/dash',
+        component: Dashboard,
+        exact: true,
+        protected: false,
+    },
+    {
         name: 'Profile Page',
         path: '/profile',
         component: ProfilePage,
         exact: true,
         protected: true,
     },
+    
+    
 ]

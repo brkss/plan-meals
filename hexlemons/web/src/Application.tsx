@@ -26,6 +26,7 @@ export const Application : React.FC = () => {
         });
     }, []);
 
+
     if(loading) return <Center height='100vh'>Loading</Center>;
 
     return(
@@ -33,13 +34,16 @@ export const Application : React.FC = () => {
             <BrowserRouter>
                 <Switch>
                     {
-                        routes.map((route, key) => (
-                            route.protected ? 
-                            <GuardRoute route={route} key={key} /> :  
-                            <Route key={key} path={route.path} exact={route.exact} render={(props: RouteComponentProps) => {
-                                return <route.component {...props} {...route.props} name={route.name} />
-                            }} />
-                        ))
+                        routes.map((route, key) => {
+                            
+                            return (
+                                route.protected ? 
+                                <GuardRoute route={route} key={key} /> :  
+                                <Route key={key} path={route.path} exact={route.exact} render={(props: RouteComponentProps) => (
+                                    <route.component {...props} {...route.props} name={route.name} />
+                                )} />
+                            )
+                        })
                     }
                 </Switch>
             </BrowserRouter>
