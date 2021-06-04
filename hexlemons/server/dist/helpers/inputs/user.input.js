@@ -24,7 +24,7 @@ __decorate([
 __decorate([
     type_graphql_1.Field(() => String),
     __metadata("design:type", String)
-], RegisterUserInput.prototype, "phone", void 0);
+], RegisterUserInput.prototype, "username", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
     __metadata("design:type", String)

@@ -54,11 +54,11 @@ let UserResolver = class UserResolver {
                     message: 'Invalid password'
                 };
             }
-            const user = yield User_1.User.findOne({ where: [{ email: data.identifier }, { phone: data.identifier }] });
+            const user = yield User_1.User.findOne({ where: [{ email: data.identifier }, { username: data.identifier }] });
             if (!user) {
                 return {
                     status: false,
-                    message: 'Invalid Email/Phone'
+                    message: 'Invalid Email/Username'
                 };
             }
             const verify = yield bcrypt_1.default.compare(data.password, user.password);
@@ -77,7 +77,7 @@ let UserResolver = class UserResolver {
     }
     register(data, { res }) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!data.name || !data.email || !data.phone || !data.password) {
+            if (!data.name || !data.email || !data.username || !data.password) {
                 return {
                     status: false,
                     message: 'invalid data'
@@ -88,7 +88,7 @@ let UserResolver = class UserResolver {
                 yield User_1.User.insert({
                     name: data.name,
                     email: data.email,
-                    phone: data.phone,
+                    username: data.username,
                     password: hashedPassword
                 });
                 const user = yield User_1.User.findOne({ where: { email: data.email } });
@@ -103,7 +103,7 @@ let UserResolver = class UserResolver {
                 if (e.code === "ER_DUP_ENTRY") {
                     return {
                         status: false,
-                        message: "Phone or email already exist!"
+                        message: "Username or Email already exist!"
                     };
                 }
                 return {

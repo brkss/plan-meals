@@ -38,11 +38,11 @@ export class UserResolver {
             }
         }
 
-        const user = await User.findOne({where: [{email: data.identifier}, {phone: data.identifier}]});
+        const user = await User.findOne({where: [{email: data.identifier}, {username: data.identifier}]});
         if(!user){
             return {
                 status: false,
-                message: 'Invalid Email/Phone'
+                message: 'Invalid Email/Username'
             }
         }
         const verify = await bcrypt.compare(data.password, user.password);
@@ -65,7 +65,7 @@ export class UserResolver {
     @Mutation(() => AuthResponse)
     async register(@Arg('data') data : RegisterUserInput, @Ctx() {res} : MyContext ) : Promise<AuthResponse>{
         // validate 
-        if(!data.name || !data.email || !data.phone || !data.password){
+        if(!data.name || !data.email || !data.username || !data.password){
             return {
                 status: false,
                 message: 'invalid data'
@@ -77,7 +77,7 @@ export class UserResolver {
             await User.insert({
                 name: data.name,
                 email: data.email,
-                phone: data.phone,
+                username: data.username,
                 password: hashedPassword
             });
             const user = await User.findOne({where: {email: data.email}});
@@ -92,7 +92,7 @@ export class UserResolver {
             if(e.code === "ER_DUP_ENTRY"){
                 return {
                     status: false,
-                    message: "Phone or email already exist!"
+                    message: "Username or Email already exist!"
                 }
             }
             return {
