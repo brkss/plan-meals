@@ -4,7 +4,7 @@
     "port": 3306,
     "username": "root",
     "password": "",
-    "database": "opium2",
+    "database": "hexlemons",
     "synchronize": true,
     "logging": false,
     "entities": [
