@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const Bowl_1 = require("./Bowl");
+const BowlElement_1 = require("./BowlElement");
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -52,6 +54,14 @@ __decorate([
     typeorm_1.UpdateDateColumn(),
     __metadata("design:type", Date)
 ], User.prototype, "updated_at", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => Bowl_1.Bowl, bowls => bowls.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "bowls", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => BowlElement_1.BowlElement, element => element.category, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    __metadata("design:type", Array)
+], User.prototype, "bowlElements", void 0);
 User = __decorate([
     type_graphql_1.ObjectType(),
     typeorm_1.Entity('users')

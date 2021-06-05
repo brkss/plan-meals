@@ -15,4 +15,6 @@ export class BowlElementCategory extends BaseEntity {
 
     @OneToMany(() => BowlElement, element => element.category, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     elements: BowlElement[];
+
+   
 } 

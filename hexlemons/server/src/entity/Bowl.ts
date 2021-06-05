@@ -1,4 +1,6 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { BowlElement } from './BowlElement';
+import { User } from './User';
 
 
 @Entity('bowls')
@@ -13,6 +15,12 @@ export class Bowl extends BaseEntity {
     @Column()
     ticket: string;
 
+    @ManyToOne(() => User, user => user.bowls, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    user: User;
+    
+    @ManyToMany(() => BowlElement)
+    @JoinTable()
+    elements : BowlElement[]
     
 
 } 

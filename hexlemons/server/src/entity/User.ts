@@ -1,5 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToMany} from "typeorm";
+import { Bowl } from "./Bowl";
+import { BowlElement } from "./BowlElement";
 
 @ObjectType()
 @Entity('users')
@@ -34,5 +36,12 @@ export class User extends BaseEntity{
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    // relations
+    @OneToMany(() => Bowl, bowls => bowls.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    bowls: Bowl[]
+
+    @OneToMany(() => BowlElement, element => element.category, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    bowlElements: BowlElement[];
 
 }
