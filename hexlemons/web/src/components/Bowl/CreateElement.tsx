@@ -29,7 +29,7 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             <DrawerHeader fontWeight='800'>Create your account</DrawerHeader>
 
             <DrawerBody>
-                <Center height={200} border="1px dotted black" rounded={5} fontWeight='600'>
+                <Center height={200} border="3px dashed #00000099" rounded={5} fontWeight='600'>
                     ADD IMAGE?
                 </Center>
                 <FormControl mt={5}>

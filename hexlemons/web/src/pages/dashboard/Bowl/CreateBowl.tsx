@@ -21,7 +21,7 @@ export const CreateBowl : React.FC = () => {
                 Start With A Base ?
                 <ButtonAddElement text="CLICK HERE TO CREATE ELEMENTS ?" onClick={() => onOpen()} />
             </Text>
-            <Box w={{md: '30%', base: '100%'}} mt={3}>
+            <Box w={{md: '30%', base: '100%'}} mt={3} d='none'>
                 <InputRegular type='text' placeholder='Search'  />
             </Box>
             <Box>
