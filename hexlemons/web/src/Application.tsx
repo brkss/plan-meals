@@ -40,7 +40,7 @@ export const Application : React.FC = () => {
                                 route.protected ? 
                                 <GuardRoute route={route} key={key} /> :  
                                 <Route key={key} path={route.path} exact={route.exact} render={(props: RouteComponentProps) => (
-                                    <route.component {...props} {...route.props} name={route.name} />
+                                    <route.component {...props} {...route.props} name={route.name} childrens={route.children || []} />
                                 )} />
                             )
                         })

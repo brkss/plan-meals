@@ -7,6 +7,7 @@ export interface IRoute {
     exact: boolean;
     protected: boolean;
     children?: IRoute[];
+    routes?: IRoute[];
     props?: any;
 
 }

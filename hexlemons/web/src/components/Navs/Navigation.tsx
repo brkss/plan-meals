@@ -2,8 +2,7 @@ import React from 'react';
 import { Box, Center, Tooltip } from '@chakra-ui/react';
 import * as ReactIcon from 'react-icons/all';
 import { useHistory } from 'react-router';
-import { ICONS } from './icons/icons_data';
-import { IconCupr } from './icons/icon';
+
 
 export const Navigation : React.FC = () => {
 
