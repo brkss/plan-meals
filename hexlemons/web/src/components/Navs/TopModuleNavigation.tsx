@@ -48,6 +48,7 @@ const ListItem = styled.li`
 
     & > .active {
         background: #D1FAF9;
+        text-decoration: line-through;
     }
 `;
 
