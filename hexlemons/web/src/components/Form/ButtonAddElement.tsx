@@ -14,11 +14,15 @@ export const ButtonAddElement : React.FC<Props> = (props) => {
 }
 
 const Button = styled.button`
-background: #d1faf8;
-font-size: 13px;
-margin-left: 12px;
-font-weight: 800;
-margin-top: -6px;
-display: inline;
+    background: #d1faf8;
+    font-size: 13px;
+    margin-left: 12px;
+    font-weight: 800;
+    margin-top: -6px;
+    display: inline;
 
+    &:focus {
+        outline: none;
+        border: 1px dotted black;
+    }
 `;

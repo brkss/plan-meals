@@ -1,5 +1,7 @@
-import { useDisclosure, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter } from '@chakra-ui/react';
+import { Center, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, DrawerFooter } from '@chakra-ui/react';
 import React from 'react';
+import { ButtonRegular } from '../Form/ButtonRegular';
+import { InputRegular } from '../Form/InputRegular';
 
 
 interface Props {
@@ -19,22 +21,30 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             placement="right"
             onClose={onClose}
             size='md'
+           
             >
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent bg="#F4F3E7">
             <DrawerCloseButton />
-            <DrawerHeader>Create your account</DrawerHeader>
+            <DrawerHeader fontWeight='800'>Create your account</DrawerHeader>
 
             <DrawerBody>
-                <Input placeholder="Type here..." />
+                <Center height={200} border="1px dotted black" rounded={5} fontWeight='600'>
+                    ADD IMAGE?
+                </Center>
+                <FormControl mt={5}>
+                    <InputRegular type='text' placeholder='Title' />
+                </FormControl>
+                <FormControl mt={5}>
+                    <InputRegular type='number' placeholder='Calories' />
+                </FormControl>
+                <FormControl mt={5}>
+                    <ButtonRegular text='ADD ELEMENT.' />
+                </FormControl>
+               
             </DrawerBody>
 
-            <DrawerFooter>
-                <Button variant="outline" mr={3} onClick={onClose}>
-                Cancel
-                </Button>
-                <Button colorScheme="blue">Save</Button>
-            </DrawerFooter>
+            
             </DrawerContent>
         </Drawer>
         </>
