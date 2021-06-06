@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type AuthResponse = {
@@ -19,6 +21,12 @@ export type AuthResponse = {
   status: Scalars['Boolean'];
   message?: Maybe<Scalars['String']>;
   accessToken?: Maybe<Scalars['String']>;
+};
+
+export type CreateBowlElementInput = {
+  title: Scalars['String'];
+  calories: Scalars['String'];
+  image: Scalars['Upload'];
 };
 
 export type LoginUserInput = {
@@ -30,6 +38,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: AuthResponse;
   register: AuthResponse;
+  createBowlElement: Scalars['Boolean'];
 };
 
 
@@ -42,10 +51,16 @@ export type MutationRegisterArgs = {
   data: RegisterUserInput;
 };
 
+
+export type MutationCreateBowlElementArgs = {
+  data: CreateBowlElementInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me: Scalars['String'];
+  helloBowl: Scalars['String'];
 };
 
 export type RegisterUserInput = {
@@ -54,6 +69,19 @@ export type RegisterUserInput = {
   username: Scalars['String'];
   password: Scalars['String'];
 };
+
+
+export type CreateBowlElementMutationVariables = Exact<{
+  title: Scalars['String'];
+  calories: Scalars['String'];
+  image: Scalars['Upload'];
+}>;
+
+
+export type CreateBowlElementMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createBowlElement'>
+);
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -94,6 +122,39 @@ export type RegisterMutation = (
 );
 
 
+export const CreateBowlElementDocument = gql`
+    mutation CreateBowlElement($title: String!, $calories: String!, $image: Upload!) {
+  createBowlElement(data: {title: $title, calories: $calories, image: $image})
+}
+    `;
+export type CreateBowlElementMutationFn = Apollo.MutationFunction<CreateBowlElementMutation, CreateBowlElementMutationVariables>;
+
+/**
+ * __useCreateBowlElementMutation__
+ *
+ * To run a mutation, you first call `useCreateBowlElementMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBowlElementMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBowlElementMutation, { data, loading, error }] = useCreateBowlElementMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      calories: // value for 'calories'
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useCreateBowlElementMutation(baseOptions?: Apollo.MutationHookOptions<CreateBowlElementMutation, CreateBowlElementMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBowlElementMutation, CreateBowlElementMutationVariables>(CreateBowlElementDocument, options);
+      }
+export type CreateBowlElementMutationHookResult = ReturnType<typeof useCreateBowlElementMutation>;
+export type CreateBowlElementMutationResult = Apollo.MutationResult<CreateBowlElementMutation>;
+export type CreateBowlElementMutationOptions = Apollo.BaseMutationOptions<CreateBowlElementMutation, CreateBowlElementMutationVariables>;
 export const HelloDocument = gql`
     query Hello {
   hello

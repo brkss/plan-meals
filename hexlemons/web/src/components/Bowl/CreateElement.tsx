@@ -1,5 +1,6 @@
-import { Center, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, Box } from '@chakra-ui/react';
+import { Center, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, Box } from '@chakra-ui/react';
 import React from 'react';
+import { useCreateBowlElementMutation } from '../../generated/graphql';
 import { ErrorMessage } from '../ErrorMessage';
 import { ButtonRegular } from '../Form/ButtonRegular';
 import { InputRegular } from '../Form/InputRegular';
@@ -13,7 +14,7 @@ interface Props {
 
 export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
 
-
+    const [createBowlElement] = useCreateBowlElementMutation()
     const [form, SetForm] = React.useState<any>();
     const [image, SetImage] = React.useState<File>();
     const [src, SetSrc] = React.useState<any>();
@@ -58,7 +59,23 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             SetError('Invalid Data !');
             return;
         }
+        const _data = {
+            title: form.title,
+            calories: form.calories,
+            image: image
+        };
+        console.log('_data => ', _data);
         SetError('');
+
+        createBowlElement({
+             variables :{
+                calories: _data.calories,
+                title: _data.title,
+                image: _data.image 
+            }
+        }).then((res) => {
+            console.log('create bowl element response => ', res);
+        });
     }
 
     return (
@@ -69,7 +86,6 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             placement="right"
             onClose={onClose}
             size='md'
-           
             >
             <DrawerOverlay />
             <DrawerContent bg="#F4F3E7">
