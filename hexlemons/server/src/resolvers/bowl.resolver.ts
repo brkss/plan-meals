@@ -1,5 +1,5 @@
-/* import { createWriteStream } from 'fs';
- */import { CreateBowlElementInput } from '../helpers/inputs/bowl.input';
+/* import { createWriteStream } from 'fs';*/
+import { CreateBowlElementInput } from '../helpers/inputs/bowl.input';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 
@@ -13,7 +13,7 @@ export class BowlResolver {
 
     // create bowl element 
     @Mutation(() => Boolean)
-    createBowlElement(@Arg('data') data: CreateBowlElementInput) : Boolean{
+    createBowlElement(@Arg('data', () => CreateBowlElementInput) data: CreateBowlElementInput) : Boolean{
         console.log('data => ', data);
         return true;
         /* return new Promise(async (resolve, reject) => {

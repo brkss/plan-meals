@@ -32,7 +32,7 @@ __decorate([
 ], BowlResolver.prototype, "helloBowl", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
-    __param(0, type_graphql_1.Arg('data')),
+    __param(0, type_graphql_1.Arg('data', () => bowl_input_1.CreateBowlElementInput)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [bowl_input_1.CreateBowlElementInput]),
     __metadata("design:returntype", Boolean)

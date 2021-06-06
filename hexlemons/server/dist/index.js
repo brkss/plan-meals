@@ -23,6 +23,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const refreshToken_1 = require("./helpers/functions/user/refreshToken");
 const cors_1 = __importDefault(require("cors"));
 const bowl_resolver_1 = require("./resolvers/bowl.resolver");
+const graphql_upload_1 = require("graphql-upload");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield typeorm_1.createConnection();
     const app = express_1.default();
@@ -36,8 +37,10 @@ const bowl_resolver_1 = require("./resolvers/bowl.resolver");
             resolvers: [user_resolver_1.UserResolver, bowl_resolver_1.BowlResolver],
             validate: true
         }),
-        context: ({ req, res }) => ({ req, res })
+        context: ({ req, res }) => ({ req, res }),
+        uploads: false,
     });
+    app.use(graphql_upload_1.graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
     apolloServer.applyMiddleware({ app, cors: false });
     app.get('/', (_, res) => {
         res.send('hello world from express');

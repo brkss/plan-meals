@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { refreshUserToken } from './helpers/functions/user/refreshToken';
 import cors from 'cors';
 import { BowlResolver } from './resolvers/bowl.resolver';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 (async () => {
 
@@ -27,10 +28,14 @@ import { BowlResolver } from './resolvers/bowl.resolver';
             resolvers: [UserResolver, BowlResolver],
             validate: true
         }),
-        context: ({req, res}) => ({req, res}) 
+        context: ({req, res}) => ({req, res}),
+        uploads: false,
     });
- 
+    
+    app.use(graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
     apolloServer.applyMiddleware({app, cors: false});
+    
+    
 
     app.get('/', (_, res) => {
         res.send('hello world from express');

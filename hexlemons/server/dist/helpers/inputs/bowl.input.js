@@ -15,14 +15,6 @@ const type_graphql_1 = require("type-graphql");
 let CreateBowlElementInput = class CreateBowlElementInput {
 };
 __decorate([
-    type_graphql_1.Field(() => String),
-    __metadata("design:type", String)
-], CreateBowlElementInput.prototype, "title", void 0);
-__decorate([
-    type_graphql_1.Field(() => String),
-    __metadata("design:type", String)
-], CreateBowlElementInput.prototype, "calories", void 0);
-__decorate([
     type_graphql_1.Field(() => graphql_upload_1.GraphQLUpload),
     __metadata("design:type", Object)
 ], CreateBowlElementInput.prototype, "image", void 0);
