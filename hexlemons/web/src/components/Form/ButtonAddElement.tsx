@@ -23,6 +23,6 @@ const Button = styled.button`
 
     &:focus {
         outline: none;
-        border: 1px dotted black;
+        /* border: 1px dotted black; */
     }
 `;

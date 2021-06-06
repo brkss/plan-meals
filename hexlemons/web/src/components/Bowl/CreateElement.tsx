@@ -13,6 +13,12 @@ interface Props {
 export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
 
 
+    const chooseFile = () => {
+        console.log('choose file')
+        const file = document.getElementById('image');
+        file?.click();
+    }
+
     return (
         <>
         
@@ -26,12 +32,13 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             <DrawerOverlay />
             <DrawerContent bg="#F4F3E7">
             <DrawerCloseButton />
-            <DrawerHeader fontWeight='800'>Create your account</DrawerHeader>
+            <DrawerHeader fontWeight='800'>Create new element. </DrawerHeader>
 
             <DrawerBody>
-                <Center height={200} border="3px dashed #00000099" rounded={5} fontWeight='600'>
+                <Center height={200} onClick={() => chooseFile()} border="3px dashed #00000099" rounded={5} fontWeight='600'>
                     ADD IMAGE?
                 </Center>
+                <input type="file" name="" id='image' style={{opacity: 0}} />
                 <FormControl mt={5}>
                     <InputRegular type='text' placeholder='Title' />
                 </FormControl>
