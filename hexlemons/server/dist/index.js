@@ -17,13 +17,11 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
 const apollo_server_express_1 = require("apollo-server-express");
-const type_graphql_1 = require("type-graphql");
-const user_resolver_1 = require("./resolvers/user.resolver");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const refreshToken_1 = require("./helpers/functions/user/refreshToken");
+const refreshToken_1 = require("./helpers/utils/user/refreshToken");
 const cors_1 = __importDefault(require("cors"));
-const bowl_resolver_1 = require("./resolvers/bowl.resolver");
 const graphql_upload_1 = require("graphql-upload");
+const createSchema_1 = require("./helpers/utils/createSchema");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield typeorm_1.createConnection();
     const app = express_1.default();
@@ -33,10 +31,7 @@ const graphql_upload_1 = require("graphql-upload");
     }));
     app.use(cookie_parser_1.default());
     const apolloServer = new apollo_server_express_1.ApolloServer({
-        schema: yield type_graphql_1.buildSchema({
-            resolvers: [user_resolver_1.UserResolver, bowl_resolver_1.BowlResolver],
-            validate: true
-        }),
+        schema: yield createSchema_1.createSchema(),
         context: ({ req, res }) => ({ req, res }),
         uploads: false,
     });

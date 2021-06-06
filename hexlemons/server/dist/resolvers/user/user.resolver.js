@@ -25,14 +25,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
-const user_input_1 = require("../helpers/inputs/user.input");
+const user_input_1 = require("../../helpers/inputs/user.input");
 const type_graphql_1 = require("type-graphql");
-const User_1 = require("../entity/User");
+const User_1 = require("../../entity/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const auth_response_1 = require("../helpers/responses/auth.response");
-const token_1 = require("../helpers/utils/user/token");
-const sendRefreshToken_1 = require("../helpers/utils/user/sendRefreshToken");
-const auth_mw_1 = require("../helpers/middlewares/auth.mw");
+const auth_response_1 = require("../../helpers/responses/auth.response");
+const token_1 = require("../../helpers/utils/user/token");
+const sendRefreshToken_1 = require("../../helpers/utils/user/sendRefreshToken");
+const auth_mw_1 = require("../../helpers/middlewares/auth.mw");
 let UserResolver = class UserResolver {
     hello() {
         return 'hi!!';

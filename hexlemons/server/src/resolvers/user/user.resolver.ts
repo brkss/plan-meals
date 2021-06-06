@@ -1,12 +1,12 @@
-import { LoginUserInput, RegisterUserInput } from '../helpers/inputs/user.input';
+import { LoginUserInput, RegisterUserInput } from '../../helpers/inputs/user.input';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { User } from '../entity/User';
+import { User } from '../../entity/User';
 import bcrypt from 'bcrypt';
-import { AuthResponse } from '../helpers/responses/auth.response';
-import { createUserAccessToken, createUserRefreshToken } from '../helpers/functions/user/token';
-import { MyContext } from '../helpers/types/Context';
-import { sendRefreshToken } from '../helpers/functions/user/sendRefreshToken';
-import { isUserAuth } from '../helpers/middlewares/auth.mw';
+import { AuthResponse } from '../../helpers/responses/auth.response';
+import { createUserAccessToken, createUserRefreshToken } from '../../helpers/utils/user/token';
+import { MyContext } from '../../helpers/types/Context';
+import { sendRefreshToken } from '../../helpers/utils/user/sendRefreshToken';
+import { isUserAuth } from '../../helpers/middlewares/auth.mw';
 
 @Resolver()
 export class UserResolver {

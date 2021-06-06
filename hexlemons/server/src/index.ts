@@ -3,13 +3,11 @@ import "reflect-metadata";
 import express from 'express';
 import {createConnection} from "typeorm";
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from 'type-graphql';
-import { UserResolver } from "./resolvers/user.resolver";
 import cookieParser from 'cookie-parser';
-import { refreshUserToken } from './helpers/functions/user/refreshToken';
+import { refreshUserToken } from './helpers/utils/user/refreshToken';
 import cors from 'cors';
-import { BowlResolver } from './resolvers/bowl.resolver';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { createSchema } from './helpers/utils/createSchema';
 
 (async () => {
 
@@ -24,10 +22,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
     app.use(cookieParser());
 
     const apolloServer = new ApolloServer({
-        schema: await buildSchema({
-            resolvers: [UserResolver, BowlResolver],
-            validate: true
-        }),
+        schema: await createSchema(),
         context: ({req, res}) => ({req, res}),
         uploads: false,
     });
@@ -48,3 +43,4 @@ import { graphqlUploadExpress } from 'graphql-upload';
     })
 
 })(); 
+

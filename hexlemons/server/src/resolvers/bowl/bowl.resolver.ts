@@ -1,5 +1,5 @@
 import { createWriteStream } from 'fs';
-import { CreateBowlElementInput } from '../helpers/inputs/bowl.input';
+import { CreateBowlElementInput } from '../../helpers/inputs/bowl.input';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 
@@ -28,6 +28,7 @@ export class BowlResolver {
         }).catch(e => {
             console.log('error uploading file => ', e);
         }) 
+        
     } 
 
 }
