@@ -22,6 +22,7 @@ const user_resolver_1 = require("./resolvers/user.resolver");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const refreshToken_1 = require("./helpers/functions/user/refreshToken");
 const cors_1 = __importDefault(require("cors"));
+const bowl_resolver_1 = require("./resolvers/bowl.resolver");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield typeorm_1.createConnection();
     const app = express_1.default();
@@ -32,7 +33,7 @@ const cors_1 = __importDefault(require("cors"));
     app.use(cookie_parser_1.default());
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [user_resolver_1.UserResolver],
+            resolvers: [user_resolver_1.UserResolver, bowl_resolver_1.BowlResolver],
             validate: true
         }),
         context: ({ req, res }) => ({ req, res })

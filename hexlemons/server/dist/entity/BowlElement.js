@@ -25,6 +25,10 @@ __decorate([
     __metadata("design:type", String)
 ], BowlElement.prototype, "title", void 0);
 __decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], BowlElement.prototype, "image", void 0);
+__decorate([
     typeorm_1.Column({ default: 0 }),
     __metadata("design:type", Number)
 ], BowlElement.prototype, "calories", void 0);

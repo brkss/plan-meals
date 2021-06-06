@@ -8,6 +8,7 @@ import { UserResolver } from "./resolvers/user.resolver";
 import cookieParser from 'cookie-parser';
 import { refreshUserToken } from './helpers/functions/user/refreshToken';
 import cors from 'cors';
+import { BowlResolver } from './resolvers/bowl.resolver';
 
 (async () => {
 
@@ -23,7 +24,7 @@ import cors from 'cors';
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [UserResolver],
+            resolvers: [UserResolver, BowlResolver],
             validate: true
         }),
         context: ({req, res}) => ({req, res}) 

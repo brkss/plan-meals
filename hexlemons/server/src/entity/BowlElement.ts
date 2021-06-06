@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity,  ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Bowl } from './Bowl';
 import { BowlElementCategory } from './BowlElementCategories';
 import { User } from './User';
@@ -12,6 +12,9 @@ export class BowlElement extends BaseEntity {
     @Column()
     title: string;
 
+    @Column({nullable: true})
+    image: string;
+
     @Column({default: 0})
     calories: number;
 
@@ -22,6 +25,6 @@ export class BowlElement extends BaseEntity {
     user: User[];
 
     @ManyToMany(() => Bowl)
-    bowls : Bowl[]
+    bowls : Bowl[];
     
 }
