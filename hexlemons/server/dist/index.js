@@ -40,7 +40,7 @@ const graphql_upload_1 = require("graphql-upload");
         context: ({ req, res }) => ({ req, res }),
         uploads: false,
     });
-    app.use(graphql_upload_1.graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
+    app.use(graphql_upload_1.graphqlUploadExpress());
     apolloServer.applyMiddleware({ app, cors: false });
     app.get('/', (_, res) => {
         res.send('hello world from express');

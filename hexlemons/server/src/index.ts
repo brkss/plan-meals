@@ -31,8 +31,8 @@ import { graphqlUploadExpress } from 'graphql-upload';
         context: ({req, res}) => ({req, res}),
         uploads: false,
     });
-    
-    app.use(graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
+
+    app.use(graphqlUploadExpress());
     apolloServer.applyMiddleware({app, cors: false});
     
     
