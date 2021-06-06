@@ -13,10 +13,41 @@ interface Props {
 export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
 
 
+    const [form, SetForm] = React.useState<any>();
+    const [image, SetImage] = React.useState<any>();
+    const [src, SetSrc] = React.useState<any>();
+
+    // handle image uploading
+    const handleImageInput = (e: React.FormEvent<HTMLInputElement>) => {
+        console.log('file -> ', e.currentTarget.files![0]);
+        const image = e.currentTarget.files![0];
+        SetImage(image);
+        const url = URL.createObjectURL(image);
+        SetSrc(url);
+    }
+
+    //handle form 
+    const handleForm = (e: React.FormEvent<any>) => {
+        console.log(e.currentTarget);
+        SetForm({
+            ...form,
+            [e.currentTarget.id]: e.currentTarget.value
+        })
+    }
+
+    // choose file 
     const chooseFile = () => {
         console.log('choose file')
         const file = document.getElementById('image');
         file?.click();
+    }
+
+
+    // handle item creation
+    const handleItemCreation = () => {
+        console.log('image => ', image);
+        console.log('form => ', form);
+        
     }
 
     return (
@@ -35,10 +66,14 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
             <DrawerHeader fontWeight='800'>Create new element. </DrawerHeader>
 
             <DrawerBody>
+                {
+                    src ?
+                    <img src={src} /> : null 
+                }
                 <Center height={200} onClick={() => chooseFile()} border="3px dashed #00000099" rounded={5} fontWeight='600'>
                     ADD IMAGE?
                 </Center>
-                <input type="file" name="" id='image' style={{opacity: 0}} />
+                <input type="file" name="" id='image' style={{opacity: 0}} onChange={(e) => handleImageInput(e)} />
                 <FormControl mt={5}>
                     <InputRegular type='text' placeholder='Title' />
                 </FormControl>
@@ -46,7 +81,7 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
                     <InputRegular type='number' placeholder='Calories' />
                 </FormControl>
                 <FormControl mt={5}>
-                    <ButtonRegular text='ADD ELEMENT.' />
+                    <ButtonRegular text='ADD ELEMENT.' onClick={() => handleItemCreation()} />
                 </FormControl>
                
             </DrawerBody>
