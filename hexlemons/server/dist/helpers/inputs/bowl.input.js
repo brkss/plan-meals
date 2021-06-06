@@ -10,12 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateBowlElementInput = void 0;
-const graphql_upload_1 = require("graphql-upload");
+const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 let CreateBowlElementInput = class CreateBowlElementInput {
 };
 __decorate([
-    type_graphql_1.Field(() => graphql_upload_1.GraphQLUpload),
+    type_graphql_1.Field(() => String),
+    __metadata("design:type", String)
+], CreateBowlElementInput.prototype, "title", void 0);
+__decorate([
+    type_graphql_1.Field(() => String),
+    __metadata("design:type", String)
+], CreateBowlElementInput.prototype, "calories", void 0);
+__decorate([
+    type_graphql_1.Field(() => apollo_server_express_1.GraphQLUpload),
     __metadata("design:type", Object)
 ], CreateBowlElementInput.prototype, "image", void 0);
 CreateBowlElementInput = __decorate([

@@ -1,4 +1,4 @@
-import { GraphQLUpload } from 'graphql-upload';
+import { GraphQLUpload } from 'apollo-server-express';
 import { Field, InputType } from 'type-graphql';
 import { IUpload } from '../types/Upload';
 
@@ -6,13 +6,13 @@ import { IUpload } from '../types/Upload';
 @InputType()
 export class CreateBowlElementInput {
 
-    /* @Field(() => String)
+    @Field(() => String)
     title: string;
 
     @Field(() => String)
-    calories: string; */
+    calories: string;
 
-    @Field(() => GraphQLUpload)
+    @Field(() => GraphQLUpload!)
     image: IUpload
 
 }
