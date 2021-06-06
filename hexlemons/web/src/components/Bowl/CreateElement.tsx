@@ -1,6 +1,7 @@
 import { Center, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, Box } from '@chakra-ui/react';
 import React from 'react';
 import { useCreateBowlElementMutation } from '../../generated/graphql';
+import { imageToBase64 } from '../../helpers/utils/createBase64';
 import { ErrorMessage } from '../ErrorMessage';
 import { ButtonRegular } from '../Form/ButtonRegular';
 import { InputRegular } from '../Form/InputRegular';
@@ -71,7 +72,7 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
              variables :{
                 calories: _data.calories,
                 title: _data.title,
-                image: _data.image 
+                image: image 
             }
         }).then((res) => {
             console.log('create bowl element response => ', res);

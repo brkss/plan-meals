@@ -11,6 +11,7 @@ import { ApolloLink, Observable } from 'apollo-link';
 import { getAccessToken, SetAccessToken } from './helpers/constants/token';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import jwtDecode from 'jwt-decode';
+import { createUploadLink } from 'apollo-upload-client'
 
 const cache = new InMemoryCache({});
 
@@ -84,7 +85,7 @@ const client : any  = new ApolloClient({
       console.log(networkError);
     }),
     requestLink,
-    new HttpLink({
+    createUploadLink({
       uri: "http://localhost:4000/graphql",
       credentials: "include"
     })
