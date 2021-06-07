@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
@@ -23,10 +25,53 @@ export type AuthResponse = {
   accessToken?: Maybe<Scalars['String']>;
 };
 
+export type Bowl = {
+  __typename?: 'Bowl';
+  id: Scalars['Float'];
+  title: Scalars['String'];
+  ticket: Scalars['String'];
+  user: User;
+  elements: Array<BowlElement>;
+};
+
+export type BowlElement = {
+  __typename?: 'BowlElement';
+  id: Scalars['Float'];
+  title: Scalars['String'];
+  image: Scalars['String'];
+  calories: Scalars['Float'];
+  category: BowlElementCategory;
+  user: User;
+  bowls: Bowl;
+};
+
+export type BowlElementCategory = {
+  __typename?: 'BowlElementCategory';
+  id: Scalars['Float'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  elements: Array<BowlElement>;
+};
+
 export type CreateBowlElementInput = {
   title: Scalars['String'];
   calories: Scalars['String'];
+  category: Scalars['String'];
   image: Scalars['Upload'];
+};
+
+
+export type DefaultResponse = {
+  __typename?: 'DefaultResponse';
+  status: Scalars['Boolean'];
+  message: Scalars['String'];
+  errors?: Maybe<Array<Error>>;
+};
+
+export type Error = {
+  __typename?: 'Error';
+  field?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
 };
 
 export type LoginUserInput = {
@@ -38,7 +83,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: AuthResponse;
   register: AuthResponse;
-  createBowlElement: Scalars['Boolean'];
+  createBowlElement: DefaultResponse;
 };
 
 
@@ -61,6 +106,7 @@ export type Query = {
   hello: Scalars['String'];
   me: Scalars['String'];
   helloBowl: Scalars['String'];
+  bowlElementCategories: Array<BowlElementCategory>;
 };
 
 export type RegisterUserInput = {
@@ -71,16 +117,49 @@ export type RegisterUserInput = {
 };
 
 
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  username: Scalars['String'];
+  password: Scalars['String'];
+  tokenVersion: Scalars['Float'];
+  created_at: Scalars['DateTime'];
+  updated_at: Scalars['DateTime'];
+  bowls: Bowl;
+  bowlElements: Array<BowlElement>;
+};
+
+export type BowlElementCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BowlElementCategoriesQuery = (
+  { __typename?: 'Query' }
+  & { bowlElementCategories: Array<(
+    { __typename?: 'BowlElementCategory' }
+    & Pick<BowlElementCategory, 'id' | 'title' | 'description'>
+  )> }
+);
+
 export type CreateBowlElementMutationVariables = Exact<{
   title: Scalars['String'];
   calories: Scalars['String'];
+  category: Scalars['String'];
   image: Scalars['Upload'];
 }>;
 
 
 export type CreateBowlElementMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createBowlElement'>
+  & { createBowlElement: (
+    { __typename?: 'DefaultResponse' }
+    & Pick<DefaultResponse, 'status' | 'message'>
+    & { errors?: Maybe<Array<(
+      { __typename?: 'Error' }
+      & Pick<Error, 'field' | 'message'>
+    )>> }
+  ) }
 );
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
@@ -122,9 +201,54 @@ export type RegisterMutation = (
 );
 
 
+export const BowlElementCategoriesDocument = gql`
+    query BowlElementCategories {
+  bowlElementCategories {
+    id
+    title
+    description
+  }
+}
+    `;
+
+/**
+ * __useBowlElementCategoriesQuery__
+ *
+ * To run a query within a React component, call `useBowlElementCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBowlElementCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBowlElementCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBowlElementCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>(BowlElementCategoriesDocument, options);
+      }
+export function useBowlElementCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>(BowlElementCategoriesDocument, options);
+        }
+export type BowlElementCategoriesQueryHookResult = ReturnType<typeof useBowlElementCategoriesQuery>;
+export type BowlElementCategoriesLazyQueryHookResult = ReturnType<typeof useBowlElementCategoriesLazyQuery>;
+export type BowlElementCategoriesQueryResult = Apollo.QueryResult<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>;
 export const CreateBowlElementDocument = gql`
-    mutation CreateBowlElement($title: String!, $calories: String!, $image: Upload!) {
-  createBowlElement(data: {title: $title, calories: $calories, image: $image})
+    mutation CreateBowlElement($title: String!, $calories: String!, $category: String!, $image: Upload!) {
+  createBowlElement(
+    data: {title: $title, calories: $calories, category: $category, image: $image}
+  ) {
+    status
+    message
+    errors {
+      field
+      message
+    }
+  }
 }
     `;
 export type CreateBowlElementMutationFn = Apollo.MutationFunction<CreateBowlElementMutation, CreateBowlElementMutationVariables>;
@@ -144,6 +268,7 @@ export type CreateBowlElementMutationFn = Apollo.MutationFunction<CreateBowlElem
  *   variables: {
  *      title: // value for 'title'
  *      calories: // value for 'calories'
+ *      category: // value for 'category'
  *      image: // value for 'image'
  *   },
  * });

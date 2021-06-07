@@ -1,6 +1,6 @@
-import { Center, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, Box } from '@chakra-ui/react';
+import { Center, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, FormControl, Box, Select } from '@chakra-ui/react';
 import React from 'react';
-import { useCreateBowlElementMutation } from '../../generated/graphql';
+import { useBowlElementCategoriesQuery, useCreateBowlElementMutation } from '../../generated/graphql';
 import { imageToBase64 } from '../../helpers/utils/createBase64';
 import { ErrorMessage } from '../ErrorMessage';
 import { ButtonRegular } from '../Form/ButtonRegular';
@@ -15,7 +15,8 @@ interface Props {
 
 export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
 
-    const [createBowlElement] = useCreateBowlElementMutation()
+    const [createBowlElement] = useCreateBowlElementMutation();
+    const {loading, data} = useBowlElementCategoriesQuery();
     const [form, SetForm] = React.useState<any>();
     const [image, SetImage] = React.useState<File>();
     const [src, SetSrc] = React.useState<any>();
@@ -36,7 +37,7 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
 
     //handle form 
     const handleForm = (e: React.FormEvent<any>) => {
-        console.log(e.currentTarget);
+        console.log('data => ', {[e.currentTarget.id]: e.currentTarget.value});
         SetForm({
             ...form,
             [e.currentTarget.id]: e.currentTarget.value
@@ -56,13 +57,14 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
         
 
         // validate form
-        if(!form || !form.title || !form.calories || !image){
+        if(!form || !form.title || !form.calories || !image || !form.category){
             SetError('Invalid Data !');
             return;
         }
         const _data = {
             title: form.title,
             calories: form.calories,
+            category: form.category,
             image: image
         };
         console.log('_data => ', _data);
@@ -72,12 +74,18 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
              variables :{
                 calories: _data.calories,
                 title: _data.title,
+                category: _data.category,
                 image: image 
             }
         }).then((res) => {
             console.log('create bowl element response => ', res);
+            if(res.data?.createBowlElement.status === true){
+                onClose();
+            }
         });
     }
+
+    if(loading) return (<Center>Loading</Center>);
 
     return (
         <>
@@ -115,6 +123,16 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
                 </FormControl>
                 <FormControl mt={5}>
                     <InputRegular type='number' placeholder='Calories' id='calories' onChange={(e) => handleForm(e)} />
+                </FormControl>
+                <FormControl mt={5}>
+                    <Select placeholder="Category" fontWeight='800' bg='#d8d6d6' id='category' onChange={(e) => handleForm(e)}>
+                        {
+                            data?.bowlElementCategories.map((category, key) => (
+                                <option value={category.id}>{category.title}</option>
+                            ))
+                        }
+                        
+                    </Select>
                 </FormControl>
                 <FormControl mt={5}>
                     <ButtonRegular text='ADD ELEMENT.' onClick={() => handleItemCreation()} />

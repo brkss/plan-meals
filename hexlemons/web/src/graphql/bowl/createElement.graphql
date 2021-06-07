@@ -1,0 +1,10 @@
+mutation CreateBowlElement($title: String!, $calories: String!, $category: String!, $image: Upload!){
+  createBowlElement(data: {title: $title, calories: $calories, category: $category, image: $image}){
+    status
+    message
+    errors{
+      field
+      message
+    }
+  }
+}
