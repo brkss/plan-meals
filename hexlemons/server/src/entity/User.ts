@@ -31,16 +31,20 @@ export class User extends BaseEntity{
     @Column('int', {default: 0})
     tokenVersion: number;
 
+    @Field(() => Date)
     @CreateDateColumn()
     created_at: Date;
 
+    @Field(() => Date)
     @UpdateDateColumn()
     updated_at: Date;
 
     // relations
+    @Field(() => Bowl)
     @OneToMany(() => Bowl, bowls => bowls.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     bowls: Bowl[]
 
+    @Field(() => [BowlElement])
     @OneToMany(() => BowlElement, element => element.category, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     bowlElements: BowlElement[];
 

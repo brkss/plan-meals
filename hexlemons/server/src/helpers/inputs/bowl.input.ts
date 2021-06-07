@@ -14,6 +14,9 @@ export class CreateBowlElementInput {
     @Field(() => String)
     calories: string; 
 
+    @Field(() => String)
+    category: string;
+
     @Field(() => GraphQLUpload)
     image: IUpload
 

@@ -12,25 +12,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BowlElementCategory = void 0;
 const typeorm_1 = require("typeorm");
 const BowlElement_1 = require("./BowlElement");
+const type_graphql_1 = require("type-graphql");
 let BowlElementCategory = class BowlElementCategory extends typeorm_1.BaseEntity {
 };
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], BowlElementCategory.prototype, "id", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], BowlElementCategory.prototype, "title", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], BowlElementCategory.prototype, "description", void 0);
 __decorate([
+    type_graphql_1.Field(() => [BowlElement_1.BowlElement]),
     typeorm_1.OneToMany(() => BowlElement_1.BowlElement, element => element.category, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], BowlElementCategory.prototype, "elements", void 0);
 BowlElementCategory = __decorate([
+    type_graphql_1.ObjectType(),
     typeorm_1.Entity()
 ], BowlElementCategory);
 exports.BowlElementCategory = BowlElementCategory;

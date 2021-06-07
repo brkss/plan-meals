@@ -47,18 +47,22 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "tokenVersion", void 0);
 __decorate([
+    type_graphql_1.Field(() => Date),
     typeorm_1.CreateDateColumn(),
     __metadata("design:type", Date)
 ], User.prototype, "created_at", void 0);
 __decorate([
+    type_graphql_1.Field(() => Date),
     typeorm_1.UpdateDateColumn(),
     __metadata("design:type", Date)
 ], User.prototype, "updated_at", void 0);
 __decorate([
+    type_graphql_1.Field(() => Bowl_1.Bowl),
     typeorm_1.OneToMany(() => Bowl_1.Bowl, bowls => bowls.user, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], User.prototype, "bowls", void 0);
 __decorate([
+    type_graphql_1.Field(() => [BowlElement_1.BowlElement]),
     typeorm_1.OneToMany(() => BowlElement_1.BowlElement, element => element.category, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", Array)
 ], User.prototype, "bowlElements", void 0);

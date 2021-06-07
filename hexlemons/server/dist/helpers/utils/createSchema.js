@@ -12,10 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createSchema = void 0;
 const type_graphql_1 = require("type-graphql");
 const user_resolver_1 = require("../../resolvers/user/user.resolver");
-const bowl_resolver_1 = require("../../resolvers/bowl/bowl.resolver");
+const bowlElement_resolver_1 = require("../../resolvers/bowl/bowlElement.resolver");
+const bowlElementCategory_resolver_1 = require("../../resolvers/bowl/bowlElementCategory.resolver");
 const createSchema = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield type_graphql_1.buildSchema({
-        resolvers: [user_resolver_1.UserResolver, bowl_resolver_1.BowlResolver],
+        resolvers: [user_resolver_1.UserResolver, bowlElement_resolver_1.BowlElementResolver, bowlElementCategory_resolver_1.BowlElementCategoryResolver],
         validate: true
     });
 });

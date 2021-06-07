@@ -10,33 +10,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bowl = void 0;
+const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const BowlElement_1 = require("./BowlElement");
 const User_1 = require("./User");
 let Bowl = class Bowl extends typeorm_1.BaseEntity {
 };
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], Bowl.prototype, "id", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Bowl.prototype, "title", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Bowl.prototype, "ticket", void 0);
 __decorate([
+    type_graphql_1.Field(() => User_1.User),
     typeorm_1.ManyToOne(() => User_1.User, user => user.bowls, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     __metadata("design:type", User_1.User)
 ], Bowl.prototype, "user", void 0);
 __decorate([
+    type_graphql_1.Field(() => [BowlElement_1.BowlElement]),
     typeorm_1.ManyToMany(() => BowlElement_1.BowlElement),
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], Bowl.prototype, "elements", void 0);
 Bowl = __decorate([
+    type_graphql_1.ObjectType(),
     typeorm_1.Entity('bowls')
 ], Bowl);
 exports.Bowl = Bowl;
