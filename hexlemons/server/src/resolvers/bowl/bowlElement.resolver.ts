@@ -78,6 +78,20 @@ export class BowlElementResolver {
         });  */
     } 
 
+
+    // users elements 
+    @Query(() => [BowlElement])
+    @UseMiddleware(isUserAuth)
+    async bowlElements(@Ctx() ctx: MyContext){
+        const user = await User.findOne({where: {id: ctx.payload.userId}});
+        if(!user){
+            return[];
+        }
+
+        const elements = await BowlElement.find({where: {user: user}});
+        return elements;
+    }
+
 }
 
 

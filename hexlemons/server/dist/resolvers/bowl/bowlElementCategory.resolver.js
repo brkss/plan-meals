@@ -22,10 +22,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BowlElementCategoryResolver = void 0;
-const BowlElement_1 = require("src/entity/BowlElement");
-const User_1 = require("src/entity/User");
+const BowlElement_1 = require("../../entity/BowlElement");
+const User_1 = require("../../entity/User");
 const type_graphql_1 = require("type-graphql");
 const BowlElementCategories_1 = require("../../entity/BowlElementCategories");
+const auth_mw_1 = require("../../helpers/middlewares/auth.mw");
 let BowlElementCategoryResolver = class BowlElementCategoryResolver {
     bowlElementCategories(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -40,6 +41,7 @@ let BowlElementCategoryResolver = class BowlElementCategoryResolver {
 };
 __decorate([
     type_graphql_1.Query(() => [BowlElementCategories_1.BowlElementCategory]),
+    type_graphql_1.UseMiddleware(auth_mw_1.isUserAuth),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
