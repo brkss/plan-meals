@@ -85,6 +85,7 @@ export class BowlElementResolver {
     async bowlElements(@Ctx() ctx: MyContext){
         const user = await User.findOne({where: {id: ctx.payload.userId}});
         if(!user){
+            
             return[];
         }
 

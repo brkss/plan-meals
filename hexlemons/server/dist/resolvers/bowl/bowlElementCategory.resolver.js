@@ -28,25 +28,39 @@ const type_graphql_1 = require("type-graphql");
 const BowlElementCategories_1 = require("../../entity/BowlElementCategories");
 const auth_mw_1 = require("../../helpers/middlewares/auth.mw");
 let BowlElementCategoryResolver = class BowlElementCategoryResolver {
-    bowlElementCategories(ctx) {
+    bowlElementCategories() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield User_1.User.findOne({ where: { id: ctx.payload.userid } });
+            const categories = yield BowlElementCategories_1.BowlElementCategory.find();
+            return categories;
+        });
+    }
+    bowlElementWithCateogry(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { id: ctx.payload.userId } });
             if (!user) {
+                console.log("User not found !");
                 return [];
             }
-            const elements = yield BowlElement_1.BowlElement.find({ where: { user: user } });
-            return yield BowlElementCategories_1.BowlElementCategory.find({ where: { elements: elements } });
+            const elements = yield BowlElement_1.BowlElement.find({ where: { user: user }, relations: ['category'] });
+            return elements;
         });
     }
 };
 __decorate([
     type_graphql_1.Query(() => [BowlElementCategories_1.BowlElementCategory]),
     type_graphql_1.UseMiddleware(auth_mw_1.isUserAuth),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BowlElementCategoryResolver.prototype, "bowlElementCategories", null);
+__decorate([
+    type_graphql_1.Query(() => [BowlElement_1.BowlElement]),
+    type_graphql_1.UseMiddleware(auth_mw_1.isUserAuth),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BowlElementCategoryResolver.prototype, "bowlElementCategories", null);
+], BowlElementCategoryResolver.prototype, "bowlElementWithCateogry", null);
 BowlElementCategoryResolver = __decorate([
     type_graphql_1.Resolver()
 ], BowlElementCategoryResolver);
