@@ -1,0 +1,13 @@
+query BowlElementsWithCategory{
+  bowlElementWithCateogry{
+    id
+    title
+    image
+    calories
+    category{
+      title
+      description
+    }
+    
+  }
+}

@@ -1,15 +1,28 @@
 import React from 'react';
 import { TopModuleNavigation } from '../../../components/Navs/TopModuleNavigation';
 import { MODULE_NAVS } from '../../../helpers/constants/modules_navs';
-import { Box, Grid, GridItem, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Text, useDisclosure, Center } from '@chakra-ui/react';
 import { ButtonAddElement } from '../../../components/Form/ButtonAddElement';
 import { BowlElement } from '../../../components/Bowl/Element';
 import { InputRegular } from '../../../components/Form/InputRegular';
 import { CreateElement } from '../../../components/Bowl/CreateElement';
+import { useBowlElementsWithCategoryQuery } from '../../../generated/graphql';
 
 export const CreateBowl : React.FC = () => {
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { data, loading, error } = useBowlElementsWithCategoryQuery(); 
+
+    React.useEffect(() => {
+        console.log('data => ', data);
+    }, []);
+
+    if(loading){
+        return <Center></Center>
+    }
+
+    
 
     return(
         <Box>

@@ -106,7 +106,9 @@ export type Query = {
   hello: Scalars['String'];
   me: Scalars['String'];
   helloBowl: Scalars['String'];
+  bowlElements: Array<BowlElement>;
   bowlElementCategories: Array<BowlElementCategory>;
+  bowlElementWithCateogry: Array<BowlElement>;
 };
 
 export type RegisterUserInput = {
@@ -139,6 +141,21 @@ export type BowlElementCategoriesQuery = (
   & { bowlElementCategories: Array<(
     { __typename?: 'BowlElementCategory' }
     & Pick<BowlElementCategory, 'id' | 'title' | 'description'>
+  )> }
+);
+
+export type BowlElementsWithCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BowlElementsWithCategoryQuery = (
+  { __typename?: 'Query' }
+  & { bowlElementWithCateogry: Array<(
+    { __typename?: 'BowlElement' }
+    & Pick<BowlElement, 'id' | 'title' | 'image' | 'calories'>
+    & { category: (
+      { __typename?: 'BowlElementCategory' }
+      & Pick<BowlElementCategory, 'title' | 'description'>
+    ) }
   )> }
 );
 
@@ -237,6 +254,47 @@ export function useBowlElementCategoriesLazyQuery(baseOptions?: Apollo.LazyQuery
 export type BowlElementCategoriesQueryHookResult = ReturnType<typeof useBowlElementCategoriesQuery>;
 export type BowlElementCategoriesLazyQueryHookResult = ReturnType<typeof useBowlElementCategoriesLazyQuery>;
 export type BowlElementCategoriesQueryResult = Apollo.QueryResult<BowlElementCategoriesQuery, BowlElementCategoriesQueryVariables>;
+export const BowlElementsWithCategoryDocument = gql`
+    query BowlElementsWithCategory {
+  bowlElementWithCateogry {
+    id
+    title
+    image
+    calories
+    category {
+      title
+      description
+    }
+  }
+}
+    `;
+
+/**
+ * __useBowlElementsWithCategoryQuery__
+ *
+ * To run a query within a React component, call `useBowlElementsWithCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBowlElementsWithCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBowlElementsWithCategoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBowlElementsWithCategoryQuery(baseOptions?: Apollo.QueryHookOptions<BowlElementsWithCategoryQuery, BowlElementsWithCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BowlElementsWithCategoryQuery, BowlElementsWithCategoryQueryVariables>(BowlElementsWithCategoryDocument, options);
+      }
+export function useBowlElementsWithCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BowlElementsWithCategoryQuery, BowlElementsWithCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BowlElementsWithCategoryQuery, BowlElementsWithCategoryQueryVariables>(BowlElementsWithCategoryDocument, options);
+        }
+export type BowlElementsWithCategoryQueryHookResult = ReturnType<typeof useBowlElementsWithCategoryQuery>;
+export type BowlElementsWithCategoryLazyQueryHookResult = ReturnType<typeof useBowlElementsWithCategoryLazyQuery>;
+export type BowlElementsWithCategoryQueryResult = Apollo.QueryResult<BowlElementsWithCategoryQuery, BowlElementsWithCategoryQueryVariables>;
 export const CreateBowlElementDocument = gql`
     mutation CreateBowlElement($title: String!, $calories: String!, $category: String!, $image: Upload!) {
   createBowlElement(
