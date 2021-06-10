@@ -128,7 +128,7 @@ export const CreateElement : React.FC<Props> = ({onOpen, onClose, isOpen}) => {
                     <Select placeholder="Category" fontWeight='800' bg='#d8d6d6' id='category' onChange={(e) => handleForm(e)}>
                         {
                             data?.bowlElementCategories.map((category, key) => (
-                                <option value={category.id}>{category.title}</option>
+                                <option key={key} value={category.id}>{category.title}</option>
                             ))
                         }
                         

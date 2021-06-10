@@ -6,20 +6,23 @@ import { ButtonAddElement } from '../../../components/Form/ButtonAddElement';
 import { BowlElement } from '../../../components/Bowl/Element';
 import { InputRegular } from '../../../components/Form/InputRegular';
 import { CreateElement } from '../../../components/Bowl/CreateElement';
-import { useBowlElementsWithCategoryQuery } from '../../../generated/graphql';
+import { useBowlElementCategoriesQuery, useBowlElementsWithCategoryQuery } from '../../../generated/graphql';
 
 export const CreateBowl : React.FC = () => {
 
+    React.useEffect(() => {
+        // map element in categories 
+    }, []);
     
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { data, loading, error } = useBowlElementsWithCategoryQuery(); 
+    const elements = useBowlElementsWithCategoryQuery(); 
+    const categories = useBowlElementCategoriesQuery();
+    const [mappedElements, SetMappedElements] = React.useState<any []>([]);
 
-    React.useEffect(() => {
-        console.log('data => ', data);
-    }, []);
+    
 
-    if(loading){
-        return <Center></Center>
+    if(elements.loading || categories.loading){
+        return <Center height='100vh'>Loading</Center>
     }
 
     
@@ -30,10 +33,23 @@ export const CreateBowl : React.FC = () => {
             <Box textAlign='right'>
                 
             </Box>
+            
+            {
+                categories.data?.bowlElementCategories.map((category, key) => (
+                    <Box key={key}>
+                        <Text fontSize='25px' fontWeight='900' textTransform='uppercase' color='#383737'>
+                            {category.description} 
+                            <ButtonAddElement text="CLICK HERE TO CREATE ELEMENTS ?" onClick={() => onOpen()} />
+                        </Text>
+                    </Box>
+                ))
+            }
+            
             <Text fontSize='25px' fontWeight='900' textTransform='uppercase' color='#383737'>
-                Start With A Base ?
+                choose a base 
                 <ButtonAddElement text="CLICK HERE TO CREATE ELEMENTS ?" onClick={() => onOpen()} />
             </Text>
+            
             <Box w={{md: '30%', base: '100%'}} mt={3} d='none'>
                 <InputRegular type='text' placeholder='Search'  />
             </Box>

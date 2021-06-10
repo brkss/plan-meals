@@ -5,6 +5,7 @@ query BowlElementsWithCategory{
     image
     calories
     category{
+      id
       title
       description
     }

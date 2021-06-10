@@ -154,7 +154,7 @@ export type BowlElementsWithCategoryQuery = (
     & Pick<BowlElement, 'id' | 'title' | 'image' | 'calories'>
     & { category: (
       { __typename?: 'BowlElementCategory' }
-      & Pick<BowlElementCategory, 'title' | 'description'>
+      & Pick<BowlElementCategory, 'id' | 'title' | 'description'>
     ) }
   )> }
 );
@@ -262,6 +262,7 @@ export const BowlElementsWithCategoryDocument = gql`
     image
     calories
     category {
+      id
       title
       description
     }
